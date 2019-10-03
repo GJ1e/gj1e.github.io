@@ -1,0 +1,62 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Gao J1e&#39;s Blog</title>
+        <link>https://gj1e.github.io/posts/</link>
+        <description>Recent content in Posts on Gao J1e&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>郜杰</copyright>
+        <lastBuildDate>Thu, 03 Oct 2019 15:15:44 +0800</lastBuildDate>
+        <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Test</title>
+            <link>https://gj1e.github.io/posts/2019/10/test/</link>
+            <pubDate>Thu, 03 Oct 2019 15:15:44 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/test/</guid>
+            <description> 一级标题 二级标题 三级标题 </description>
+            <content type="html"><![CDATA[
+
+<h1 id="一级标题">一级标题</h1>
+
+<h2 id="二级标题">二级标题</h2>
+
+<h3 id="三级标题">三级标题</h3>
+]]></content>
+        </item>
+        
+        <item>
+            <title>测试文章</title>
+            <link>https://gj1e.github.io/posts/2019/10/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link>
+            <pubDate>Wed, 02 Oct 2019 20:38:49 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid>
+            <description> 标题  引用
+  标题  public static void main(String[] args){ println(&amp;quot;Hello Word&amp;quot;);  H2 H1 </description>
+            <content type="html"><![CDATA[
+
+<h1 id="标题">标题</h1>
+
+<blockquote>
+<p>引用</p>
+</blockquote>
+
+<ul>
+<li>标题</li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">public static void main(String[] args){
+	println(&quot;Hello Word&quot;);
+</code></pre>
+
+<h2 id="h2">H2</h2>
+
+<h1 id="h1">H1</h1>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>
