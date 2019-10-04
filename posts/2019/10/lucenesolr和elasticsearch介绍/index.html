@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="Lucene和Solr和Elasticsearch的区别 Lucene  Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：https://lucene.apache.org/  Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Elasticsearch  Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：https://www.elastic.co/products/elasticsearch  Elasticsearch的优缺点： 优点：  1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。
+ 2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。
+ 3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。
+ 4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。
+ 5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。
+  缺点：  1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）
+ 2.还不够自动（不适合当前新的Index Warmup API）
+  Solr的优缺点： 优点  1.Solr有一个更大、更成熟的用户、开发和贡献者社区。
+ 2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。
+ 3.Solr比较成熟、稳定。
+ 4.不考虑建索引的同时进行搜索，速度更快。
+  缺点  1.建立索引时，搜索效率下降，实时索引搜索效率不高。  Elasticsearch 与 Solr 的比较：  1." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/" />
+
+
+<title>
+    
+    Lucene、Solr和Elasticsearch介绍 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Lucene、Solr和Elasticsearch介绍">
+<meta itemprop="description" content="Lucene和Solr和Elasticsearch的区别 Lucene  Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：https://lucene.apache.org/  Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Elasticsearch  Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：https://www.elastic.co/products/elasticsearch  Elasticsearch的优缺点： 优点：  1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。
+ 2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。
+ 3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。
+ 4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。
+ 5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。
+  缺点：  1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）
+ 2.还不够自动（不适合当前新的Index Warmup API）
+  Solr的优缺点： 优点  1.Solr有一个更大、更成熟的用户、开发和贡献者社区。
+ 2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。
+ 3.Solr比较成熟、稳定。
+ 4.不考虑建索引的同时进行搜索，速度更快。
+  缺点  1.建立索引时，搜索效率下降，实时索引搜索效率不高。  Elasticsearch 与 Solr 的比较：  1.">
+
+
+<meta itemprop="datePublished" content="2019-10-03T15:15:44&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-03T15:15:44&#43;08:00" />
+<meta itemprop="wordCount" content="75">
+
+
+
+<meta itemprop="keywords" content="分布式搜索,Lucene,Solr,Elasticsearch,Java," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Lucene、Solr和Elasticsearch介绍"/>
+<meta name="twitter:description" content="Lucene和Solr和Elasticsearch的区别 Lucene  Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：https://lucene.apache.org/  Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Elasticsearch  Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：https://www.elastic.co/products/elasticsearch  Elasticsearch的优缺点： 优点：  1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。
+ 2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。
+ 3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。
+ 4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。
+ 5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。
+  缺点：  1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）
+ 2.还不够自动（不适合当前新的Index Warmup API）
+  Solr的优缺点： 优点  1.Solr有一个更大、更成熟的用户、开发和贡献者社区。
+ 2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。
+ 3.Solr比较成熟、稳定。
+ 4.不考虑建索引的同时进行搜索，速度更快。
+  缺点  1.建立索引时，搜索效率下降，实时索引搜索效率不高。  Elasticsearch 与 Solr 的比较：  1."/>
+
+
+
+<meta property="article:section" content="分布式搜索" />
+
+<meta property="article:published_time" content="2019-10-03 15:15:44 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li><li><a href="https://gj1e.github.io/about">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/">Lucene、Solr和Elasticsearch介绍</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="lucene和solr和elasticsearch的区别">Lucene和Solr和Elasticsearch的区别</h2>
+
+<h3 id="lucene">Lucene</h3>
+
+<ul>
+<li>Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：<a href="https://lucene.apache.org/" target="_blank">https://lucene.apache.org/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="solr">Solr</h3>
+
+<ul>
+<li>Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：<a href="http://lucene.apache.org/solr/" target="_blank">http://lucene.apache.org/solr/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="elasticsearch">Elasticsearch</h3>
+
+<ul>
+<li>Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：<a href="https://www.elastic.co/products/elasticsearch" target="_blank">https://www.elastic.co/products/elasticsearch</a></li>
+</ul>
+
+<hr />
+
+<h2 id="elasticsearch的优缺点">Elasticsearch的优缺点：</h2>
+
+<h3 id="优点">优点：</h3>
+
+<ul>
+<li><p>1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。</p></li>
+
+<li><p>2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。</p></li>
+
+<li><p>3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。</p></li>
+
+<li><p>4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。</p></li>
+
+<li><p>5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="缺点">缺点：</h3>
+
+<ul>
+<li><p>1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）</p></li>
+
+<li><p>2.还不够自动（不适合当前新的Index Warmup API）</p></li>
+</ul>
+
+<hr />
+
+<h2 id="solr的优缺点">Solr的优缺点：</h2>
+
+<h3 id="优点-1">优点</h3>
+
+<ul>
+<li><p>1.Solr有一个更大、更成熟的用户、开发和贡献者社区。</p></li>
+
+<li><p>2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。</p></li>
+
+<li><p>3.Solr比较成熟、稳定。</p></li>
+
+<li><p>4.不考虑建索引的同时进行搜索，速度更快。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="缺点-1">缺点</h3>
+
+<ul>
+<li>1.建立索引时，搜索效率下降，实时索引搜索效率不高。</li>
+</ul>
+
+<hr />
+
+<h2 id="elasticsearch-与-solr-的比较">Elasticsearch 与 Solr 的比较：</h2>
+
+<ul>
+<li><p>1.二者安装都很简单；</p></li>
+
+<li><p>2.Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能;</p></li>
+
+<li><p>3.Solr 支持更多格式的数据，而 Elasticsearch 仅支持json文件格式；</p></li>
+
+<li><p>4.Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供；</p></li>
+
+<li><p>5.Solr 在传统的搜索应用中表现好于 Elasticsearch，但在处理实时搜索应用时效率明显低于 Elasticsearch。</p></li>
+
+<li><p>6.Solr 是传统搜索应用的有力解决方案，但 Elasticsearch 更适用于新兴的实时搜索应用。</p></li>
+</ul>
+
+<h3 id="使用案例">使用案例：</h3>
+
+<ul>
+<li><p>1.维基百科使用Elasticsearch来进行全文搜做并高亮显示关键词，以及提供search-as-you-type、did-you-mean等搜索建议功能。</p></li>
+
+<li><p>2.英国卫报使用Elasticsearch来处理访客日志，以便能将公众对不同文章的反应实时地反馈给各位编辑。</p></li>
+
+<li><p>3.StackOverflow将全文搜索与地理位置和相关信息进行结合，以提供more-like-this相关问题的展现。</p></li>
+
+<li><p>4.GitHub使用Elasticsearch来检索超过1300亿行代码。</p></li>
+
+<li><p>5.每天，Goldman Sachs使用它来处理5TB数据的索引，还有很多投行使用它来分析股票市场的变动。</p></li>
+</ul>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2">分布式搜索</a></span><span class="tag"><a href="https://gj1e.github.io/tags/lucene">Lucene</a></span><span class="tag"><a href="https://gj1e.github.io/tags/solr">Solr</a></span><span class="tag"><a href="https://gj1e.github.io/tags/elasticsearch">Elasticsearch</a></span><span class="tag"><a href="https://gj1e.github.io/tags/java">Java</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>75 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-03 15:15 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/10/solr/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Solr</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">
+                                <span class="button__text">测试文章</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

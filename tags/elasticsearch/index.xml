@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Elasticsearch on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/elasticsearch/</link>
+    <description>Recent content in Elasticsearch on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Thu, 03 Oct 2019 15:15:44 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Lucene、Solr和Elasticsearch介绍</title>
+      <link>https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Thu, 03 Oct 2019 15:15:44 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/</guid>
+      <description>Lucene和Solr和Elasticsearch的区别 Lucene  Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：https://lucene.apache.org/  Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Elasticsearch  Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：https://www.elastic.co/products/elasticsearch  Elasticsearch的优缺点： 优点：  1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。
+ 2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。
+ 3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。
+ 4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。
+ 5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。
+  缺点：  1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）
+ 2.还不够自动（不适合当前新的Index Warmup API）
+  Solr的优缺点： 优点  1.Solr有一个更大、更成熟的用户、开发和贡献者社区。
+ 2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。
+ 3.Solr比较成熟、稳定。
+ 4.不考虑建索引的同时进行搜索，速度更快。
+  缺点  1.建立索引时，搜索效率下降，实时索引搜索效率不高。  Elasticsearch 与 Solr 的比较：  1.</description>
+    </item>
+    
+  </channel>
+</rss>

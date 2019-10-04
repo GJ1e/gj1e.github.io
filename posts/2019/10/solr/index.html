@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Solr原理  Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程  Solrd倒排索引  我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。 而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）  Solr基于什么  基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包  solr如何实现搜索的  倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档  Solr过滤器  Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理 过滤查询，在查询时设置  solr怎么设置搜索结果排名靠前  设置文档中域的boost值，值越高相关性越高，排名就靠前  IK分词器原理  本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程  solr的索引查询为什么比数据库要快  Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快  solr 实现全文检索  索引流程：客户端&amp;mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)
+ 搜索流程：客户端&amp;mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)
+  solr和lucene的区别 Solr和Lucene的本质区别有以下三点：搜索服务器，企业级和管理。
+ 1、搜索服务器：Lucene本质上是搜索库，不是独立的应用程序，而Solr是。
+ 2、企业级：Lucene专注于搜索底层的建设，而Solr专注于企业应用。
+ 3、管理：Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展
+ Lucene: 是一个索引与搜索类库，而不是完整的程序。
+ Solr：是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。
+  Elasticsearch 与 Solr 的比较： 共同点：" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/solr/" />
+
+
+<title>
+    
+    Solr :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Solr">
+<meta itemprop="description" content="Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Solr原理  Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程  Solrd倒排索引  我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。 而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）  Solr基于什么  基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包  solr如何实现搜索的  倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档  Solr过滤器  Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理 过滤查询，在查询时设置  solr怎么设置搜索结果排名靠前  设置文档中域的boost值，值越高相关性越高，排名就靠前  IK分词器原理  本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程  solr的索引查询为什么比数据库要快  Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快  solr 实现全文检索  索引流程：客户端&mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)
+ 搜索流程：客户端&mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)
+  solr和lucene的区别 Solr和Lucene的本质区别有以下三点：搜索服务器，企业级和管理。
+ 1、搜索服务器：Lucene本质上是搜索库，不是独立的应用程序，而Solr是。
+ 2、企业级：Lucene专注于搜索底层的建设，而Solr专注于企业应用。
+ 3、管理：Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展
+ Lucene: 是一个索引与搜索类库，而不是完整的程序。
+ Solr：是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。
+  Elasticsearch 与 Solr 的比较： 共同点：">
+
+
+<meta itemprop="datePublished" content="2019-10-04T09:36:34&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-04T09:36:34&#43;08:00" />
+<meta itemprop="wordCount" content="64">
+
+
+
+<meta itemprop="keywords" content="Solr,分布式搜索,倒排索引,Java," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Solr"/>
+<meta name="twitter:description" content="Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Solr原理  Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程  Solrd倒排索引  我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。 而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）  Solr基于什么  基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包  solr如何实现搜索的  倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档  Solr过滤器  Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理 过滤查询，在查询时设置  solr怎么设置搜索结果排名靠前  设置文档中域的boost值，值越高相关性越高，排名就靠前  IK分词器原理  本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程  solr的索引查询为什么比数据库要快  Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快  solr 实现全文检索  索引流程：客户端&mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)
+ 搜索流程：客户端&mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)
+  solr和lucene的区别 Solr和Lucene的本质区别有以下三点：搜索服务器，企业级和管理。
+ 1、搜索服务器：Lucene本质上是搜索库，不是独立的应用程序，而Solr是。
+ 2、企业级：Lucene专注于搜索底层的建设，而Solr专注于企业应用。
+ 3、管理：Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展
+ Lucene: 是一个索引与搜索类库，而不是完整的程序。
+ Solr：是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。
+  Elasticsearch 与 Solr 的比较： 共同点："/>
+
+
+
+<meta property="article:section" content="分布式搜索" />
+
+<meta property="article:published_time" content="2019-10-04 09:36:34 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li><li><a href="https://gj1e.github.io/about">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/solr/">Solr</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h3 id="solr">Solr</h3>
+
+<ul>
+<li>Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：<a href="http://lucene.apache.org/solr/" target="_blank">http://lucene.apache.org/solr/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="solr原理">Solr原理</h3>
+
+<ul>
+<li>Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程</li>
+</ul>
+
+<hr />
+
+<h3 id="solrd倒排索引">Solrd倒排索引</h3>
+
+<ul>
+<li>我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。</li>
+<li>而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）</li>
+</ul>
+
+<hr />
+
+<h3 id="solr基于什么">Solr基于什么</h3>
+
+<ul>
+<li>基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包</li>
+</ul>
+
+<hr />
+
+<h3 id="solr如何实现搜索的">solr如何实现搜索的</h3>
+
+<ul>
+<li>倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档</li>
+</ul>
+
+<hr />
+
+<h3 id="solr过滤器">Solr过滤器</h3>
+
+<ul>
+<li>Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理</li>
+<li>过滤查询，在查询时设置</li>
+</ul>
+
+<hr />
+
+<h3 id="solr怎么设置搜索结果排名靠前">solr怎么设置搜索结果排名靠前</h3>
+
+<ul>
+<li>设置文档中域的boost值，值越高相关性越高，排名就靠前</li>
+</ul>
+
+<hr />
+
+<h3 id="ik分词器原理">IK分词器原理</h3>
+
+<ul>
+<li>本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程</li>
+</ul>
+
+<hr />
+
+<h3 id="solr的索引查询为什么比数据库要快">solr的索引查询为什么比数据库要快</h3>
+
+<ul>
+<li>Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快</li>
+</ul>
+
+<hr />
+
+<h3 id="solr-实现全文检索">solr 实现全文检索</h3>
+
+<ul>
+<li><p>索引流程：客户端&mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)</p></li>
+
+<li><p>搜索流程：客户端&mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)</p></li>
+</ul>
+
+<hr />
+
+<h3 id="solr和lucene的区别">solr和lucene的区别</h3>
+
+<p>Solr和Lucene的本质区别有以下三点：<strong>搜索服务器，企业级和管理。</strong></p>
+
+<ul>
+<li><p><strong>1、搜索服务器：</strong>Lucene本质上是搜索库，不是独立的应用程序，而Solr是。</p></li>
+
+<li><p><strong>2、企业级：</strong>Lucene专注于搜索底层的建设，而Solr专注于企业应用。</p></li>
+
+<li><p><strong>3、管理：</strong>Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展</p></li>
+
+<li><p><strong>Lucene:</strong> 是一个索引与搜索类库，而不是完整的程序。</p></li>
+
+<li><p><strong>Solr：</strong>是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="elasticsearch-与-solr-的比较">Elasticsearch 与 Solr 的比较：</h3>
+
+<p><strong>共同点：</strong></p>
+
+<ul>
+<li>Solr和Elasticsearch都是基于Lucene实现的；</li>
+</ul>
+
+<p><strong>不同点：</strong></p>
+
+<ul>
+<li><p>1.Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能;</p></li>
+
+<li><p>2.Solr 支持更多格式的数据，而 Elasticsearch 仅支持json文件格式；</p></li>
+
+<li><p>3.Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供；</p></li>
+
+<li><p>4.Solr 在传统的搜索应用中表现好于 Elasticsearch，但在处理实时搜索应用时效率明显低于 Elasticsearch。</p></li>
+</ul>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/solr">Solr</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2">分布式搜索</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95">倒排索引</a></span><span class="tag"><a href="https://gj1e.github.io/tags/java">Java</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>64 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-04 09:36 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/10/memcached/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Memcached</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/">
+                                <span class="button__text">Lucene、Solr和Elasticsearch介绍</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

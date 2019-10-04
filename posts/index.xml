@@ -6,23 +6,396 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Thu, 03 Oct 2019 15:15:44 +0800</lastBuildDate>
+        <lastBuildDate>Fri, 04 Oct 2019 10:33:42 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>Test</title>
-            <link>https://gj1e.github.io/posts/2019/10/test/</link>
-            <pubDate>Thu, 03 Oct 2019 15:15:44 +0800</pubDate>
+            <title>Memcached</title>
+            <link>https://gj1e.github.io/posts/2019/10/memcached/</link>
+            <pubDate>Fri, 04 Oct 2019 10:33:42 +0800</pubDate>
             
-            <guid>https://gj1e.github.io/posts/2019/10/test/</guid>
-            <description> 一级标题 二级标题 三级标题 </description>
+            <guid>https://gj1e.github.io/posts/2019/10/memcached/</guid>
+            <description>简介Memchahed  Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。 Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，当表格满了以后，接下来新增的资料会以LRU机制替换掉。 Memcached基于一个存储键/值对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。  Memcached分布式算法 余数哈希  根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。  缺点：
+ 当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。  一致性哈希  一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1] 首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。 然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。  然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。   在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。
+ Memcached的数据清除算法  LRU。每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。
+ 该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。
+   Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。
+ 描述一下Memcacehd的工作流程  先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作； 如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）； 每次更新数据库的同时更新memcached中的数据，保证一致性； 当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。  Memcached 和 Redis的区别  Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &amp;ndash;有序集合)和hash（哈希类型）等数据结构的存储。 memcache支持简单的数据类型，String。
+ Redis支持数据的备份，即master-slave模式的数据备份。
+ Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中
+ redis的速度比memcached快很多
+  Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。
+   有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。 对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。 如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。</description>
             <content type="html"><![CDATA[
 
-<h1 id="一级标题">一级标题</h1>
+<h2 id="简介memchahed">简介Memchahed</h2>
 
-<h2 id="二级标题">二级标题</h2>
+<ul>
+<li>Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。</li>
+<li>Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，<strong>当表格满了以后，接下来新增的资料会以LRU机制替换掉。</strong></li>
+<li>Memcached基于一个存储<strong>键/值</strong>对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。</li>
+</ul>
 
-<h3 id="三级标题">三级标题</h3>
+<hr />
+
+<h2 id="memcached分布式算法">Memcached分布式算法</h2>
+
+<h3 id="余数哈希">余数哈希</h3>
+
+<ul>
+<li>根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。</li>
+</ul>
+
+<p><strong>缺点：</strong></p>
+
+<ul>
+<li>当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。</li>
+</ul>
+
+<hr />
+
+<h3 id="一致性哈希">一致性哈希</h3>
+
+<ul>
+<li>一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1]</li>
+<li>首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。</li>
+<li>然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。 </li>
+<li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。</li>
+</ul>
+
+<blockquote>
+<p><strong>在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。</strong></p>
+</blockquote>
+
+<p><img src="https://img-blog.csdn.net/20170108000506549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGloYW8yMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="一致性哈希环" /></p>
+
+<hr />
+
+<h2 id="memcached的数据清除算法">Memcached的数据清除算法</h2>
+
+<ul>
+<li><p><strong>LRU。</strong>每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。</p></li>
+
+<li><p>该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。</p></li>
+</ul>
+
+<blockquote>
+<p>Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="描述一下memcacehd的工作流程">描述一下Memcacehd的工作流程</h2>
+
+<ul>
+<li>先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作；</li>
+<li>如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）；</li>
+<li>每次更新数据库的同时更新memcached中的数据，保证一致性；</li>
+<li>当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。</li>
+</ul>
+
+<hr />
+
+<h2 id="memcached-和-redis的区别">Memcached 和 Redis的区别</h2>
+
+<ul>
+<li>Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &ndash;有序集合)和hash（哈希类型）等数据结构的存储。</li>
+
+<li><p>memcache支持简单的数据类型，String。</p></li>
+
+<li><p>Redis支持数据的备份，即master-slave模式的数据备份。</p></li>
+
+<li><p>Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中</p></li>
+
+<li><p>redis的速度比memcached快很多</p></li>
+
+<li></li>
+
+<li><p>Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。</p></li>
+</ul>
+
+<blockquote>
+<p>有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。
+对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。
+如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。</p>
+</blockquote>
+
+<hr />
+]]></content>
+        </item>
+        
+        <item>
+            <title>Solr</title>
+            <link>https://gj1e.github.io/posts/2019/10/solr/</link>
+            <pubDate>Fri, 04 Oct 2019 09:36:34 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/solr/</guid>
+            <description>Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Solr原理  Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程  Solrd倒排索引  我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。 而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）  Solr基于什么  基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包  solr如何实现搜索的  倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档  Solr过滤器  Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理 过滤查询，在查询时设置  solr怎么设置搜索结果排名靠前  设置文档中域的boost值，值越高相关性越高，排名就靠前  IK分词器原理  本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程  solr的索引查询为什么比数据库要快  Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快  solr 实现全文检索  索引流程：客户端&amp;mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)
+ 搜索流程：客户端&amp;mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)
+  solr和lucene的区别 Solr和Lucene的本质区别有以下三点：搜索服务器，企业级和管理。
+ 1、搜索服务器：Lucene本质上是搜索库，不是独立的应用程序，而Solr是。
+ 2、企业级：Lucene专注于搜索底层的建设，而Solr专注于企业应用。
+ 3、管理：Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展
+ Lucene: 是一个索引与搜索类库，而不是完整的程序。
+ Solr：是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。
+  Elasticsearch 与 Solr 的比较： 共同点：</description>
+            <content type="html"><![CDATA[
+
+<h3 id="solr">Solr</h3>
+
+<ul>
+<li>Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：<a href="http://lucene.apache.org/solr/" target="_blank">http://lucene.apache.org/solr/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="solr原理">Solr原理</h3>
+
+<ul>
+<li>Solr是基于Lucene开发的全文检索服务器，而Lucene就是一套实现了全文检索的api，其本质就是一个全文检索的过程。全文检索就是把原始文档根据一定的规则拆分成若干个关键词，然后根据关键词创建索引，当查询时先查询索引找到对应的关键词，并根据关键词找到对应的文档，也就是查询结果，最终把查询结果展示给用户的过程</li>
+</ul>
+
+<hr />
+
+<h3 id="solrd倒排索引">Solrd倒排索引</h3>
+
+<ul>
+<li>我们传统的方式（正排索引）是从关键点出发，然后再通过关键点找到关键点代表的信息中能够满足搜索条件的特定信息，既通过KEY寻找VALUE。</li>
+<li>而Solr的搜索则是采用了倒排索引的方式，即通过VALUE找KEY。而在中文全文搜索中VALUE就是我们要搜索的单词，存放所有单词的地方叫词典。KEY是文档标号列表（通过文档标号列表我们可以找到出现过要搜索单词VALUE的文档）</li>
+</ul>
+
+<hr />
+
+<h3 id="solr基于什么">Solr基于什么</h3>
+
+<ul>
+<li>基于lucene搜索库的一个搜索引擎框架，lucene是一个开放源码的全文检索引擎工具包</li>
+</ul>
+
+<hr />
+
+<h3 id="solr如何实现搜索的">solr如何实现搜索的</h3>
+
+<ul>
+<li>倒排索引，先抽取文档中词，并建立词与文档id的映射关系，然后查询的时候会根据词去查询文档id，并查询出文档</li>
+</ul>
+
+<hr />
+
+<h3 id="solr过滤器">Solr过滤器</h3>
+
+<ul>
+<li>Solr的过滤器对接收到的标记流（TokenStream ）做额外的处理</li>
+<li>过滤查询，在查询时设置</li>
+</ul>
+
+<hr />
+
+<h3 id="solr怎么设置搜索结果排名靠前">solr怎么设置搜索结果排名靠前</h3>
+
+<ul>
+<li>设置文档中域的boost值，值越高相关性越高，排名就靠前</li>
+</ul>
+
+<hr />
+
+<h3 id="ik分词器原理">IK分词器原理</h3>
+
+<ul>
+<li>本质上是词典分词，在内存中初始化一个词典，然后在分词过程中逐个读取字符，和字典中的字符相匹配，把文档中的所有词语拆分出来的过程</li>
+</ul>
+
+<hr />
+
+<h3 id="solr的索引查询为什么比数据库要快">solr的索引查询为什么比数据库要快</h3>
+
+<ul>
+<li>Solr使用的是Lucene API实现的全文检索。全文检索本质上是查询的索引。而数据库中并不是所有的字段都建立的索引，更何况如果使用like查询时很大的可能是不使用索引，所以使用solr查询时要比查数据库快</li>
+</ul>
+
+<hr />
+
+<h3 id="solr-实现全文检索">solr 实现全文检索</h3>
+
+<ul>
+<li><p>索引流程：客户端&mdash;》solr 服务器(发送post请求,xml文档包含filed，solr实现对索引的维护)</p></li>
+
+<li><p>搜索流程：客户端&mdash;》solr 服务器(发送get 请求，服务器返回一个xml 文档)</p></li>
+</ul>
+
+<hr />
+
+<h3 id="solr和lucene的区别">solr和lucene的区别</h3>
+
+<p>Solr和Lucene的本质区别有以下三点：<strong>搜索服务器，企业级和管理。</strong></p>
+
+<ul>
+<li><p><strong>1、搜索服务器：</strong>Lucene本质上是搜索库，不是独立的应用程序，而Solr是。</p></li>
+
+<li><p><strong>2、企业级：</strong>Lucene专注于搜索底层的建设，而Solr专注于企业应用。</p></li>
+
+<li><p><strong>3、管理：</strong>Lucene不负责支撑搜索服务所必须的管理，而Solr负责。所以说，一句话概括Solr: Solr是Lucene面向企业搜索应用的扩展</p></li>
+
+<li><p><strong>Lucene:</strong> 是一个索引与搜索类库，而不是完整的程序。</p></li>
+
+<li><p><strong>Solr：</strong>是一个高性能，采用Java5开发，基于Lucene的一个独立的企业级搜索应用服务器，它对外提供类似于Web-service的API接口。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="elasticsearch-与-solr-的比较">Elasticsearch 与 Solr 的比较：</h3>
+
+<p><strong>共同点：</strong></p>
+
+<ul>
+<li>Solr和Elasticsearch都是基于Lucene实现的；</li>
+</ul>
+
+<p><strong>不同点：</strong></p>
+
+<ul>
+<li><p>1.Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能;</p></li>
+
+<li><p>2.Solr 支持更多格式的数据，而 Elasticsearch 仅支持json文件格式；</p></li>
+
+<li><p>3.Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供；</p></li>
+
+<li><p>4.Solr 在传统的搜索应用中表现好于 Elasticsearch，但在处理实时搜索应用时效率明显低于 Elasticsearch。</p></li>
+</ul>
+
+<hr />
+]]></content>
+        </item>
+        
+        <item>
+            <title>Lucene、Solr和Elasticsearch介绍</title>
+            <link>https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/</link>
+            <pubDate>Thu, 03 Oct 2019 15:15:44 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/lucenesolr%E5%92%8Celasticsearch%E4%BB%8B%E7%BB%8D/</guid>
+            <description>Lucene和Solr和Elasticsearch的区别 Lucene  Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：https://lucene.apache.org/  Solr  Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：http://lucene.apache.org/solr/  Elasticsearch  Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：https://www.elastic.co/products/elasticsearch  Elasticsearch的优缺点： 优点：  1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。
+ 2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。
+ 3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。
+ 4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。
+ 5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。
+  缺点：  1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）
+ 2.还不够自动（不适合当前新的Index Warmup API）
+  Solr的优缺点： 优点  1.Solr有一个更大、更成熟的用户、开发和贡献者社区。
+ 2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。
+ 3.Solr比较成熟、稳定。
+ 4.不考虑建索引的同时进行搜索，速度更快。
+  缺点  1.建立索引时，搜索效率下降，实时索引搜索效率不高。  Elasticsearch 与 Solr 的比较：  1.</description>
+            <content type="html"><![CDATA[
+
+<h2 id="lucene和solr和elasticsearch的区别">Lucene和Solr和Elasticsearch的区别</h2>
+
+<h3 id="lucene">Lucene</h3>
+
+<ul>
+<li>Lucene是apache下的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。官网地址：<a href="https://lucene.apache.org/" target="_blank">https://lucene.apache.org/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="solr">Solr</h3>
+
+<ul>
+<li>Solr是一个高性能，采用Java5开发，基于Lucene的全文搜索服务器。同时对其进行了扩展，提供了比Lucene更为丰富的查询语言，同时实现了可配置、可扩展并对查询性能进行了优化，并且提供了一个完善的功能管理界面，是一款非常优秀的全文搜索引擎。官网地址：<a href="http://lucene.apache.org/solr/" target="_blank">http://lucene.apache.org/solr/</a></li>
+</ul>
+
+<hr />
+
+<h3 id="elasticsearch">Elasticsearch</h3>
+
+<ul>
+<li>Elasticsearch跟Solr一样，也是一个基于Lucene的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。官网地址：<a href="https://www.elastic.co/products/elasticsearch" target="_blank">https://www.elastic.co/products/elasticsearch</a></li>
+</ul>
+
+<hr />
+
+<h2 id="elasticsearch的优缺点">Elasticsearch的优缺点：</h2>
+
+<h3 id="优点">优点：</h3>
+
+<ul>
+<li><p>1.Elasticsearch是分布式的。不需要其他组件，分发是实时的，被叫做”Push replication”。</p></li>
+
+<li><p>2.Elasticsearch 完全支持 Apache Lucene 的接近实时的搜索。</p></li>
+
+<li><p>3.处理多租户（multitenancy）不需要特殊配置，而Solr则需要更多的高级设置。</p></li>
+
+<li><p>4.Elasticsearch 采用 Gateway 的概念，使得完备份更加简单。</p></li>
+
+<li><p>5.各节点组成对等的网络结构，某些节点出现故障时会自动分配其他节点代替其进行工作。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="缺点">缺点：</h3>
+
+<ul>
+<li><p>1.只有一名开发者（当前Elasticsearch GitHub组织已经不只如此，已经有了相当活跃的维护者）</p></li>
+
+<li><p>2.还不够自动（不适合当前新的Index Warmup API）</p></li>
+</ul>
+
+<hr />
+
+<h2 id="solr的优缺点">Solr的优缺点：</h2>
+
+<h3 id="优点-1">优点</h3>
+
+<ul>
+<li><p>1.Solr有一个更大、更成熟的用户、开发和贡献者社区。</p></li>
+
+<li><p>2.支持添加多种格式的索引，如：HTML、PDF、微软 Office 系列软件格式以及 JSON、XML、CSV 等纯文本格式。</p></li>
+
+<li><p>3.Solr比较成熟、稳定。</p></li>
+
+<li><p>4.不考虑建索引的同时进行搜索，速度更快。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="缺点-1">缺点</h3>
+
+<ul>
+<li>1.建立索引时，搜索效率下降，实时索引搜索效率不高。</li>
+</ul>
+
+<hr />
+
+<h2 id="elasticsearch-与-solr-的比较">Elasticsearch 与 Solr 的比较：</h2>
+
+<ul>
+<li><p>1.二者安装都很简单；</p></li>
+
+<li><p>2.Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能;</p></li>
+
+<li><p>3.Solr 支持更多格式的数据，而 Elasticsearch 仅支持json文件格式；</p></li>
+
+<li><p>4.Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供；</p></li>
+
+<li><p>5.Solr 在传统的搜索应用中表现好于 Elasticsearch，但在处理实时搜索应用时效率明显低于 Elasticsearch。</p></li>
+
+<li><p>6.Solr 是传统搜索应用的有力解决方案，但 Elasticsearch 更适用于新兴的实时搜索应用。</p></li>
+</ul>
+
+<h3 id="使用案例">使用案例：</h3>
+
+<ul>
+<li><p>1.维基百科使用Elasticsearch来进行全文搜做并高亮显示关键词，以及提供search-as-you-type、did-you-mean等搜索建议功能。</p></li>
+
+<li><p>2.英国卫报使用Elasticsearch来处理访客日志，以便能将公众对不同文章的反应实时地反馈给各位编辑。</p></li>
+
+<li><p>3.StackOverflow将全文搜索与地理位置和相关信息进行结合，以提供more-like-this相关问题的展现。</p></li>
+
+<li><p>4.GitHub使用Elasticsearch来检索超过1300亿行代码。</p></li>
+
+<li><p>5.每天，Goldman Sachs使用它来处理5TB数据的索引，还有很多投行使用它来分析股票市场的变动。</p></li>
+</ul>
+
+<hr />
 ]]></content>
         </item>
         

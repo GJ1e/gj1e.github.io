@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="简介Memchahed  Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。 Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，当表格满了以后，接下来新增的资料会以LRU机制替换掉。 Memcached基于一个存储键/值对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。  Memcached分布式算法 余数哈希  根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。  缺点：
+ 当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。  一致性哈希  一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1] 首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。 然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。  然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。   在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。
+ Memcached的数据清除算法  LRU。每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。
+ 该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。
+   Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。
+ 描述一下Memcacehd的工作流程  先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作； 如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）； 每次更新数据库的同时更新memcached中的数据，保证一致性； 当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。  Memcached 和 Redis的区别  Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &amp;ndash;有序集合)和hash（哈希类型）等数据结构的存储。 memcache支持简单的数据类型，String。
+ Redis支持数据的备份，即master-slave模式的数据备份。
+ Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中
+ redis的速度比memcached快很多
+  Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。
+   有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。 对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。 如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/memcached/" />
+
+
+<title>
+    
+    Memcached :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Memcached">
+<meta itemprop="description" content="简介Memchahed  Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。 Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，当表格满了以后，接下来新增的资料会以LRU机制替换掉。 Memcached基于一个存储键/值对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。  Memcached分布式算法 余数哈希  根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。  缺点：
+ 当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。  一致性哈希  一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1] 首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。 然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。  然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。   在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。
+ Memcached的数据清除算法  LRU。每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。
+ 该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。
+   Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。
+ 描述一下Memcacehd的工作流程  先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作； 如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）； 每次更新数据库的同时更新memcached中的数据，保证一致性； 当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。  Memcached 和 Redis的区别  Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &ndash;有序集合)和hash（哈希类型）等数据结构的存储。 memcache支持简单的数据类型，String。
+ Redis支持数据的备份，即master-slave模式的数据备份。
+ Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中
+ redis的速度比memcached快很多
+  Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。
+   有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。 对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。 如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。">
+
+
+<meta itemprop="datePublished" content="2019-10-04T10:33:42&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-04T10:33:42&#43;08:00" />
+<meta itemprop="wordCount" content="45">
+
+
+
+<meta itemprop="keywords" content="Memcached,分布式缓存,Java," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Memcached"/>
+<meta name="twitter:description" content="简介Memchahed  Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。 Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，当表格满了以后，接下来新增的资料会以LRU机制替换掉。 Memcached基于一个存储键/值对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。  Memcached分布式算法 余数哈希  根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。  缺点：
+ 当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。  一致性哈希  一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1] 首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。 然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。  然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。   在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。
+ Memcached的数据清除算法  LRU。每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。
+ 该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。
+   Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。
+ 描述一下Memcacehd的工作流程  先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作； 如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）； 每次更新数据库的同时更新memcached中的数据，保证一致性； 当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。  Memcached 和 Redis的区别  Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &ndash;有序集合)和hash（哈希类型）等数据结构的存储。 memcache支持简单的数据类型，String。
+ Redis支持数据的备份，即master-slave模式的数据备份。
+ Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中
+ redis的速度比memcached快很多
+  Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。
+   有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。 对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。 如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。"/>
+
+
+
+
+<meta property="article:published_time" content="2019-10-04 10:33:42 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li><li><a href="https://gj1e.github.io/about">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/memcached/">Memcached</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="简介memchahed">简介Memchahed</h2>
+
+<ul>
+<li>Memcached是高性能分布式内存缓存服务器，它通过缓存数据库查询结果，减少对数据库的访问次数以提高动态Web应用的速度，提高可扩展性。</li>
+<li>Memcached的API使用32位元的CRC(循环冗余校验)校验，计算键值后，将资料分散在不同的机器上，<strong>当表格满了以后，接下来新增的资料会以LRU机制替换掉。</strong></li>
+<li>Memcached基于一个存储<strong>键/值</strong>对的Hashmap。其守护进程是用C写的，但是客户端可以用任何语言来写，并通过mencached协议与其守护进程通信。</li>
+</ul>
+
+<hr />
+
+<h2 id="memcached分布式算法">Memcached分布式算法</h2>
+
+<h3 id="余数哈希">余数哈希</h3>
+
+<ul>
+<li>根据服务器的台数的余数进行分散。求得键的哈希值，再除以服务器的台数，根据余数选择服务器。</li>
+</ul>
+
+<p><strong>缺点：</strong></p>
+
+<ul>
+<li>当添加或移除服务器时，缓存重组代价太大。当添加服务器要进行重哈希，会导致原来的服务器序号变了，按原来的逻辑寻找数据就会找不到，访问数据Memcached命中率下降，那么就会增加数据库服务器的负载。</li>
+</ul>
+
+<hr />
+
+<h3 id="一致性哈希">一致性哈希</h3>
+
+<ul>
+<li>一致性hash算法通过一个叫作一致性hash环的数据结构实现。这个环的起点是0，终点是2^32 - 1，并且起点与终点连接，环的中间的整数按逆时针分布，故这个环的整数分布范围是[0, 2^32-1]</li>
+<li>首先求出memcached服务器（节点）的哈希值，并将其配置到0~2^32-1的圆（continuum）上。</li>
+<li>然后用同样的方法求出存储数据的键的哈希值，并映射到圆上。 </li>
+<li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过2^32-1仍然找不到服务器，就会保存到第一台memcached服务器上。</li>
+</ul>
+
+<blockquote>
+<p><strong>在Consistent Hashing中，只有在continuum上增加服务器的地点逆时针方向的第一台服务器上的键会受到影响。</strong></p>
+</blockquote>
+
+<p><img src="https://img-blog.csdn.net/20170108000506549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGloYW8yMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="一致性哈希环" /></p>
+
+<hr />
+
+<h2 id="memcached的数据清除算法">Memcached的数据清除算法</h2>
+
+<ul>
+<li><p><strong>LRU。</strong>每个slab会维护一个队列，刚插入的数据在队头，经常get的数据也会移动到队头，这样较老或者访问较少的数据相对都留在队尾。</p></li>
+
+<li><p>该算法从队尾开始淘汰，当slab分配不到足够的内存时，首先会检查队尾是否有过期数据。如果有的话会直接将其覆盖为新的对象，如果没有，会开始淘汰队尾的对象。</p></li>
+</ul>
+
+<blockquote>
+<p>Slab是一个内存块，它是memcached一次申请内存的最小单位。Slab的大小固定为1M（1048576 Byte），一个slab由若干个大小相等的chunk组成。每个chunk中都保存了一个item结构体、一对key和value。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="描述一下memcacehd的工作流程">描述一下Memcacehd的工作流程</h2>
+
+<ul>
+<li>先检查客户端的请求数据是否在memcached中，如有，直接把请求数据返回，不再对数据库进行任何操作；</li>
+<li>如果请求的数据不在memcached中，就去查数据库，把从数据库中获取的数据返回给客户端，同时把数据缓存一份到memcached中（memcached客户端不负责，需要程序明确实现）；</li>
+<li>每次更新数据库的同时更新memcached中的数据，保证一致性；</li>
+<li>当分配给memcached内存空间用完之后，会使用LRU（Least Recently Used，最近最少使用）策略加上到期失效策略，失效数据首先被替换，然后再替换掉最近未使用的数据。</li>
+</ul>
+
+<hr />
+
+<h2 id="memcached-和-redis的区别">Memcached 和 Redis的区别</h2>
+
+<ul>
+<li>Redis不仅仅支持简单的k/v类型的数据，同时还提供string(字符串)、list(链表)、set(集合)、zset(sorted set &ndash;有序集合)和hash（哈希类型）等数据结构的存储。</li>
+
+<li><p>memcache支持简单的数据类型，String。</p></li>
+
+<li><p>Redis支持数据的备份，即master-slave模式的数据备份。</p></li>
+
+<li><p>Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而Memecache把数据全部存在内存之中</p></li>
+
+<li><p>redis的速度比memcached快很多</p></li>
+
+<li></li>
+
+<li><p>Memcached是多线程，非阻塞IO复用的网络模型；Redis使用单线程的IO复用模型。</p></li>
+</ul>
+
+<blockquote>
+<p>有持久化需求或者对数据结构和处理有高级要求的应用，选择redis，其他简单的key/value存储，选择memcached。
+对于两者的选择需要要看具体的应用场景，如果需要缓存的数据只是key-value这样简单的结构时，则还是采用memcache，它也足够的稳定可靠。
+如果涉及到存储，排序等一系列复杂的操作时，毫无疑问选择redis。</p>
+</blockquote>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/memcached">Memcached</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98">分布式缓存</a></span><span class="tag"><a href="https://gj1e.github.io/tags/java">Java</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>45 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-04 10:33 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/solr/">
+                                <span class="button__text">Solr</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>
