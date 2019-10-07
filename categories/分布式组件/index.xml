@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>分布式组件 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BB%84%E4%BB%B6/</link>
+    <description>Recent content in 分布式组件 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Mon, 07 Oct 2019 16:50:14 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BB%84%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Zookeeper</title>
+      <link>https://gj1e.github.io/posts/2019/10/zookeeper/</link>
+      <pubDate>Mon, 07 Oct 2019 16:50:14 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/zookeeper/</guid>
+      <description>简介  ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。 ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。 &amp;mdash;百度百科
+ ZooKeeper集群整体框架  Client：客户端。每个Client都可以去访问这个Zookeeper集群提供的服务。 Sever：服务器。为客户端提供服务。  Zookeeper把集群划分为三种角色：Leader，Follower，Observer(Zookeeper3.3引入)
+ Leader：是所有的Follower通过选举产生的的一个主节点，它负责处理客户端所有的事务请求和集群中各服务器的调度。
+ Follower：
+ 处理客户端非事务请求并转发事务请求给Leader。 参与Leader发起的事务请求提议的投票。（Leader发起提案，要求Follower进行投票，需要半数以上的Follower节点通过，Leader才会Commit数据）  Observer：与Follower一样，不同的是Observer不参与Leader选举，也不参与过半写成功策略。（Obsever的目的是为了在不影响集群写性能的前提下提升集群的读性能）
+  事务与非事务请求的处理流程  事务：Client&amp;ndash;&amp;gt;Sever(Follower)发送一个请求，然后判断是一个事务请求，Follower就会把这个请求转发给Leader进行处理。
+ 非事务：Client&amp;ndash;&amp;gt;Sever(Follower)发送一个请求，然后判断是一个非事务请求，Follower就会直接处理给予响应。
+  综上可以得出Zookeeper适合以查询（读操作）为主的业务场景，并不适合以事务修改（写操作）为主的业务场景。
+ Zookeeper支持横向扩展，横向扩展只能加强Zookeeper非事务请求的处理，不能加强事务请求的处理，因为无论怎么横向扩展，也只能有一个Leader。
+ 客户端怎么判断向集群中哪个Sever发起请求  客户端自己维护着一份节点列表，它会有一个选择节点的算法，可以随机或者可以按照轮巡这种算法来选择一个节点进行请求。  Zookeeper节点类型  Znode有三种类型，临时的（Ephemeral）持久的（Persistent）和顺序的（Sequence） 临时Znode的生命周期与客户端会话相关，客户端会话结束时，Zookeeper会将临时Znode删除，临时Znode不可以有子节点 持久Znode不依赖于客户端会话，只有当客户端明确要删除该持久Znode时，才会被删除。 Znode类型在创建时确定，并且之后不能再修改 顺序Znode可以分为临时顺序节点和持久顺序节点。  持久顺序节点：客户端与Zookeeper断开连接之后该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号。 临时顺序节点：客户端与Zookeeper断开连接之后该节点会被删除，只是Zookeeper给该节点名称进行顺序编号。   Zookeeper数据模型  层次化目录结构，命名符合常规系统规范。
+ 每个节点在Zookeeper种叫做Znode，并且有一个唯一的路径标识。
+ 节点Znode可以包含数据和子节点，但是临时类型的节点不能有子节点。
+ Znode种的数据可以有多个版本，比如某一个路径下有多个数据版本，那么查询这个路径下的数据就要带上版本。
+  Zookeeper读写机制  Zookeeper是一个由多个Sever组成的集群。
+ 集群中只能有一个Leader，可以有多个Follower。
+ 每个Follower保存一份数据副本。
+ 全局数据一直</description>
+    </item>
+    
+  </channel>
+</rss>
