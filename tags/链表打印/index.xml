@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>链表打印 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E9%93%BE%E8%A1%A8%E6%89%93%E5%8D%B0/</link>
+    <description>Recent content in 链表打印 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 08 Oct 2019 16:06:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E9%93%BE%E8%A1%A8%E6%89%93%E5%8D%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)06题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 16:06:51 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</guid>
+      <description>面试题6：从尾到头打印链表  题目：  输入一个链表的头节点，从尾到头反过来打印出每个节点的值    思路1：
+ 遍历的顺序是从头到尾，输出的顺序是从尾到头。也就是说，第一个遍历的节点，最后一个输出；最后一个遍历的节点，第一个输出。这就是典型的“先进后出”。所以可以选择“栈”来解决这个问题。  思路2：
+ 这个题也可以用递归的方式来解，递归的本质就是一个栈结构。   import java.util.ArrayList; import java.util.Stack; public class Solution { //链表的定义 class ListNode{ int value; ListNode next = null; ListNode(int value){ this.value = value; } } public ArrayList&amp;lt;Integer&amp;gt; printListFromTailToHead(ListNode listNode){ ArrayList&amp;lt;Integer&amp;gt; arrayList = new ArrayList&amp;lt;Integer&amp;gt;(); if (listNode == null) //异常输入 return arrayList; Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;(); while(listNode!= null)	//链表压栈 { stack.push(listNode.value); listNode = listNode.</description>
+    </item>
+    
+  </channel>
+</rss>

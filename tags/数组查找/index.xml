@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数组查找 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E6%95%B0%E7%BB%84%E6%9F%A5%E6%89%BE/</link>
+    <description>Recent content in 数组查找 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 08 Oct 2019 11:41:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E6%95%B0%E7%BB%84%E6%9F%A5%E6%89%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)04题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 11:41:26 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</guid>
+      <description>面试题4：二维数组中的查找  题目：  在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。    思路：
+ 就是比较矩阵的右上角的数与target的大小，如果target比这个矩阵右上角的数大，由于矩阵的右上角元素A是A所在行的最大的值，所以target肯定不在A所在的行了，所以这时候就应该就在除去第一行的剩下的行中去找这个target； 如果target比矩阵右上角的数A小，那么由于A所在的列中A是最小的，那么target就在除去最右边的列的其它的列； 如果相等，返回true；   /** * @Author GJ1e * @Create 2019/9/11 * @Time 18:58 */ public class Solution { public boolean arrayFind(int target , int[][] array){ //检查异常输入 if(array==null || array.length&amp;lt;0 || array[0].length&amp;lt;0) return false; int rows = 0; //行 int cols = array[0].length-1; //列 while(rows&amp;lt;=array.length-1 &amp;amp;&amp;amp; cols&amp;gt;=0){ if(target&amp;gt;array[rows][cols]) //target大于矩阵左上角的数，说明target大于这一行上的所有数 rows++; //进入下一行继续比较 else if(target&amp;lt;array[rows][cols]) //target小于矩阵左上角的数，说明target小于这一列上的所有数 cols--; //进入下一列继续比较 else //找到target return true; } return false; } }  此代码在牛客网已AC</description>
+    </item>
+    
+  </channel>
+</rss>

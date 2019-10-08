@@ -6,8 +6,440 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Mon, 07 Oct 2019 16:50:14 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 08 Oct 2019 16:06:51 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>剑指Offer(Java实现)06题</title>
+            <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</link>
+            <pubDate>Tue, 08 Oct 2019 16:06:51 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</guid>
+            <description>面试题6：从尾到头打印链表  题目：  输入一个链表的头节点，从尾到头反过来打印出每个节点的值    思路1：
+ 遍历的顺序是从头到尾，输出的顺序是从尾到头。也就是说，第一个遍历的节点，最后一个输出；最后一个遍历的节点，第一个输出。这就是典型的“先进后出”。所以可以选择“栈”来解决这个问题。  思路2：
+ 这个题也可以用递归的方式来解，递归的本质就是一个栈结构。   import java.util.ArrayList; import java.util.Stack; public class Solution { //链表的定义 class ListNode{ int value; ListNode next = null; ListNode(int value){ this.value = value; } } public ArrayList&amp;lt;Integer&amp;gt; printListFromTailToHead(ListNode listNode){ ArrayList&amp;lt;Integer&amp;gt; arrayList = new ArrayList&amp;lt;Integer&amp;gt;(); if (listNode == null) //异常输入 return arrayList; Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;(); while(listNode!= null)	//链表压栈 { stack.push(listNode.value); listNode = listNode.</description>
+            <content type="html"><![CDATA[
+
+<h2 id="面试题6-从尾到头打印链表">面试题6：从尾到头打印链表</h2>
+
+<ul>
+<li><strong>题目：</strong>
+
+<ul>
+<li>输入一个链表的头节点，从尾到头反过来打印出每个节点的值</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><p><strong>思路1：</strong></p>
+
+<ul>
+<li>遍历的顺序是从头到尾，输出的顺序是从尾到头。也就是说，第一个遍历的节点，最后一个输出；最后一个遍历的节点，第一个输出。这就是典型的“先进后出”。所以可以选择“栈”来解决这个问题。</li>
+</ul></li>
+
+<li><p><strong>思路2：</strong></p>
+
+<ul>
+<li>这个题也可以用递归的方式来解，递归的本质就是一个栈结构。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.Stack;
+
+public class Solution {
+	//链表的定义
+    class ListNode{
+        int value;
+        ListNode next = null;
+
+        ListNode(int value){
+            this.value = value;
+        }
+    }
+
+    public ArrayList&lt;Integer&gt; printListFromTailToHead(ListNode listNode){
+        ArrayList&lt;Integer&gt; arrayList = new ArrayList&lt;Integer&gt;();
+        if (listNode == null)   //异常输入
+            return arrayList;
+
+        Stack&lt;Integer&gt; stack = new Stack&lt;Integer&gt;();
+
+        while(listNode!= null)	//链表压栈
+        {
+            stack.push(listNode.value);
+            listNode = listNode.next;
+        }
+
+        while (!stack.empty()) //栈为空返回true；链表出栈
+        {
+            arrayList.add(stack.pop().intValue());
+        }
+
+        return arrayList;
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>此代码已在牛客网AC</strong></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>剑指Offer(Java实现)05题</title>
+            <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</link>
+            <pubDate>Tue, 08 Oct 2019 15:27:20 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</guid>
+            <description>面试题5：替换空格  题目：  请实现一个函数，将一个字符串中的每个空格替换成“%20”。 例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy.    思路：  就是一个空格变成了%20，也就是说每有一个空格，长度要增加2，所以首先先计算有多少个空格，这样长度就能增加多少，得到增加后的长度Length。 然后new一个Length长度的字符数组，从尾到头开始复制原来的数组，如果复制过程中，如果字符不是空格，直接复制，如果字符是空格，那么需要把这个空格变成%20（这个复制过程就是把新建的数组比如现在到了 K这个位置，然后就是K，K-1，K-2这三个位置依次变成0,2，%这三个字符，因为是从后往前复制的所以是倒序），重复这个过程就行。   方法一 /** * @Author GJ1e * @Create 2019/9/11 * @Time 20:17 */ public class Solution { public String replaceSpace(StringBuffer str) { if(str==null) return null; int space = 0; for(int i=0;i&amp;lt;str.length();i++){ //记录空格数量 if(str.charAt(i)==&#39; &#39;) space++; } int indexOld = str.length()-1; //原字符串末尾 int newStrLength = str.length()+2*space; //新字符串长度 int indexNew = newStrLength-1; //新字符串末尾 str.setLength(newStrLength); //增加原字符串的长度，防止下标越界 while(indexOld !</description>
+            <content type="html"><![CDATA[
+
+<h2 id="面试题5-替换空格">面试题5：替换空格</h2>
+
+<ul>
+<li><strong>题目</strong>：
+
+<ul>
+<li>请实现一个函数，将一个字符串中的每个空格替换成“%20”。</li>
+<li>例如，当字符串为<strong>We Are Happy.</strong>则经过替换之后的字符串为<strong>We%20Are%20Happy.</strong></li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><strong>思路</strong>：
+
+<ul>
+<li>就是一个空格变成了%20，也就是说每有一个空格，长度要增加2，所以首先先计算有多少个空格，这样长度就能增加多少，得到增加后的长度Length。</li>
+<li>然后new一个Length长度的字符数组，从尾到头开始复制原来的数组，如果复制过程中，如果字符不是空格，直接复制，如果字符是空格，那么需要把这个空格变成%20（这个复制过程就是把新建的数组比如现在到了 K这个位置，然后就是K，K-1，K-2这三个位置依次变成0,2，%这三个字符，因为是从后往前复制的所以是倒序），重复这个过程就行。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h3 id="方法一">方法一</h3>
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/9/11
+ * @Time 20:17
+ */
+public class Solution {
+	public String replaceSpace(StringBuffer str) {
+    	if(str==null)
+        	return null;
+
+        int space = 0;
+        for(int i=0;i&lt;str.length();i++){ //记录空格数量
+        	if(str.charAt(i)==' ')
+                space++;
+            }
+
+        int indexOld = str.length()-1; //原字符串末尾
+        int newStrLength = str.length()+2*space; //新字符串长度
+        int indexNew = newStrLength-1; //新字符串末尾
+        str.setLength(newStrLength); //增加原字符串的长度，防止下标越界
+
+        while(indexOld != indexNew){ //当新字符串指针等于原字符串指针时，说明空格全部替换完毕。
+            if(str.charAt(indexOld)==' ') //等于空格进行替换
+            {
+                indexOld--;
+                str.setCharAt(indexNew--,'0'); 
+                str.setCharAt(indexNew--,'2');
+                str.setCharAt(indexNew--,'%');
+            }
+            else
+            {     //不为空格则复制
+                str.setCharAt(indexNew--,str.charAt(indexOld--));
+            }
+        }
+        return str.toString();
+    }
+}
+
+
+</code></pre>
+
+<hr />
+
+<h3 id="方法二">方法二</h3>
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/9/11
+ * @Time 20:17
+ */
+public class Solution {
+
+
+    public String replaceSpace(StringBuffer str){
+
+        String str1 = str.toString(); //判断非法输入
+        if (str1.equals(&quot;&quot;))
+            return str1;
+
+        char[] strArray = str1.toCharArray(); //把字符串转换成字符数组
+        int i = 0;
+        int lengthSpace = 0; //记录字符串数组中的空格数
+
+        while(i&lt;strArray.length){
+
+            if (strArray[i] == ' ')
+                lengthSpace++;
+            i++;
+        }
+
+        int newStrLength = strArray.length + lengthSpace*2;
+        char[] newStr = new char[newStrLength];
+
+        int j = strArray.length-1;
+        i = newStr.length-1;
+
+        while(j&gt;=0){
+
+            if(strArray[j] != ' ')
+            {
+                newStr[i--] = strArray[j--];
+            }else{
+                newStr[i--] = '0';
+                newStr[i--] = '2';
+                newStr[i--] = '%';
+                j--;
+            }
+        }
+        return new String(newStr);
+
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p>方法一、方法二思想一样，就是写法不一样，一个用的库函数比较多，另一个比较少。
+两段代码都在牛客网AC了</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>剑指Offer(Java实现)04题</title>
+            <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</link>
+            <pubDate>Tue, 08 Oct 2019 11:41:26 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</guid>
+            <description>面试题4：二维数组中的查找  题目：  在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。    思路：
+ 就是比较矩阵的右上角的数与target的大小，如果target比这个矩阵右上角的数大，由于矩阵的右上角元素A是A所在行的最大的值，所以target肯定不在A所在的行了，所以这时候就应该就在除去第一行的剩下的行中去找这个target； 如果target比矩阵右上角的数A小，那么由于A所在的列中A是最小的，那么target就在除去最右边的列的其它的列； 如果相等，返回true；   /** * @Author GJ1e * @Create 2019/9/11 * @Time 18:58 */ public class Solution { public boolean arrayFind(int target , int[][] array){ //检查异常输入 if(array==null || array.length&amp;lt;0 || array[0].length&amp;lt;0) return false; int rows = 0; //行 int cols = array[0].length-1; //列 while(rows&amp;lt;=array.length-1 &amp;amp;&amp;amp; cols&amp;gt;=0){ if(target&amp;gt;array[rows][cols]) //target大于矩阵左上角的数，说明target大于这一行上的所有数 rows++; //进入下一行继续比较 else if(target&amp;lt;array[rows][cols]) //target小于矩阵左上角的数，说明target小于这一列上的所有数 cols--; //进入下一列继续比较 else //找到target return true; } return false; } }  此代码在牛客网已AC</description>
+            <content type="html"><![CDATA[
+
+<h2 id="面试题4-二维数组中的查找">面试题4：二维数组中的查找</h2>
+
+<ul>
+<li><strong>题目</strong>：
+
+<ul>
+<li>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><p><strong>思路</strong>：</p>
+
+<ul>
+<li>就是比较矩阵的右上角的数与target的大小，如果target比这个矩阵右上角的数大，由于矩阵的右上角元素A是A所在行的最大的值，所以target肯定不在A所在的行了，所以这时候就应该就在除去第一行的剩下的行中去找这个target；</li>
+<li>如果target比矩阵右上角的数A小，那么由于A所在的列中A是最小的，那么target就在除去最右边的列的其它的列；</li>
+<li>如果相等，返回true；</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">
+	/**
+	 * @Author GJ1e
+	 * @Create 2019/9/11
+ 	 * @Time 18:58
+ 	 */
+
+	public class Solution {
+	
+	    public boolean arrayFind(int target , int[][] array){
+	        //检查异常输入
+	        if(array==null || array.length&lt;0 || array[0].length&lt;0)
+	            return false;
+	
+	        int rows = 0;   //行
+	        int cols = array[0].length-1;   //列
+	
+	        while(rows&lt;=array.length-1 &amp;&amp; cols&gt;=0){
+	            if(target&gt;array[rows][cols]) //target大于矩阵左上角的数，说明target大于这一行上的所有数
+	                rows++;                  //进入下一行继续比较
+	            else if(target&lt;array[rows][cols]) //target小于矩阵左上角的数，说明target小于这一列上的所有数
+	                cols--;                       //进入下一列继续比较
+	            else         //找到target
+	                return true;
+	        }
+	        return false;
+	    }
+	}
+
+
+
+</code></pre>
+
+<p><strong>此代码在牛客网已AC</strong></p>
+
+<hr />
+]]></content>
+        </item>
+        
+        <item>
+            <title>Dubbo</title>
+            <link>https://gj1e.github.io/posts/2019/10/dubbo/</link>
+            <pubDate>Mon, 07 Oct 2019 20:53:26 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/dubbo/</guid>
+            <description>Dubbo简介 Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：
+ 高性能NIO通讯以多协议集成 服务动态寻址与路由 软负载均衡与容错 依赖分析与降级  Dubbo的五个节点  Provider：暴露服务的服务提供方
+ Consumer：调用远程服务的服务消费方
+ Registry：服务注册与发现的中心
+ Monitor ：统计服务的调用次数和调用时间的监控中心
+ Container：服务运行容器
+  Dubbo节点的调用过程  服务容器负责启动、加载，运行服务提供者
+ 服务提供者在启动时，向注册中心注册自己提供的服务
+ 服务消费者在启动时，向注册中心订阅自己所需的服务
+ 注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者
+ 服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台
+ 服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。
+  Dubbo的四个特性  连通性：
+ 说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。  健壮性：
+ 说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。  伸缩性：
+ 可以通过增加机器部署实例进行添加新的注册中心和服务提供者。  升级性：
+ 就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。   Dubbo的RPC  RPC(Remote Procedure Call)远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。 RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。
+ Dubbo RPC调用过程  Client服务消费方以本地调用的方式调用服务。
+ Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。</description>
+            <content type="html"><![CDATA[
+
+<h2 id="dubbo简介">Dubbo简介</h2>
+
+<p>Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：</p>
+
+<ul>
+<li>高性能NIO通讯以多协议集成</li>
+<li>服务动态寻址与路由</li>
+<li>软负载均衡与容错</li>
+<li>依赖分析与降级</li>
+</ul>
+
+<hr />
+
+<h2 id="dubbo的五个节点">Dubbo的五个节点</h2>
+
+<ul>
+<li><p><strong>Provider</strong>：暴露服务的服务提供方</p></li>
+
+<li><p><strong>Consumer</strong>：调用远程服务的服务消费方</p></li>
+
+<li><p><strong>Registry</strong>：服务注册与发现的中心</p></li>
+
+<li><p><strong>Monitor</strong> ：统计服务的调用次数和调用时间的监控中心</p></li>
+
+<li><p><strong>Container</strong>：服务运行容器</p></li>
+</ul>
+
+<hr />
+
+<h2 id="dubbo节点的调用过程">Dubbo节点的调用过程</h2>
+
+<p><img src="/images/Dubbo节点调用流程.png" alt="Dubbo节点调用流程" /></p>
+
+<ol>
+<li><p>服务容器负责启动、加载，运行服务提供者</p></li>
+
+<li><p>服务提供者在启动时，向注册中心注册自己提供的服务</p></li>
+
+<li><p>服务消费者在启动时，向注册中心订阅自己所需的服务</p></li>
+
+<li><p>注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者</p></li>
+
+<li><p>服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台</p></li>
+
+<li><p>服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。</p></li>
+</ol>
+
+<hr />
+
+<h2 id="dubbo的四个特性">Dubbo的四个特性</h2>
+
+<ol>
+<li><p><strong>连通性</strong>：</p>
+
+<ul>
+<li>说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。</li>
+</ul></li>
+
+<li><p><strong>健壮性</strong>：</p>
+
+<ul>
+<li>说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。</li>
+</ul></li>
+
+<li><p><strong>伸缩性</strong>：</p>
+
+<ul>
+<li>可以通过增加机器部署实例进行添加新的注册中心和服务提供者。</li>
+</ul></li>
+
+<li><p><strong>升级性</strong>：</p>
+
+<ul>
+<li>就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h2 id="dubbo的rpc">Dubbo的RPC</h2>
+
+<blockquote>
+<p><strong>RPC(Remote Procedure Call)</strong>远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。
+RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="dubbo-rpc调用过程">Dubbo RPC调用过程</h2>
+
+<p><img src="/images/DubboRPC调用流程.png" alt="DubboRPC调用过程" /></p>
+
+<ol>
+<li><p>Client服务消费方以本地调用的方式调用服务。</p></li>
+
+<li><p>Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。</p></li>
+
+<li><p>Client Stub找到服务者地址，并将消息发送到服务端。</p></li>
+
+<li><p>Service Stub接收到消息后进行解码，并根据解码结果调用本地服务。</p></li>
+
+<li><p>本地服务执行，并将结果返回给Service Stub</p></li>
+
+<li><p>Service Stub将返回的结果打包成消息，并发送到服务消费方。</p></li>
+
+<li><p>Client Stub接收到消息后进行解码。</p></li>
+
+<li><p>服务消费方得到最终结果。</p></li>
+</ol>
+]]></content>
+        </item>
         
         <item>
             <title>Zookeeper</title>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>字符串替换 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2/</link>
+    <description>Recent content in 字符串替换 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 08 Oct 2019 15:27:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)05题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 15:27:20 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</guid>
+      <description>面试题5：替换空格  题目：  请实现一个函数，将一个字符串中的每个空格替换成“%20”。 例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy.    思路：  就是一个空格变成了%20，也就是说每有一个空格，长度要增加2，所以首先先计算有多少个空格，这样长度就能增加多少，得到增加后的长度Length。 然后new一个Length长度的字符数组，从尾到头开始复制原来的数组，如果复制过程中，如果字符不是空格，直接复制，如果字符是空格，那么需要把这个空格变成%20（这个复制过程就是把新建的数组比如现在到了 K这个位置，然后就是K，K-1，K-2这三个位置依次变成0,2，%这三个字符，因为是从后往前复制的所以是倒序），重复这个过程就行。   方法一 /** * @Author GJ1e * @Create 2019/9/11 * @Time 20:17 */ public class Solution { public String replaceSpace(StringBuffer str) { if(str==null) return null; int space = 0; for(int i=0;i&amp;lt;str.length();i++){ //记录空格数量 if(str.charAt(i)==&#39; &#39;) space++; } int indexOld = str.length()-1; //原字符串末尾 int newStrLength = str.length()+2*space; //新字符串长度 int indexNew = newStrLength-1; //新字符串末尾 str.setLength(newStrLength); //增加原字符串的长度，防止下标越界 while(indexOld !</description>
+    </item>
+    
+  </channel>
+</rss>

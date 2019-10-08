@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="Dubbo简介 Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：
+ 高性能NIO通讯以多协议集成 服务动态寻址与路由 软负载均衡与容错 依赖分析与降级  Dubbo的五个节点  Provider：暴露服务的服务提供方
+ Consumer：调用远程服务的服务消费方
+ Registry：服务注册与发现的中心
+ Monitor ：统计服务的调用次数和调用时间的监控中心
+ Container：服务运行容器
+  Dubbo节点的调用过程  服务容器负责启动、加载，运行服务提供者
+ 服务提供者在启动时，向注册中心注册自己提供的服务
+ 服务消费者在启动时，向注册中心订阅自己所需的服务
+ 注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者
+ 服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台
+ 服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。
+  Dubbo的四个特性  连通性：
+ 说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。  健壮性：
+ 说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。  伸缩性：
+ 可以通过增加机器部署实例进行添加新的注册中心和服务提供者。  升级性：
+ 就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。   Dubbo的RPC  RPC(Remote Procedure Call)远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。 RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。
+ Dubbo RPC调用过程  Client服务消费方以本地调用的方式调用服务。
+ Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/dubbo/" />
+
+
+<title>
+    
+    Dubbo :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Dubbo">
+<meta itemprop="description" content="Dubbo简介 Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：
+ 高性能NIO通讯以多协议集成 服务动态寻址与路由 软负载均衡与容错 依赖分析与降级  Dubbo的五个节点  Provider：暴露服务的服务提供方
+ Consumer：调用远程服务的服务消费方
+ Registry：服务注册与发现的中心
+ Monitor ：统计服务的调用次数和调用时间的监控中心
+ Container：服务运行容器
+  Dubbo节点的调用过程  服务容器负责启动、加载，运行服务提供者
+ 服务提供者在启动时，向注册中心注册自己提供的服务
+ 服务消费者在启动时，向注册中心订阅自己所需的服务
+ 注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者
+ 服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台
+ 服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。
+  Dubbo的四个特性  连通性：
+ 说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。  健壮性：
+ 说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。  伸缩性：
+ 可以通过增加机器部署实例进行添加新的注册中心和服务提供者。  升级性：
+ 就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。   Dubbo的RPC  RPC(Remote Procedure Call)远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。 RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。
+ Dubbo RPC调用过程  Client服务消费方以本地调用的方式调用服务。
+ Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。">
+
+
+<meta itemprop="datePublished" content="2019-10-07T20:53:26&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-07T20:53:26&#43;08:00" />
+<meta itemprop="wordCount" content="50">
+
+
+
+<meta itemprop="keywords" content="Dubbo,分布式,Java," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Dubbo"/>
+<meta name="twitter:description" content="Dubbo简介 Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：
+ 高性能NIO通讯以多协议集成 服务动态寻址与路由 软负载均衡与容错 依赖分析与降级  Dubbo的五个节点  Provider：暴露服务的服务提供方
+ Consumer：调用远程服务的服务消费方
+ Registry：服务注册与发现的中心
+ Monitor ：统计服务的调用次数和调用时间的监控中心
+ Container：服务运行容器
+  Dubbo节点的调用过程  服务容器负责启动、加载，运行服务提供者
+ 服务提供者在启动时，向注册中心注册自己提供的服务
+ 服务消费者在启动时，向注册中心订阅自己所需的服务
+ 注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者
+ 服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台
+ 服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。
+  Dubbo的四个特性  连通性：
+ 说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。  健壮性：
+ 说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。  伸缩性：
+ 可以通过增加机器部署实例进行添加新的注册中心和服务提供者。  升级性：
+ 就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。   Dubbo的RPC  RPC(Remote Procedure Call)远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。 RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。
+ Dubbo RPC调用过程  Client服务消费方以本地调用的方式调用服务。
+ Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。"/>
+
+
+
+<meta property="article:section" content="分布式组件" />
+
+<meta property="article:published_time" content="2019-10-07 20:53:26 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/dubbo/">Dubbo</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="dubbo简介">Dubbo简介</h2>
+
+<p>Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：</p>
+
+<ul>
+<li>高性能NIO通讯以多协议集成</li>
+<li>服务动态寻址与路由</li>
+<li>软负载均衡与容错</li>
+<li>依赖分析与降级</li>
+</ul>
+
+<hr />
+
+<h2 id="dubbo的五个节点">Dubbo的五个节点</h2>
+
+<ul>
+<li><p><strong>Provider</strong>：暴露服务的服务提供方</p></li>
+
+<li><p><strong>Consumer</strong>：调用远程服务的服务消费方</p></li>
+
+<li><p><strong>Registry</strong>：服务注册与发现的中心</p></li>
+
+<li><p><strong>Monitor</strong> ：统计服务的调用次数和调用时间的监控中心</p></li>
+
+<li><p><strong>Container</strong>：服务运行容器</p></li>
+</ul>
+
+<hr />
+
+<h2 id="dubbo节点的调用过程">Dubbo节点的调用过程</h2>
+
+<p><img src="/images/Dubbo节点调用流程.png" alt="Dubbo节点调用流程" /></p>
+
+<ol>
+<li><p>服务容器负责启动、加载，运行服务提供者</p></li>
+
+<li><p>服务提供者在启动时，向注册中心注册自己提供的服务</p></li>
+
+<li><p>服务消费者在启动时，向注册中心订阅自己所需的服务</p></li>
+
+<li><p>注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者</p></li>
+
+<li><p>服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台</p></li>
+
+<li><p>服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。</p></li>
+</ol>
+
+<hr />
+
+<h2 id="dubbo的四个特性">Dubbo的四个特性</h2>
+
+<ol>
+<li><p><strong>连通性</strong>：</p>
+
+<ul>
+<li>说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。</li>
+</ul></li>
+
+<li><p><strong>健壮性</strong>：</p>
+
+<ul>
+<li>说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。</li>
+</ul></li>
+
+<li><p><strong>伸缩性</strong>：</p>
+
+<ul>
+<li>可以通过增加机器部署实例进行添加新的注册中心和服务提供者。</li>
+</ul></li>
+
+<li><p><strong>升级性</strong>：</p>
+
+<ul>
+<li>就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h2 id="dubbo的rpc">Dubbo的RPC</h2>
+
+<blockquote>
+<p><strong>RPC(Remote Procedure Call)</strong>远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。
+RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="dubbo-rpc调用过程">Dubbo RPC调用过程</h2>
+
+<p><img src="/images/DubboRPC调用流程.png" alt="DubboRPC调用过程" /></p>
+
+<ol>
+<li><p>Client服务消费方以本地调用的方式调用服务。</p></li>
+
+<li><p>Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。</p></li>
+
+<li><p>Client Stub找到服务者地址，并将消息发送到服务端。</p></li>
+
+<li><p>Service Stub接收到消息后进行解码，并根据解码结果调用本地服务。</p></li>
+
+<li><p>本地服务执行，并将结果返回给Service Stub</p></li>
+
+<li><p>Service Stub将返回的结果打包成消息，并发送到服务消费方。</p></li>
+
+<li><p>Client Stub接收到消息后进行解码。</p></li>
+
+<li><p>服务消费方得到最终结果。</p></li>
+</ol>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/dubbo">Dubbo</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F">分布式</a></span><span class="tag"><a href="https://gj1e.github.io/tags/java">Java</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>50 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-07 20:53 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">剑指Offer(Java实现)04题</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/zookeeper/">
+                                <span class="button__text">Zookeeper</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

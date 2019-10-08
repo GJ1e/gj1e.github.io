@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>剑指Offer(第二版) on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/categories/%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88/</link>
+    <description>Recent content in 剑指Offer(第二版) on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 08 Oct 2019 16:06:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/categories/%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)06题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 16:06:51 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B006%E9%A2%98/</guid>
+      <description>面试题6：从尾到头打印链表  题目：  输入一个链表的头节点，从尾到头反过来打印出每个节点的值    思路1：
+ 遍历的顺序是从头到尾，输出的顺序是从尾到头。也就是说，第一个遍历的节点，最后一个输出；最后一个遍历的节点，第一个输出。这就是典型的“先进后出”。所以可以选择“栈”来解决这个问题。  思路2：
+ 这个题也可以用递归的方式来解，递归的本质就是一个栈结构。   import java.util.ArrayList; import java.util.Stack; public class Solution { //链表的定义 class ListNode{ int value; ListNode next = null; ListNode(int value){ this.value = value; } } public ArrayList&amp;lt;Integer&amp;gt; printListFromTailToHead(ListNode listNode){ ArrayList&amp;lt;Integer&amp;gt; arrayList = new ArrayList&amp;lt;Integer&amp;gt;(); if (listNode == null) //异常输入 return arrayList; Stack&amp;lt;Integer&amp;gt; stack = new Stack&amp;lt;Integer&amp;gt;(); while(listNode!= null)	//链表压栈 { stack.push(listNode.value); listNode = listNode.</description>
+    </item>
+    
+    <item>
+      <title>剑指Offer(Java实现)05题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 15:27:20 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B005%E9%A2%98/</guid>
+      <description>面试题5：替换空格  题目：  请实现一个函数，将一个字符串中的每个空格替换成“%20”。 例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy.    思路：  就是一个空格变成了%20，也就是说每有一个空格，长度要增加2，所以首先先计算有多少个空格，这样长度就能增加多少，得到增加后的长度Length。 然后new一个Length长度的字符数组，从尾到头开始复制原来的数组，如果复制过程中，如果字符不是空格，直接复制，如果字符是空格，那么需要把这个空格变成%20（这个复制过程就是把新建的数组比如现在到了 K这个位置，然后就是K，K-1，K-2这三个位置依次变成0,2，%这三个字符，因为是从后往前复制的所以是倒序），重复这个过程就行。   方法一 /** * @Author GJ1e * @Create 2019/9/11 * @Time 20:17 */ public class Solution { public String replaceSpace(StringBuffer str) { if(str==null) return null; int space = 0; for(int i=0;i&amp;lt;str.length();i++){ //记录空格数量 if(str.charAt(i)==&#39; &#39;) space++; } int indexOld = str.length()-1; //原字符串末尾 int newStrLength = str.length()+2*space; //新字符串长度 int indexNew = newStrLength-1; //新字符串末尾 str.setLength(newStrLength); //增加原字符串的长度，防止下标越界 while(indexOld !</description>
+    </item>
+    
+    <item>
+      <title>剑指Offer(Java实现)04题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</link>
+      <pubDate>Tue, 08 Oct 2019 11:41:26 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B004%E9%A2%98/</guid>
+      <description>面试题4：二维数组中的查找  题目：  在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。    思路：
+ 就是比较矩阵的右上角的数与target的大小，如果target比这个矩阵右上角的数大，由于矩阵的右上角元素A是A所在行的最大的值，所以target肯定不在A所在的行了，所以这时候就应该就在除去第一行的剩下的行中去找这个target； 如果target比矩阵右上角的数A小，那么由于A所在的列中A是最小的，那么target就在除去最右边的列的其它的列； 如果相等，返回true；   /** * @Author GJ1e * @Create 2019/9/11 * @Time 18:58 */ public class Solution { public boolean arrayFind(int target , int[][] array){ //检查异常输入 if(array==null || array.length&amp;lt;0 || array[0].length&amp;lt;0) return false; int rows = 0; //行 int cols = array[0].length-1; //列 while(rows&amp;lt;=array.length-1 &amp;amp;&amp;amp; cols&amp;gt;=0){ if(target&amp;gt;array[rows][cols]) //target大于矩阵左上角的数，说明target大于这一行上的所有数 rows++; //进入下一行继续比较 else if(target&amp;lt;array[rows][cols]) //target小于矩阵左上角的数，说明target小于这一列上的所有数 cols--; //进入下一列继续比较 else //找到target return true; } return false; } }  此代码在牛客网已AC</description>
+    </item>
+    
+  </channel>
+</rss>
