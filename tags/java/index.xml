@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Mon, 07 Oct 2019 20:53:26 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 11 Oct 2019 10:36:18 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ZAB集群数据同步过程</title>
+      <link>https://gj1e.github.io/posts/2019/10/zab%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Fri, 11 Oct 2019 10:36:18 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/zab%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E8%BF%87%E7%A8%8B/</guid>
+      <description> ZXID zxid是Zookeeper中事务的全局唯一ID。
+ZXID有两部分组成：一部分为Leader的选举周期Epoch值；一部分为事务的递增计数器
+同步过程  对于准Leadr，所有的Follower会向准Leader发送一个自己最后一次接受的事务的Epoch值。
+ 当准Leader收到集群中过半的Follower发送的Epoch值之后，在这些Epoch值中选出一个最大值，将这个值+1得到新的Epoch值，并将这个新的Epoch值发送给集群中的Follower。
+ 当Follower收到准Leader发送的Epoch值后，会将其与自己的Epoch值进行比较，若小于，则更新自己的Epoch值为新的值，并向Leader发送ACK信息，ACK信息中包含了自己的Epoch值和自己的历史事务集合。
+ Leader收到Follower发送的ACK信息之后，会在所有的历史事务集合中选出一个ZXID为最大的历史事务集合作为自己的初始化事务集合。
+ 准Leader将Epoch值与初始化事务集合发送给集群中过半的Follower。Leader会为每一个Follower准备一个队列，并将那些没有被各个Follower同步的事务，以Proposal的形式发送给各个Follower，并在后面追加Commint消息，表示该事务已经被提交。
+ 当Follower收到后，会接受并执行初始化事务集合，然后反馈给准Leader表明自己已处理。
+ 当Leader收到Follower的反馈后，会向Follower发送Commint消息，Follower收到Commit消息后提交事务，完成数据同步。
+  </description>
+    </item>
     
     <item>
       <title>Dubbo</title>

@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 08 Oct 2019 16:06:51 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 11 Oct 2019 17:50:15 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式协议</title>
+      <link>https://gj1e.github.io/series/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE/</link>
+      <pubDate>Fri, 11 Oct 2019 17:50:15 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/series/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ZooKeeper</title>
+      <link>https://gj1e.github.io/series/zookeeper/</link>
+      <pubDate>Fri, 11 Oct 2019 10:36:18 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/series/zookeeper/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>算法题</title>
@@ -27,24 +45,6 @@
       <pubDate>Mon, 07 Oct 2019 20:53:26 +0800</pubDate>
       
       <guid>https://gj1e.github.io/series/dubbo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Zookeeper</title>
-      <link>https://gj1e.github.io/series/zookeeper/</link>
-      <pubDate>Mon, 07 Oct 2019 16:50:14 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/series/zookeeper/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>GJ1e</title>
-      <link>https://gj1e.github.io/series/gj1e/</link>
-      <pubDate>Wed, 02 Oct 2019 20:38:49 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/series/gj1e/</guid>
       <description></description>
     </item>
     

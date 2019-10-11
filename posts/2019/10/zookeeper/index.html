@@ -74,7 +74,7 @@
 
 <meta itemprop="datePublished" content="2019-10-07T16:50:14&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-07T16:50:14&#43;08:00" />
-<meta itemprop="wordCount" content="51">
+<meta itemprop="wordCount" content="63">
 
 
 
@@ -251,6 +251,8 @@ ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易�
 
 <h2 id="zookeeper数据模型">Zookeeper数据模型</h2>
 
+<p><img src="https://img-blog.csdn.net/20160830182309993" alt="Zookeeper数据模型" /></p>
+
 <ul>
 <li><p>层次化目录结构，命名符合常规系统规范。</p></li>
 
@@ -302,6 +304,38 @@ ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易�
 
 <hr />
 
+<h2 id="zookeeper底层实现数据一致性">Zookeeper底层实现数据一致性</h2>
+
+<p><strong>主要通过事务日志，和数据快照来实现的。</strong></p>
+
+<ul>
+<li><p><strong>事务日志</strong></p>
+
+<ul>
+<li>事务日志记录了对Zookeeper的操作，文件以ZXID命名，可以快速定位到需要查询的事务。</li>
+<li>事务日志采用磁盘预分配策略，未使用的部分写为0。避免每次追加数据都需要进行磁盘I/O为文件开辟新空间，其每个日志文件大小固定为64M。</li>
+</ul></li>
+
+<li><p><strong>数据快照</strong></p>
+
+<ul>
+<li>数据快照是Zokeeper数据存储的另一重要机制，用来记录某一时刻Zookeeper在内存中的全部数据内容，并将其写入指定的磁盘文件中，也是使用ZXID命名。</li>
+<li>数据快照没有采用磁盘预分配策略，因此数据快照文件在一定程度上反映了当前Zookeeper的全量数据大小。</li>
+</ul></li>
+</ul>
+
+<ol>
+<li><p>对于每一次的客户端操作，都写入日志文件，同时更新Zookeeper的内存数据。在进行了若干次(SnapCount)操作之后，会将内存中的全量数据dump到本地文件，既数据快照。</p></li>
+
+<li><p>为了避免Zookeeper中所有节点同时进行数据快照，Zookeeper采用过半随机策略。开始快照时，首先关闭当前日志文件，重新创建一个新的日志文件。并从内存中或许Zookeeper的全量数据和校验信息，并序列化写入到本地磁盘文件中，以本次写入的第一个事务的ZXID为后缀。</p></li>
+
+<li><p>数据恢复时，会加载近100个快照文件，之所以有100个是因为，有可能最近的呢可快照文件校验不通过。若校验不通过，则继续向前解析，直到第一个可以正确校验的快照文件截止。</p></li>
+
+<li><p>找到可以通过的校验快照文件之后，开始执行事务日志中的操作，此时即使不是最近的呢一个快照文件，我们也可以从快照文件中找到ZXID，便可以定位到具体事务文件从哪一个开始。</p></li>
+</ol>
+
+<hr />
+
 <p>原创首发，如有转载请标明出处。                  ——GJ1e</p>
 
             </div>
@@ -315,7 +349,7 @@ ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易�
                 </p>
 			
 			
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>51 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>63 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-07 16:50 &#43;0800</p>
         </div>
