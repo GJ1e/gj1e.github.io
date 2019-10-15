@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>栈与队列 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+    <description>Recent content in 栈与队列 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 15 Oct 2019 23:14:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)09题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B009%E9%A2%98/</link>
+      <pubDate>Tue, 15 Oct 2019 23:14:41 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B009%E9%A2%98/</guid>
+      <description>面试题09：用两个栈实现队列  题目：  用两个栈实现一个队列。完成队列的Push和Pop操作。队列中的元素为int类型。    思路：
+ 栈的特点是先进后厨，队列的特点是先进先出。 队列：入队顺序：1，2，3，4；出队顺序：1，2，3，4 栈：Push顺序：1，2，3，4；Pop顺序：4，3，2，1
+ 首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。
+ 在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。
+ 因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。
+   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&amp;lt;Integer&amp;gt; stack1 = new Stack&amp;lt;Integer&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stack2 = new Stack&amp;lt;Integer&amp;gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;amp;&amp;amp; stack2.empty()) throw new RuntimeException(&amp;quot;请添加元素&amp;quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!</description>
+    </item>
+    
+  </channel>
+</rss>

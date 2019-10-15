@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="面试题09：用两个栈实现队列  题目：  用两个栈实现一个队列。完成队列的Push和Pop操作。队列中的元素为int类型。    思路：
+ 栈的特点是先进后厨，队列的特点是先进先出。 队列：入队顺序：1，2，3，4；出队顺序：1，2，3，4 栈：Push顺序：1，2，3，4；Pop顺序：4，3，2，1
+ 首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。
+ 在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。
+ 因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。
+   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&amp;lt;Integer&amp;gt; stack1 = new Stack&amp;lt;Integer&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stack2 = new Stack&amp;lt;Integer&amp;gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;amp;&amp;amp; stack2.empty()) throw new RuntimeException(&amp;quot;请添加元素&amp;quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B009%E9%A2%98/" />
+
+
+<title>
+    
+    剑指Offer(Java实现)09题 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="剑指Offer(Java实现)09题">
+<meta itemprop="description" content="面试题09：用两个栈实现队列  题目：  用两个栈实现一个队列。完成队列的Push和Pop操作。队列中的元素为int类型。    思路：
+ 栈的特点是先进后厨，队列的特点是先进先出。 队列：入队顺序：1，2，3，4；出队顺序：1，2，3，4 栈：Push顺序：1，2，3，4；Pop顺序：4，3，2，1
+ 首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。
+ 在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。
+ 因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。
+   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;(); Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;&amp; stack2.empty()) throw new RuntimeException(&quot;请添加元素&quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!">
+
+
+<meta itemprop="datePublished" content="2019-10-15T23:14:41&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-15T23:14:41&#43;08:00" />
+<meta itemprop="wordCount" content="67">
+
+
+
+<meta itemprop="keywords" content="栈与队列,常见算法题,剑指offer(Java实现)," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="剑指Offer(Java实现)09题"/>
+<meta name="twitter:description" content="面试题09：用两个栈实现队列  题目：  用两个栈实现一个队列。完成队列的Push和Pop操作。队列中的元素为int类型。    思路：
+ 栈的特点是先进后厨，队列的特点是先进先出。 队列：入队顺序：1，2，3，4；出队顺序：1，2，3，4 栈：Push顺序：1，2，3，4；Pop顺序：4，3，2，1
+ 首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。
+ 在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。
+ 因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。
+   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;(); Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;&amp; stack2.empty()) throw new RuntimeException(&quot;请添加元素&quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!"/>
+
+
+
+<meta property="article:section" content="剑指Offer(第二版)" />
+
+<meta property="article:published_time" content="2019-10-15 23:14:41 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B009%E9%A2%98/">剑指Offer(Java实现)09题</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="面试题09-用两个栈实现队列">面试题09：用两个栈实现队列</h2>
+
+<ul>
+<li><strong>题目：</strong>
+
+<ul>
+<li>用两个栈实现一个队列。完成队列的Push和Pop操作。队列中的元素为int类型。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><p><strong>思路：</strong></p>
+
+<ul>
+<li>栈的特点是先进后厨，队列的特点是先进先出。</li>
+<li>队列：入队顺序：1，2，3，4；出队顺序：1，2，3，4</li>
+
+<li><p>栈：Push顺序：1，2，3，4；Pop顺序：4，3，2，1</p></li>
+
+<li><p>首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。</p></li>
+
+<li><p>在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。</p></li>
+
+<li><p>因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。</p></li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/10/15
+ * @Time 18:39
+ *
+ */
+public class Sloution {
+    Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;();
+    Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;();
+
+    //队列的Push操作。
+    public void Push(int elemen){
+        stack1.push(elemen);
+    }
+
+    //队列的Pop操作
+    public int Pop(){
+        if (stack1.empty() &amp;&amp; stack2.empty())
+            throw new RuntimeException(&quot;请添加元素&quot;);
+        if (stack2.empty()){    //stack2为空就把stack1中的元素弹出并压入stack2中。
+            while (!stack1.empty())
+            stack2.push(stack1.pop());
+        }
+        return stack2.pop();    //弹出stack2中的栈顶元素。
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>此代码已在牛客网AC</strong></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97">栈与队列</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98">常见算法题</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0">剑指offer(Java实现)</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>67 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-15 23:14 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/10/offer10/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Offer10</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B008%E9%A2%98/">
+                                <span class="button__text">剑指Offer(Java实现)08题</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>
