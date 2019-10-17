@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UDP协议 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/udp%E5%8D%8F%E8%AE%AE/</link>
+    <description>Recent content in UDP协议 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Thu, 17 Oct 2019 16:27:33 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/udp%E5%8D%8F%E8%AE%AE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TCP协议与UDP协议</title>
+      <link>https://gj1e.github.io/posts/2019/10/tcp%E5%8D%8F%E8%AE%AE%E4%B8%8Eudp%E5%8D%8F%E8%AE%AE/</link>
+      <pubDate>Thu, 17 Oct 2019 16:27:33 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/tcp%E5%8D%8F%E8%AE%AE%E4%B8%8Eudp%E5%8D%8F%E8%AE%AE/</guid>
+      <description> TCP和UDP的区别  TCP是面向连接的协议，也就是说在收发数据前必须先和对方建立起可靠的连接。一个TCP协议的连接需要经过“三次”会话才能建立起来。TCP协议提供超时重发，丢弃重复数据，校验数据，流量控制等功能。TCP协议可以保证将数据从一端传送到另一端，当数据从A端传送到B端时，B端会向A端发送一个确认包（ACK包）来告知A端“你发送的数据我已收到”，UDP就没有这种确认机制，这就是为什么说TCP是可靠的，UDP是不可靠的。TCP提供了可靠的数据传输，但是TCP协议提供的拥塞控制，重传机制，数据校验等功能会加大网络带宽的开销，因为虚拟信道是持续存在的，并且网络中还会出现大量的ACK包，和FIN包。
+ UDP协议是无连接的不可靠协议，并且没有超时重传机制，会发生丢包，收到重复包，乱序等情况。但是UDP网络开销小，适合实时通讯例如QQ语音，QQ视频，直播等等。
+ 当我们看重的是数据传输的完整性，可控制性和可靠性时，TCP协议是最好的选择。但当我们看重数据的传输性能而不是完整性时，UDP是最好的选择。
+  TCP的三次握手  客户端建立连接控制模块TCB，向服务端发送请求连接的报文段，其中报文段的首部SYN=1，为自己选择一个初始的序号seq=i。TCP规定SYN=1的报文段不允许携带数据，但是要消耗掉一个序号，发送完毕客户端进入同步发送(SYN_sent)状态。
+ 服务端收到请求之后，如果同意建立连接，会向客户端发送确认。确认报文中的ACK=1，SYN=1,确认序号ack=i+1，为自己选择一个初始序号seq=k。该报文段也不能携带数据，但要消耗掉一个序号。发送完毕，服务端进入同步收到（SYN_RCVD）状态。
+ 客户端收到后，还要向服务端给出确认。确认报文中ACK=1,确认号ack=k+1，自己的序号为seq=i+1。ACK报文段可以携带数据，不携带数据不消耗序号。如果不携带数据则下一个序号仍为seq=i+1。
+  TCP的四次挥手  客户端向服务端发出释放连接的报文后，客户端就停止发送数据。释放连接的报文中FIN=1，初始序号seq=u(等于前面已经传送过来的数据的最后一个字节的序号+1)。此时客户端进入终止等待状态(FIN_wait1),TCP规定，FIN报文即使不携带数据也要消耗掉一个序号。 服务端收到后，要想客户端发送确认。确认报文中ACK=1，确认号ack=u+1，为自己选择一个初始序号seq=v，自己进入到关闭等待状态(CLOSE_wait)。此时处于半关闭状态，客户端没有数据要发送了，但是服务端可能还有数据要发送，客户端依旧要接收。 服务端数据发送完毕之后，会向客户端发出释放连接的报文。报文中FIN=1，ACK=1，ack=u+1，seq=w。此时服务端进入最后确认状态(LAST_ACK)。 客户端收到服务端的释放连接报文后，必须向服务端发送确认报文。确认报文中ACK=1，ack=w+1，seq=u+1。此时客户端进入到时间等待状态(TIME_wait)。此时TCP连接还没有释放，必须经过2MSL的时间，当客户端撤销相应的TCB之后才进入CLOSED状态，但是服务端只要收到客户端发出的确认报文后，就马上进入CLOSED状态。  为什么TCP连接的时候是三次握手，关闭却是四次挥手  建立连接时服务端收到客户端发送的SYN连接请求报文后，可以直接发送ACK+SYN报文来回复，其中ACK用来应答，SYN用来同步。但是释放连接时，服务端收到客户端发来的FIN报文之后，可能并不会立即关闭连接，只能先向客户端发送一个ACK报文来应答，告诉客户端你发送的FIN报文我已经收到了。然后等服务端的数据都发送完毕了，才能发送FIN报文，因此需要4步。  为什么Time_wait状态要经过2MSL的时间才能进入CLOSED状态  虽然按道理，四个报文发送完毕我们就可以关闭连接了。但是，我们必须假设网络是不可靠的，有可能最后一个ACK报文丢失，客户端的TIME_ wait状态就是用来重发ACK报文的，如果服务端没有收到我们发送的ACK报文，它就会不断重复发送FIN片段。所以客户端不能立即关闭，必须确认服务端收到了该ACK报文。当客户端发送完最后一个ACK报文，进入到Time_wait状态之后，会设置一个计数器，等待2MSL的时间。如果2MSL时间内，收到了服务端发送的FIN报文，客户端要再一次向服务端发送ACK报文，并将计时器重置，继续等待2MSL的时间。如果在2MSL的时间内，没有接收到服务端发来的FIN报文，就证明服务端收到了最后一个ACK报文，客户端进入CLOSED状态，结束TCP连接。   MSL指一个报文片段在网络中最大的存活时间，2MSL就是一个发送和一个回复所需的最大的时间。如果直到2MSL客户端都没有接收到服务端的FIN报文，那么客户端就认为服务端接收到了ACK。
+ </description>
+    </item>
+    
+  </channel>
+</rss>
