@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="Java对象的创建过程 创建过程分为五步：
+ 类加载检查
+ 当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。  分配内存空间
+ 当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。 分配的方式主要有指针碰撞和空闲列表两种方式，选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&amp;rdquo;标记-清除&amp;rdquo;，还是&amp;rdquo;标记-整理&amp;rdquo;（也称作&amp;rdquo;标记-压缩&amp;rdquo;），值得注意的是，复制算法内存也是规整的  初始化零值
+ 当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。 这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。  设置对象头
+ 初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）  执行init方法
+ 执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。   内存分配的两种方式  指针碰撞
+ 用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。 GC收集器：Serial，ParNew - 适用于堆内存规整的情况下(没有内存碎片)。  空闲列表
+ 虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。 GC收集器：CMS 适用于堆内存不规整的情况。   内存分配并发问题  CAS&#43;失败重试
+ CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。  TLAB
+ 每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。   Java中类加载的过程 类加载的过程为：加载——&amp;gt;验证——&amp;gt;准备——&amp;gt;解析——&amp;gt;初始化，总共五步。
+加载  通过全类名获取定义此类的二进制字节流。 将字节流所代表的静态存储结构转化为方法区的运行时存储结构。 在内存中生成一个代表该类的Class对象，做为方法区访问的入口。   数组类型不通过类加载器创建，它由Java虚拟机直接创建。
+ 验证 验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/" />
+
+
+<title>
+    
+    Java对象的创建及类加载的过程 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Java对象的创建及类加载的过程">
+<meta itemprop="description" content="Java对象的创建过程 创建过程分为五步：
+ 类加载检查
+ 当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。  分配内存空间
+ 当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。 分配的方式主要有指针碰撞和空闲列表两种方式，选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&rdquo;标记-清除&rdquo;，还是&rdquo;标记-整理&rdquo;（也称作&rdquo;标记-压缩&rdquo;），值得注意的是，复制算法内存也是规整的  初始化零值
+ 当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。 这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。  设置对象头
+ 初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）  执行init方法
+ 执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。   内存分配的两种方式  指针碰撞
+ 用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。 GC收集器：Serial，ParNew - 适用于堆内存规整的情况下(没有内存碎片)。  空闲列表
+ 虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。 GC收集器：CMS 适用于堆内存不规整的情况。   内存分配并发问题  CAS&#43;失败重试
+ CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。  TLAB
+ 每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。   Java中类加载的过程 类加载的过程为：加载——&gt;验证——&gt;准备——&gt;解析——&gt;初始化，总共五步。
+加载  通过全类名获取定义此类的二进制字节流。 将字节流所代表的静态存储结构转化为方法区的运行时存储结构。 在内存中生成一个代表该类的Class对象，做为方法区访问的入口。   数组类型不通过类加载器创建，它由Java虚拟机直接创建。
+ 验证 验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。">
+
+
+<meta itemprop="datePublished" content="2019-10-22T18:47:37&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-22T18:47:37&#43;08:00" />
+<meta itemprop="wordCount" content="55">
+
+
+
+<meta itemprop="keywords" content="Java对象创建过程,类加载的过程," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Java对象的创建及类加载的过程"/>
+<meta name="twitter:description" content="Java对象的创建过程 创建过程分为五步：
+ 类加载检查
+ 当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。  分配内存空间
+ 当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。 分配的方式主要有指针碰撞和空闲列表两种方式，选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&rdquo;标记-清除&rdquo;，还是&rdquo;标记-整理&rdquo;（也称作&rdquo;标记-压缩&rdquo;），值得注意的是，复制算法内存也是规整的  初始化零值
+ 当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。 这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。  设置对象头
+ 初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）  执行init方法
+ 执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。   内存分配的两种方式  指针碰撞
+ 用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。 GC收集器：Serial，ParNew - 适用于堆内存规整的情况下(没有内存碎片)。  空闲列表
+ 虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。 GC收集器：CMS 适用于堆内存不规整的情况。   内存分配并发问题  CAS&#43;失败重试
+ CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。  TLAB
+ 每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。   Java中类加载的过程 类加载的过程为：加载——&gt;验证——&gt;准备——&gt;解析——&gt;初始化，总共五步。
+加载  通过全类名获取定义此类的二进制字节流。 将字节流所代表的静态存储结构转化为方法区的运行时存储结构。 在内存中生成一个代表该类的Class对象，做为方法区访问的入口。   数组类型不通过类加载器创建，它由Java虚拟机直接创建。
+ 验证 验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。"/>
+
+
+
+<meta property="article:section" content="JVM" />
+
+<meta property="article:published_time" content="2019-10-22 18:47:37 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/">Java对象的创建及类加载的过程</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="java对象的创建过程">Java对象的创建过程</h2>
+
+<p>创建过程分为五步：</p>
+
+<ol>
+<li><p><strong>类加载检查</strong></p>
+
+<ul>
+<li>当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。</li>
+</ul></li>
+
+<li><p><strong>分配内存空间</strong></p>
+
+<ul>
+<li>当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。</li>
+<li>分配的方式主要有<strong>指针碰撞</strong>和<strong>空闲列表</strong>两种方式，<strong>选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&rdquo;标记-清除&rdquo;，还是&rdquo;标记-整理&rdquo;（也称作&rdquo;标记-压缩&rdquo;），值得注意的是，复制算法内存也是规整的</strong></li>
+</ul></li>
+
+<li><p><strong>初始化零值</strong></p>
+
+<ul>
+<li>当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。</li>
+<li>这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。</li>
+</ul></li>
+
+<li><p><strong>设置对象头</strong></p>
+
+<ul>
+<li>初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）</li>
+</ul></li>
+
+<li><p><strong>执行init方法</strong></p>
+
+<ul>
+<li>执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h3 id="内存分配的两种方式">内存分配的两种方式</h3>
+
+<ul>
+<li><p><strong>指针碰撞</strong></p>
+
+<ul>
+<li>用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。</li>
+<li>GC收集器：Serial，ParNew</li>
+<li>- <strong>适用于堆内存规整的情况下</strong>(没有内存碎片)。</li>
+</ul></li>
+
+<li><p><strong>空闲列表</strong></p>
+
+<ul>
+<li>虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。</li>
+<li>GC收集器：CMS</li>
+<li><strong>适用于堆内存不规整的情况。</strong></li>
+</ul></li>
+</ul>
+
+<h3 id="内存分配并发问题">内存分配并发问题</h3>
+
+<ul>
+<li><p><strong>CAS+失败重试</strong></p>
+
+<ul>
+<li>CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。</li>
+</ul></li>
+
+<li><p><strong>TLAB</strong></p>
+
+<ul>
+<li>每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h2 id="java中类加载的过程">Java中类加载的过程</h2>
+
+<p>类加载的过程为：<strong>加载——&gt;验证——&gt;准备——&gt;解析——&gt;初始化</strong>，总共五步。</p>
+
+<h3 id="加载">加载</h3>
+
+<ol>
+<li>通过全类名获取定义此类的二进制字节流。</li>
+<li>将字节流所代表的静态存储结构转化为方法区的运行时存储结构。</li>
+<li>在内存中生成一个代表该类的Class对象，做为方法区访问的入口。</li>
+</ol>
+
+<blockquote>
+<p><strong>数组类型不通过类加载器创建，它由Java虚拟机直接创建。</strong></p>
+</blockquote>
+
+<h3 id="验证">验证</h3>
+
+<p>验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。</p>
+
+<h3 id="准备">准备</h3>
+
+<p>为类变量分配内存，并设置初始值。分配的内存在方法区中。
+&gt; 这时进行内存分配的仅包括类变量，不包括实例变量。实例变量会随着对象实例化时一块分配的Java堆中。</p>
+
+<h3 id="解析">解析</h3>
+
+<p>解析阶段就是虚拟机把常量池中的<strong>符号引用</strong>转换为<strong>直接引用</strong>的过程。</p>
+
+<ul>
+<li><p><strong>符号引用</strong></p>
+
+<ul>
+<li>符号引用与虚拟机内存布局的实现无关，就是用一组符号来描述目标。</li>
+</ul></li>
+
+<li><p><strong>直接引用</strong></p>
+
+<ul>
+<li>直接引用与虚拟机内存布局的实现有关，可以是直接指向目标的指针，相对偏移量，或者指向目标的句柄。</li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>解析主要针对类或接口，字段，类方法，接口方法，方法类型的解析。</p>
+</blockquote>
+
+<h3 id="初始化">初始化</h3>
+
+<p>到了这个阶段才算是真正开始执行类中定义的Java程序代码。初始化时执行类构造器clinit方法。</p>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B">Java对象创建过程</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B">类加载的过程</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>55 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-22 18:47 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+                                <span class="button__text">JVM内存区域</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

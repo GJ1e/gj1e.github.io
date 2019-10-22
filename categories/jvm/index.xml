@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/categories/jvm/</link>
+    <description>Recent content in JVM on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 22 Oct 2019 18:47:37 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/categories/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java对象的创建及类加载的过程</title>
+      <link>https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Tue, 22 Oct 2019 18:47:37 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+      <description>Java对象的创建过程 创建过程分为五步：
+ 类加载检查
+ 当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。  分配内存空间
+ 当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。 分配的方式主要有指针碰撞和空闲列表两种方式，选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&amp;rdquo;标记-清除&amp;rdquo;，还是&amp;rdquo;标记-整理&amp;rdquo;（也称作&amp;rdquo;标记-压缩&amp;rdquo;），值得注意的是，复制算法内存也是规整的  初始化零值
+ 当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。 这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。  设置对象头
+ 初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）  执行init方法
+ 执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。   内存分配的两种方式  指针碰撞
+ 用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。 GC收集器：Serial，ParNew - 适用于堆内存规整的情况下(没有内存碎片)。  空闲列表
+ 虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。 GC收集器：CMS 适用于堆内存不规整的情况。   内存分配并发问题  CAS+失败重试
+ CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。  TLAB
+ 每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。   Java中类加载的过程 类加载的过程为：加载——&amp;gt;验证——&amp;gt;准备——&amp;gt;解析——&amp;gt;初始化，总共五步。
+加载  通过全类名获取定义此类的二进制字节流。 将字节流所代表的静态存储结构转化为方法区的运行时存储结构。 在内存中生成一个代表该类的Class对象，做为方法区访问的入口。   数组类型不通过类加载器创建，它由Java虚拟机直接创建。
+ 验证 验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。</description>
+    </item>
+    
+    <item>
+      <title>JVM内存区域</title>
+      <link>https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</link>
+      <pubDate>Tue, 22 Oct 2019 15:15:49 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</guid>
+      <description>运行时数据区  Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+ JDK1.8之前的
+   JDK1.8 和之前的版本略有不同，
+  线程共享
+ 堆，方法区，直接内存  线程私有
+ 程序计数器，本地方法栈，虚拟机栈   堆  堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。
+ 堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。
+ Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。
+ 堆空间不足时会抛出：OutOfMemoryError。
+  方法区  方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。
+ 方法区空间不足时会抛出:OutOfMemoryError。
+  运行时常量池  运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。
+ 运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。
+ 运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。
+  程序计数器  程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。
+ 它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。
+ 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。
+ 它的生命周期和线程一样。
+  虚拟机栈  虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。
+ 每个方法在执行时，都会创建一个栈帧，栈帧中拥有局部变量表，操作数栈，动态链接，方法出口等信息。
+ 每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。</description>
+    </item>
+    
+  </channel>
+</rss>

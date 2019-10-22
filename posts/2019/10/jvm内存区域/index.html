@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="运行时数据区  Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+ JDK1.8之前的
+   JDK1.8 和之前的版本略有不同，
+  线程共享
+ 堆，方法区，直接内存  线程私有
+ 程序计数器，本地方法栈，虚拟机栈   堆  堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。
+ 堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。
+ Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。
+ 堆空间不足时会抛出：OutOfMemoryError。
+  方法区  方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。
+ 方法区空间不足时会抛出:OutOfMemoryError。
+  运行时常量池  运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。
+ 运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。
+ 运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。
+  程序计数器  程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。
+ 它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。
+ 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。
+ 它的生命周期和线程一样。
+  虚拟机栈  虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。
+ 每个方法在执行时，都会创建一个栈帧，栈帧中拥有局部变量表，操作数栈，动态链接，方法出口等信息。
+ 每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" />
+
+
+<title>
+    
+    JVM内存区域 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="JVM内存区域">
+<meta itemprop="description" content="运行时数据区  Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+ JDK1.8之前的
+   JDK1.8 和之前的版本略有不同，
+  线程共享
+ 堆，方法区，直接内存  线程私有
+ 程序计数器，本地方法栈，虚拟机栈   堆  堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。
+ 堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。
+ Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。
+ 堆空间不足时会抛出：OutOfMemoryError。
+  方法区  方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。
+ 方法区空间不足时会抛出:OutOfMemoryError。
+  运行时常量池  运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。
+ 运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。
+ 运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。
+  程序计数器  程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。
+ 它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。
+ 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。
+ 它的生命周期和线程一样。
+  虚拟机栈  虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。
+ 每个方法在执行时，都会创建一个栈帧，栈帧中拥有局部变量表，操作数栈，动态链接，方法出口等信息。
+ 每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。">
+
+
+<meta itemprop="datePublished" content="2019-10-22T15:15:49&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-22T15:15:49&#43;08:00" />
+<meta itemprop="wordCount" content="70">
+
+
+
+<meta itemprop="keywords" content="Java虚拟机内存划分," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="JVM内存区域"/>
+<meta name="twitter:description" content="运行时数据区  Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+ JDK1.8之前的
+   JDK1.8 和之前的版本略有不同，
+  线程共享
+ 堆，方法区，直接内存  线程私有
+ 程序计数器，本地方法栈，虚拟机栈   堆  堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。
+ 堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。
+ Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。
+ 堆空间不足时会抛出：OutOfMemoryError。
+  方法区  方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。
+ 方法区空间不足时会抛出:OutOfMemoryError。
+  运行时常量池  运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。
+ 运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。
+ 运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。
+  程序计数器  程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。
+ 它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。
+ 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。
+ 它的生命周期和线程一样。
+  虚拟机栈  虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。
+ 每个方法在执行时，都会创建一个栈帧，栈帧中拥有局部变量表，操作数栈，动态链接，方法出口等信息。
+ 每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。"/>
+
+
+
+<meta property="article:section" content="JVM" />
+
+<meta property="article:published_time" content="2019-10-22 15:15:49 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">JVM内存区域</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="运行时数据区">运行时数据区</h2>
+
+<ul>
+<li><p>Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。</p></li>
+
+<li><p><strong>JDK1.8之前的</strong></p></li>
+</ul>
+
+<p><img src="/images/JVM内存区域.png" alt="JDK1.6运行时数据区" /></p>
+
+<blockquote>
+<p>JDK1.8 和之前的版本略有不同，</p>
+</blockquote>
+
+<ul>
+<li><p>线程共享</p>
+
+<ul>
+<li>堆，方法区，直接内存</li>
+</ul></li>
+
+<li><p>线程私有</p>
+
+<ul>
+<li>程序计数器，本地方法栈，虚拟机栈</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h3 id="堆">堆</h3>
+
+<ol>
+<li><p>堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。</p></li>
+
+<li><p>堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。</p></li>
+
+<li><p>Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。</p></li>
+
+<li><p>堆空间不足时会抛出：OutOfMemoryError。</p></li>
+</ol>
+
+<hr />
+
+<h3 id="方法区">方法区</h3>
+
+<ol>
+<li><p>方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。</p></li>
+
+<li><p>方法区空间不足时会抛出:OutOfMemoryError。</p></li>
+</ol>
+
+<hr />
+
+<h3 id="运行时常量池">运行时常量池</h3>
+
+<ol>
+<li><p>运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。</p></li>
+
+<li><p>运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。</p></li>
+
+<li><p>运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。</p></li>
+</ol>
+
+<hr />
+
+<h3 id="程序计数器">程序计数器</h3>
+
+<ol>
+<li><p>程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。</p></li>
+
+<li><p>它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。</p></li>
+
+<li><p>程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。</p></li>
+
+<li><p>它的生命周期和线程一样。</p></li>
+</ol>
+
+<hr />
+
+<h3 id="虚拟机栈">虚拟机栈</h3>
+
+<ol>
+<li><p>虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。</p></li>
+
+<li><p>每个方法在执行时，都会创建一个栈帧，栈帧中拥有<strong>局部变量表，操作数栈，动态链接，方法出口等信息</strong>。</p></li>
+
+<li><p>每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。</p>
+
+<ul>
+<li>Java中有两种返回方式：<strong>return和抛异常</strong>，这两种方式都会导致栈帧被弹出。</li>
+</ul></li>
+
+<li><p>Java虚拟机栈有两种异常：</p>
+
+<ul>
+<li><strong>StackOverFlowError：</strong>若栈不允许动态扩展，当前线程请求的栈的深度超过当前Java虚拟机栈的最大深度时。</li>
+<li><strong>OutOfMemoryError：</strong>当Java虚拟机栈无法申请到足够内存时。</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h3 id="本地方法栈">本地方法栈</h3>
+
+<ol>
+<li><p>本地方法栈和Java虚拟机栈类似，只不过本地方法栈是为native方法服务的。</p></li>
+
+<li><p>本地方法被执行的时候，在本地方法栈也会创建一个栈帧，用于存放该本地方法的局部变量表、操作数栈、动态链接、出口信息。</p></li>
+
+<li><p>方法执行完毕后相应的栈帧也会出栈并释放内存空间，也会出现 StackOverFlowError 和 OutOfMemoryError 两种异常。</p></li>
+</ol>
+
+<hr />
+
+<h3 id="直接内存">直接内存</h3>
+
+<ol>
+<li><p>直接内存并不是虚拟机运行时数据区的一部分，也不是虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用。而且也可能导致 OutOfMemoryError 异常出现。</p></li>
+
+<li><p>JDK1.4 中新加入的 NIO(New Input/Output) 类，引入了一种基于通道（Channel） 与缓存区（Buffer） 的 I/O 方式，它可以直接使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 <strong>DirectByteBuffer</strong> 对象作为这块内存的引用进行操作。这样就能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆之间来回复制数据。</p></li>
+
+<li><p>本机直接内存分配会受到本机总内存大小以及处理器寻址空间的限制。</p></li>
+</ol>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E5%88%92%E5%88%86">Java虚拟机内存划分</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>70 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-22 15:15 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Java对象的创建及类加载的过程</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/10/%E8%AE%A1%E7%BD%915%E5%B1%82%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E7%AE%80%E4%BB%8B/">
+                                <span class="button__text">计网5层体系结构简介</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

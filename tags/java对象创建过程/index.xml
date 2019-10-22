@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java对象创建过程 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/</link>
+    <description>Recent content in Java对象创建过程 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 22 Oct 2019 18:47:37 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/java%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java对象的创建及类加载的过程</title>
+      <link>https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Tue, 22 Oct 2019 18:47:37 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+      <description>Java对象的创建过程 创建过程分为五步：
+ 类加载检查
+ 当Java虚拟据遇到一条new指令时，首先检查这个指令中的参数能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已被加载，解析，初始化。如果没有，则先执行相应的类加载过程。  分配内存空间
+ 当类加载检查通过之后，就应该为对象分配内存空间。对象所需的内存大小在类加载完成后就能确定。 分配的方式主要有指针碰撞和空闲列表两种方式，选择哪种分配方式由Java堆是否规整来决定，而 Java 堆内存是否规整，取决于 GC 收集器的算法是&amp;rdquo;标记-清除&amp;rdquo;，还是&amp;rdquo;标记-整理&amp;rdquo;（也称作&amp;rdquo;标记-压缩&amp;rdquo;），值得注意的是，复制算法内存也是规整的  初始化零值
+ 当内存分配完毕之后，就应该将分配到的内存空间初始化为零值(不包括对象头)。 这一步操作保证了对象的实例字段在Java代码中可以不赋值就直接使用，程序可以访问到这些字段的数据类型所对应的零值。  设置对象头
+ 初始化零值完成之后，虚拟机要对对象进行必要的设置，例如元数据信息，哈希码，GC分代年龄等信息）  执行init方法
+ 执行new指令之后，紧接着会执行init方法，把对象按照程序员的意愿进行初始化。这样一个对象才算是完全产生出来。   内存分配的两种方式  指针碰撞
+ 用过的内存全部整合到一边，没用过的放在另一边，中间有一个分界指针。分配时，只需要向着没有用过的方向，将该指针移动对象内存大小的位置即可。 GC收集器：Serial，ParNew - 适用于堆内存规整的情况下(没有内存碎片)。  空闲列表
+ 虚拟机会维护一个列表，记录上哪些内存块是可用的。再分配时，从列表中找到一块足够的空间划分给对象实例，并更新列表上的记录。 GC收集器：CMS 适用于堆内存不规整的情况。   内存分配并发问题  CAS+失败重试
+ CAS是乐观锁的一种实现方式，虚拟机采用CAS配上失败重试的方式保证更新操作的原子性。  TLAB
+ 每个线程在Java堆中预先分配一小块内存，哪个线程要分配内存，就在哪个线程的TALB上分配，当对象大于TALB中的剩余内存，或TALB的内存用尽时，在采用上面的CAS进行内存分配。   Java中类加载的过程 类加载的过程为：加载——&amp;gt;验证——&amp;gt;准备——&amp;gt;解析——&amp;gt;初始化，总共五步。
+加载  通过全类名获取定义此类的二进制字节流。 将字节流所代表的静态存储结构转化为方法区的运行时存储结构。 在内存中生成一个代表该类的Class对象，做为方法区访问的入口。   数组类型不通过类加载器创建，它由Java虚拟机直接创建。
+ 验证 验证Class文件中的字节流是否符合Java虚拟机的规范，包括元数据信息的验证和文件格式的验证等。</description>
+    </item>
+    
+  </channel>
+</rss>

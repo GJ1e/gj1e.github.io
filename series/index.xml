@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Thu, 17 Oct 2019 16:28:41 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Oct 2019 18:47:37 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java虚拟机</title>
+      <link>https://gj1e.github.io/series/java%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
+      <pubDate>Tue, 22 Oct 2019 18:47:37 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/series/java%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>计算机网络常见面试题</title>
@@ -40,7 +49,7 @@
     </item>
     
     <item>
-      <title>ZooKeeper</title>
+      <title>Zookeeper</title>
       <link>https://gj1e.github.io/series/zookeeper/</link>
       <pubDate>Fri, 11 Oct 2019 10:36:18 +0800</pubDate>
       

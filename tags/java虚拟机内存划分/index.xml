@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java虚拟机内存划分 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E5%88%92%E5%88%86/</link>
+    <description>Recent content in Java虚拟机内存划分 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 22 Oct 2019 15:15:49 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E5%88%92%E5%88%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JVM内存区域</title>
+      <link>https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</link>
+      <pubDate>Tue, 22 Oct 2019 15:15:49 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</guid>
+      <description>运行时数据区  Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+ JDK1.8之前的
+   JDK1.8 和之前的版本略有不同，
+  线程共享
+ 堆，方法区，直接内存  线程私有
+ 程序计数器，本地方法栈，虚拟机栈   堆  堆是Java虚拟机所管理的内存中最大的一块，Java堆是所有线程共享的，主要用来存放实例对象以及数组。
+ 堆也是垃圾回收的主要区域，垃圾回收主要采用的是分代回收，分为新生代和老年代。
+ Java堆可以是内存上不连续的的区域，只要逻辑上联系即可。
+ 堆空间不足时会抛出：OutOfMemoryError。
+  方法区  方法区和Java堆一样，也是线程共享的。方法区主要用来存放已被虚拟机加载的类信息，常量，静态变量，和编译后的代码。
+ 方法区空间不足时会抛出:OutOfMemoryError。
+  运行时常量池  运行时常量池是方法区的一部分，用于存放编译期间所产生的字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中。
+ 运行时常量池，相比于Class文件中的常量池一个重要的特征就是具备动态性，可以在运行期间，通过String类的intern()方法将新的常量放入池中。
+ 运行时常量池受方法区的内存限制，当常量池无法在申请到足够的内存时会抛出： OutOfMemoryError。
+  程序计数器  程序计数器是虚拟机管理的内存中较小的一块，它可以看作是当前程序执行的字节码文件的行号指示器。
+ 它是线程私有的，各线程之间的程序计数器，相互独立，互不干扰。
+ 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域。
+ 它的生命周期和线程一样。
+  虚拟机栈  虚拟机栈和程序计数器一样，也是线程私有的，它的生命周期和线程相同。描述的是Java方法执行的内存模型。
+ 每个方法在执行时，都会创建一个栈帧，栈帧中拥有局部变量表，操作数栈，动态链接，方法出口等信息。
+ 每一次函数调用都会有一个对应的栈帧被压入java栈，函数调用结束后，都会有一个相应的栈帧被弹出。</description>
+    </item>
+    
+  </channel>
+</rss>
