@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 22 Oct 2019 18:47:37 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 23 Oct 2019 14:46:44 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RabbitMQ</title>
+      <link>https://gj1e.github.io/tags/rabbitmq/</link>
+      <pubDate>Wed, 23 Oct 2019 14:46:44 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/rabbitmq/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Java对象创建过程</title>
