@@ -6,8 +6,65 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Wed, 23 Oct 2019 14:46:44 +0800</lastBuildDate>
+        <lastBuildDate>Wed, 23 Oct 2019 17:05:19 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>面试题整理一</title>
+            <link>https://gj1e.github.io/posts/2019/10/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</link>
+            <pubDate>Wed, 23 Oct 2019 17:05:19 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/10/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</guid>
+            <description>Java ConcurrentHashMap线程安全的具体实现方式/底层具体实现 String和StringBuffer、StringBuilder的区别是什么？ String为什么是不可变的？ CMS垃圾收集器可以和哪些垃圾收集器配合使用 数据结构与算法 红黑树的特点 已整理，待上传。
+LRU怎么实现的 MySQL MySQL在使用索引时需要注意什么 已整理，待上传。
+为什么MySQL可重复读的隔离级别就可以防止幻读 Redis Redis中String的最大Value Redis中各数据结构的使用场景 Redis持久化机制 勿在浮沙筑高台。</description>
+            <content type="html"><![CDATA[
+
+<h2 id="java">Java</h2>
+
+<h3 id="concurrenthashmap线程安全的具体实现方式-底层具体实现">ConcurrentHashMap线程安全的具体实现方式/底层具体实现</h3>
+
+<h3 id="string和stringbuffer-stringbuilder的区别是什么">String和StringBuffer、StringBuilder的区别是什么？</h3>
+
+<h3 id="string为什么是不可变的">String为什么是不可变的？</h3>
+
+<h3 id="cms垃圾收集器可以和哪些垃圾收集器配合使用">CMS垃圾收集器可以和哪些垃圾收集器配合使用</h3>
+
+<hr />
+
+<h2 id="数据结构与算法">数据结构与算法</h2>
+
+<h3 id="红黑树的特点">红黑树的特点</h3>
+
+<p>已整理，待上传。</p>
+
+<h3 id="lru怎么实现的">LRU怎么实现的</h3>
+
+<hr />
+
+<h2 id="mysql">MySQL</h2>
+
+<h3 id="mysql在使用索引时需要注意什么">MySQL在使用索引时需要注意什么</h3>
+
+<p>已整理，待上传。</p>
+
+<h3 id="为什么mysql可重复读的隔离级别就可以防止幻读">为什么MySQL可重复读的隔离级别就可以防止幻读</h3>
+
+<hr />
+
+<h2 id="redis">Redis</h2>
+
+<h3 id="redis中string的最大value">Redis中String的最大Value</h3>
+
+<h3 id="redis中各数据结构的使用场景">Redis中各数据结构的使用场景</h3>
+
+<h3 id="redis持久化机制">Redis持久化机制</h3>
+
+<hr />
+
+<p>勿在浮沙筑高台。</p>
+]]></content>
+        </item>
         
         <item>
             <title>RabbitMQ</title>

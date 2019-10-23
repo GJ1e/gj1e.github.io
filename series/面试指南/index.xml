@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>面试指南 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/</link>
+    <description>Recent content in 面试指南 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Wed, 23 Oct 2019 17:05:19 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>面试题整理一</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</link>
+      <pubDate>Wed, 23 Oct 2019 17:05:19 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</guid>
+      <description>Java ConcurrentHashMap线程安全的具体实现方式/底层具体实现 String和StringBuffer、StringBuilder的区别是什么？ String为什么是不可变的？ CMS垃圾收集器可以和哪些垃圾收集器配合使用 数据结构与算法 红黑树的特点 已整理，待上传。
+LRU怎么实现的 MySQL MySQL在使用索引时需要注意什么 已整理，待上传。
+为什么MySQL可重复读的隔离级别就可以防止幻读 Redis Redis中String的最大Value Redis中各数据结构的使用场景 Redis持久化机制 勿在浮沙筑高台。</description>
+    </item>
+    
+  </channel>
+</rss>
