@@ -1196,8 +1196,92 @@ public class Solution {
             <pubDate>Tue, 15 Oct 2019 23:14:13 +0800</pubDate>
             
             <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B007%E9%A2%98/</guid>
-            <description></description>
-            <content type="html"><![CDATA[]]></content>
+            <description>面试题07：重建二叉树  题目：  输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。    思路：  现根据先序序列找二叉树的根节点，先序序列的第一个节点就是root节点。 然后找出中序序列中root节点的位置。 根据中序序列的性质，root节点的左边为左子树的节点，右边为右子树的节点。 然后用递归的方式重建二叉树的左子树和右子树。   /** * @Author GJ1e * @Create 2019/10/26 * @Time 14:59 * */ public class Sloution { class BinaryTreeNode{ int vaule; BinaryTreeNode left = null; BinaryTreeNode right = null; public BinaryTreeNode(int vaule){ this.vaule = vaule; } } public BinaryTreeNode reConstructBinaryTree(int [] pre, int [] in) { if (pre==null || pre.length&amp;lt;=0 || in==null || in.</description>
+            <content type="html"><![CDATA[
+
+<h2 id="面试题07-重建二叉树">面试题07：重建二叉树</h2>
+
+<ul>
+<li><strong>题目：</strong>
+
+<ul>
+<li>输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</li>
+<li>例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><strong>思路：</strong>
+
+<ul>
+<li>现根据先序序列找二叉树的根节点，先序序列的第一个节点就是root节点。</li>
+<li>然后找出中序序列中root节点的位置。</li>
+<li>根据中序序列的性质，root节点的左边为左子树的节点，右边为右子树的节点。</li>
+<li>然后用递归的方式重建二叉树的左子树和右子树。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/10/26
+ * @Time 14:59
+ *
+ */
+public class Sloution {
+    class BinaryTreeNode{
+        int vaule;
+        BinaryTreeNode left = null;
+        BinaryTreeNode right = null;
+
+        public BinaryTreeNode(int vaule){
+            this.vaule = vaule;
+        }
+    }
+
+    public BinaryTreeNode reConstructBinaryTree(int [] pre, int [] in) {
+        if (pre==null || pre.length&lt;=0 || in==null || in.length&lt;=0)
+            return null;
+        int preStart = 0;
+        int preEnd = pre.length-1;
+        int inStart = 0;
+        int inEnd = in.length-1;
+
+        return constructCore(pre,in,preStart,preEnd,inStart,inEnd);
+    }
+
+    /**
+     *
+     * @param pre 先序遍历数组
+     * @param in  中序遍历数组
+     * @param preStart  先序数组的起点
+     * @param preEnd    先序数组的末尾
+     * @param inStart   中序数组的起点
+     * @param inEnd     中序数组的末尾
+     * @return
+     */
+    public BinaryTreeNode constructCore(int[] pre, int[] in, int preStart, int preEnd, int inStart, int inEnd){
+        if (preStart&gt;preEnd || inStart&gt;inEnd)
+            return null;
+        BinaryTreeNode root = new BinaryTreeNode(pre[preStart]);
+
+        for (int i = inStart;i&lt;=inEnd;i++){
+            if (in[i] == pre[preStart])
+            {
+                root.left = constructCore(pre,in,preStart+1,preStart+i-inStart,inStart,i-1);
+                root.right = constructCore(pre,in,i-inStart+preStart+1,preEnd,i+1,inEnd);
+                break;
+            }
+        }
+        return root;
+    }
+}
+
+</code></pre>
+]]></content>
         </item>
         
         <item>

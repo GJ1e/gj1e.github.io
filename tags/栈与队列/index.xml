@@ -26,14 +26,5 @@
    /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&amp;lt;Integer&amp;gt; stack1 = new Stack&amp;lt;Integer&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stack2 = new Stack&amp;lt;Integer&amp;gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;amp;&amp;amp; stack2.empty()) throw new RuntimeException(&amp;quot;请添加元素&amp;quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!</description>
     </item>
     
-    <item>
-      <title>剑指Offer(Java实现)07题</title>
-      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B007%E9%A2%98/</link>
-      <pubDate>Tue, 15 Oct 2019 23:14:13 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B007%E9%A2%98/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>
