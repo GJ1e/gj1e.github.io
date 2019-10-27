@@ -7,10 +7,55 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Wed, 23 Oct 2019 17:05:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 27 Oct 2019 21:26:14 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指offer(Java实现)</title>
+      <link>https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:14 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>回溯法</title>
+      <link>https://gj1e.github.io/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:14 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>常见算法题</title>
+      <link>https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:14 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>旋转数组</title>
+      <link>https://gj1e.github.io/tags/%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:10 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>递归循环</title>
+      <link>https://gj1e.github.io/tags/%E9%80%92%E5%BD%92%E5%BE%AA%E7%8E%AF/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:01 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/%E9%80%92%E5%BD%92%E5%BE%AA%E7%8E%AF/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Java后端面试题</title>
@@ -135,33 +180,6 @@
       <pubDate>Thu, 17 Oct 2019 16:27:33 +0800</pubDate>
       
       <guid>https://gj1e.github.io/tags/udp%E5%8D%8F%E8%AE%AE/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>剑指offer(Java实现)</title>
-      <link>https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0/</link>
-      <pubDate>Tue, 15 Oct 2019 23:16:32 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>常见算法题</title>
-      <link>https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</link>
-      <pubDate>Tue, 15 Oct 2019 23:16:32 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>递归循环</title>
-      <link>https://gj1e.github.io/tags/%E9%80%92%E5%BD%92%E5%BE%AA%E7%8E%AF/</link>
-      <pubDate>Tue, 15 Oct 2019 23:16:32 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/tags/%E9%80%92%E5%BD%92%E5%BE%AA%E7%8E%AF/</guid>
       <description></description>
     </item>
     

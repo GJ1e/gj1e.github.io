@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Wed, 23 Oct 2019 17:05:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 27 Oct 2019 21:26:14 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>算法题</title>
+      <link>https://gj1e.github.io/series/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
+      <pubDate>Sun, 27 Oct 2019 21:26:14 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/series/%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>面试指南</title>
@@ -36,15 +45,6 @@
       <pubDate>Thu, 17 Oct 2019 16:28:41 +0800</pubDate>
       
       <guid>https://gj1e.github.io/series/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>算法题</title>
-      <link>https://gj1e.github.io/series/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
-      <pubDate>Tue, 15 Oct 2019 23:16:32 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/series/%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
       <description></description>
     </item>
     
