@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Sun, 27 Oct 2019 21:26:14 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 Oct 2019 20:41:11 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/categories/%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指Offer(Java实现)13题</title>
+      <link>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B013%E9%A2%98/</link>
+      <pubDate>Tue, 29 Oct 2019 20:41:11 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B013%E9%A2%98/</guid>
+      <description>面试题13：机器人的运动范围  题目：  地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？    思路：  这个题和12题一样，也是用回溯法的思路来解。 在这个矩阵中，除边界上的格子之外，其他的格子都有4个相邻的格子。 机器人从坐标(0,0)开始移动，准备进入下一个格子(i,j)之前检查是否满足限制条件能否进入，如果可以进入就+1，同时用一个布尔矩阵来记录可以进入的格子，然后再来判断它能否进入四个相邻的格子(i,j-1),(i-1,j),(i,j+1),(i+1,j)。   /** * @Author GJ1e * @Create 2019/10/29 * @Time 9:41 * */ public class Sloution13 { public int movingCount(int threshold, int rows, int cols){ if (threshold&amp;lt;0 || rows&amp;lt;=0 || cols&amp;lt;=0) //异常矩阵检查 return -1; boolean[] visite = new boolean[rows*cols]; int count = movingCountCore(threshold,rows,cols,0,0,visite); //以(0,0)为起点坐标 return count; } /** * * @param threshold 进入格子的限制值 * @param rows 矩阵的行 * @param cols 矩阵的列 * @param row 起点的行坐标 * @param col 起点的列坐标 * @param visit 用来记录已经进入过的格子 * @return */ public int movingCountCore(int threshold, int rows, int cols, int row, int col, boolean[] visit){ int count = 0; if (row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;gt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;gt;cols &amp;amp;&amp;amp; (getDigitSum(row)+getDigitSum(col))&amp;lt;=threshold &amp;amp;&amp;amp; !</description>
+    </item>
     
     <item>
       <title>剑指Offer(Java实现)12题</title>
