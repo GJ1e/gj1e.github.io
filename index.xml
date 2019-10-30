@@ -7,10 +7,54 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 29 Oct 2019 20:41:11 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 30 Oct 2019 20:41:32 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>JVM垃圾收集器</title>
+      <link>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/</link>
+      <pubDate>Wed, 30 Oct 2019 20:41:32 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/</guid>
+      <description>垃圾收集器主要用于堆内存中。
+ 图中垃圾收集器之间有连线的，就代表可以相互配合使用。
+ Serial、ParNew、Parallel Scavenge用于新生代；CMS、Serial Old、Paralled Old用于老年代。 并且他们相互之间以相对固定的组合使用。G1是一个独立的收集器不依赖其他6种收集器。
+Serial收集器  它是单线程的收集器，使用复制算法。在进行垃圾回收时需要停止其他的所有工作线程(Stop The World)。  ParNew收集器  它其实就是Serial收集器的多线程版本，使用的是复制算法。
+ 它在单线程环境下没有Serial好，因为存在线程开销。但随着CPU的增加就可以体现出优势。
+ 它默认开启的收集线程数与CPU的数量相同。
+  Parallel Scavenge收集器  用于新生代，多线程并行，使用复制算法与ParNew相似。
+ 与ParNew不同的是，它更关注垃圾回收的吞吐量。它提供两个参数，一个用于控制最大垃圾收集停顿时间，一个用于控制吞吐量大小。
+   吞吐量=运行用户代码时间/(运行用户代码时间+垃圾收集时间)
+最大垃圾收集停顿时间越小，系统设置新生代越少，GC频率增加。停顿时间缩短是以牺牲吞吐量和新生代空间换取的
+ Parallel Old收集器  Parallel Old收集器，老年代的收集器，是Parallel Scavenge老年代的版本。但是使用的是标记-整理算法。
+ Parallel Old收集器出现后，“吞吐量优先”收集器终于有了比较不错的应用组合，在注重吞吐量及CPU资源敏感的场合，可以优先考虑Parallel Scavenge收集器+Parallel Old收集器。
+  Serial Old收集器  Serial Old收集器，老年代的收集器，与Serial一样是单线程。不同的是算法用的是标记-整理，因为老年代里面对象的存活率高，如果依旧是用复制算法，需要复制的内容较多，性能较差。  CMS收集器  它是一种以最短垃圾回收停顿时间为目标的收集器，使用的是标记——清除算法。 运作过程分为四步：初始标记-&amp;gt;并发标记-&amp;gt;重新标记-&amp;gt;并发清理。其中初始标记和重新标记这两步仍然需要暂停用户所有线程。
+ 初始标记：仅仅只标记一下GCRoots可以直接关联到的对象，速度很快。
+ 并发标记：是从GCRoot开始继续向下进行标记。
+ 重新标记：是为了修正并发标记期间发生变动的标记，这个阶段停顿时间比初始标记长，比并发标记短。
+ 并发清除：清除老年代的垃圾。
+   缺点：</description>
+    </item>
+    
+    <item>
+      <title>JVM垃圾收集算法</title>
+      <link>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 30 Oct 2019 20:41:22 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/</guid>
+      <description> JVM的垃圾收集算法常见有四种：标记清除算法，标记整理算法，复制算法，和分代收集算法
+标记——清除  该算法分为“标记”和“清除&amp;rdquo;两个阶段。
+ 首先标记出所需要回收的对象，在标记完成之后统一回收所有被标记的对象。
+ 它是最基础的收集算法。
+  缺点： 1. 效率问题 2. 空间问题（标记清除之后会产生大量不连续的碎片）
+标记——整理  根据老年代的特点推出的一种标记算法，标记过程和“标记清除&amp;rdquo;算法一样，但是后续不是对回收的对象进行回收，而是让所有存活的对象向一端移动，然后直接清理掉端边界以外的内存。  复制算法  它可以将内存划分为大小相同的两块，每次只使用其中的一块。当这一块内存用完了，它就将还存活着的对象复制到另外一块内存中，然后把使用过的内存空间一次清理掉。 每次的内存回收都是对内存区间的一半进行回收。  缺点： 1. 会浪费一定的内存空间 2. 对象的存活率较高时，复制会降低效率
+分代收集算法  这种算法是根据对象存活周期的不同，将内存分为几块，一般是把Java堆分为新生代和老年代。然后根据各个年代的特点采用适当的收集算法。
+ 新生代:
+ 每次垃圾收集时都会有大批对象死去，存活率较低，只有少量存活。这样可以采用复制算法，只需付出少量的复制成本就可以完成收集。  老年代：
+ 老年代对象的特点就是存活率较高，没有额外的空间进行分配担保，这样就必须使用&amp;rdquo;标记——整理&amp;rdquo;或者“标记——清除”算法来进行回收。   </description>
+    </item>
     
     <item>
       <title>剑指Offer(Java实现)13题</title>

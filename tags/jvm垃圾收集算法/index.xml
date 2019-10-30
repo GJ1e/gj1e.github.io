@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM垃圾收集算法 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in JVM垃圾收集算法 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Wed, 30 Oct 2019 20:41:22 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JVM垃圾收集算法</title>
+      <link>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 30 Oct 2019 20:41:22 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/</guid>
+      <description> JVM的垃圾收集算法常见有四种：标记清除算法，标记整理算法，复制算法，和分代收集算法
+标记——清除  该算法分为“标记”和“清除&amp;rdquo;两个阶段。
+ 首先标记出所需要回收的对象，在标记完成之后统一回收所有被标记的对象。
+ 它是最基础的收集算法。
+  缺点： 1. 效率问题 2. 空间问题（标记清除之后会产生大量不连续的碎片）
+标记——整理  根据老年代的特点推出的一种标记算法，标记过程和“标记清除&amp;rdquo;算法一样，但是后续不是对回收的对象进行回收，而是让所有存活的对象向一端移动，然后直接清理掉端边界以外的内存。  复制算法  它可以将内存划分为大小相同的两块，每次只使用其中的一块。当这一块内存用完了，它就将还存活着的对象复制到另外一块内存中，然后把使用过的内存空间一次清理掉。 每次的内存回收都是对内存区间的一半进行回收。  缺点： 1. 会浪费一定的内存空间 2. 对象的存活率较高时，复制会降低效率
+分代收集算法  这种算法是根据对象存活周期的不同，将内存分为几块，一般是把Java堆分为新生代和老年代。然后根据各个年代的特点采用适当的收集算法。
+ 新生代:
+ 每次垃圾收集时都会有大批对象死去，存活率较低，只有少量存活。这样可以采用复制算法，只需付出少量的复制成本就可以完成收集。  老年代：
+ 老年代对象的特点就是存活率较高，没有额外的空间进行分配担保，这样就必须使用&amp;rdquo;标记——整理&amp;rdquo;或者“标记——清除”算法来进行回收。   </description>
+    </item>
+    
+  </channel>
+</rss>
