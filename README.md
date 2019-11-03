@@ -5,6 +5,7 @@
 ---
 ## 正在进行中的模块
 - JVM
+- Java并发
 - Zookeeper
 - Dubbo
 - Solr
@@ -16,7 +17,6 @@
 ## 待创建的模块
 
 - Redis
-- Java并发
 - MySQL
 
 ---
