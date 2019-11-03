@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>synchronized on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/synchronized/</link>
+    <description>Recent content in synchronized on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Sun, 03 Nov 2019 16:35:53 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/synchronized/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Synchronized关键字</title>
+      <link>https://gj1e.github.io/posts/2019/11/synchronized%E5%85%B3%E9%94%AE%E5%AD%97/</link>
+      <pubDate>Sun, 03 Nov 2019 16:35:53 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/synchronized%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
+      <description>synchronized关键字的作用  synchronized关键字解决的是多个线程之间访问资源的同步性。
+ synchronized关键字可以保证被它修饰的方法或者代码块在任意时刻只能有一个线程执行。
+  怎么使用synchronized关键字 synchronized关键字最主要的三种使用方式：
+ 修饰实例方法：给当前对象实例加锁，进入同步代码块之前要先获得当前对象实例的锁。
+ 修饰静态方法：也就是给当前类加锁，会作用于类的所有对象实例，因为静态成员不属于任何一个实例对象，是类成员。所以如果一个线程A调用一个实例对象的非静态 synchronized 方法，而线程B需要调用这个实例对象所属类的静态 synchronized 方法，是允许的，不会发生互斥现象。因为访问静态 synchronized 方法占用的锁是当前类的锁，而访问非静态 synchronized 方法占用的锁是当前实例对象锁。
+ 修饰代码块：指定加锁对象，对给定对象加锁，进入同步代码块前要获得给定对象的锁。
+  单例模式-双重校验锁 public class Singleton { private volatile static Singleton uniqueInstance; private Singleton() { } public static Singleton getUniqueInstance() { //先判断对象是否已经实例过，没有实例化过才进入加锁代码 if (uniqueInstance == null) { //类对象加锁 synchronized (Singleton.class) { if (uniqueInstance == null) { uniqueInstance = new Singleton(); } } } return uniqueInstance; } }  uniqueInstance 采用 volatile 关键字修饰也是很有必要的， uniqueInstance = new Singleton();这段代码其实是分为三步执行：</description>
+    </item>
+    
+  </channel>
+</rss>
