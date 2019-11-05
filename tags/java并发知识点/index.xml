@@ -7,10 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Sun, 03 Nov 2019 16:35:53 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 05 Nov 2019 17:07:31 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/java%E5%B9%B6%E5%8F%91%E7%9F%A5%E8%AF%86%E7%82%B9/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Volatile关键字</title>
+      <link>https://gj1e.github.io/posts/2019/11/volatile%E5%85%B3%E9%94%AE%E5%AD%97/</link>
+      <pubDate>Tue, 05 Nov 2019 17:07:31 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/volatile%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
+      <description>  volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。
+ vloatile仅能使用在变量级别，仅能实现变量的修改可见性。但不具备原子性。
+ volatile不会造成线程的阻塞。
+ volatile标记的变量不会被编译器优化。
+  volatile的不变性  将当前处理器缓存行的数据写回到系统内存。
+ 这个写回内存的操作会引起在其它CPU里缓存了该内存地址的数据无效。
+  volatile禁止指令重排序  普通变量仅仅会保证在方法执行过程中所有依赖赋值的结果的地方都能获取到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。  volatile与synchronized的区别(重点)  volatile、final、synchronized都可以实现可见性。
+ volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞。
+ vloatile仅能使用在变量级别，synchronized可以使用在变量，方法和代码块。
+ volatile仅能实现变量的修改可见性。但不具备原子性。而synchronized则可以保证变量的修改可见性和原子性。
+ volatile不会造成线程的阻塞，而synchronized可能会造成线程阻塞。
+ volatile标记的变量不会被编译器优化，而synchronized标记的变量可以被编译器优化。
+  </description>
+    </item>
     
     <item>
       <title>Synchronized关键字</title>

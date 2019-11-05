@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="  volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。
+ vloatile仅能使用在变量级别，仅能实现变量的修改可见性。但不具备原子性。
+ volatile不会造成线程的阻塞。
+ volatile标记的变量不会被编译器优化。
+  volatile的不变性  将当前处理器缓存行的数据写回到系统内存。
+ 这个写回内存的操作会引起在其它CPU里缓存了该内存地址的数据无效。
+  volatile禁止指令重排序  普通变量仅仅会保证在方法执行过程中所有依赖赋值的结果的地方都能获取到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。  volatile与synchronized的区别(重点)  volatile、final、synchronized都可以实现可见性。
+ volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞。
+ vloatile仅能使用在变量级别，synchronized可以使用在变量，方法和代码块。
+ volatile仅能实现变量的修改可见性。但不具备原子性。而synchronized则可以保证变量的修改可见性和原子性。
+ volatile不会造成线程的阻塞，而synchronized可能会造成线程阻塞。
+ volatile标记的变量不会被编译器优化，而synchronized标记的变量可以被编译器优化。
+  " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/11/volatile%E5%85%B3%E9%94%AE%E5%AD%97/" />
+
+
+<title>
+    
+    Volatile关键字 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Volatile关键字">
+<meta itemprop="description" content="  volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。
+ vloatile仅能使用在变量级别，仅能实现变量的修改可见性。但不具备原子性。
+ volatile不会造成线程的阻塞。
+ volatile标记的变量不会被编译器优化。
+  volatile的不变性  将当前处理器缓存行的数据写回到系统内存。
+ 这个写回内存的操作会引起在其它CPU里缓存了该内存地址的数据无效。
+  volatile禁止指令重排序  普通变量仅仅会保证在方法执行过程中所有依赖赋值的结果的地方都能获取到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。  volatile与synchronized的区别(重点)  volatile、final、synchronized都可以实现可见性。
+ volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞。
+ vloatile仅能使用在变量级别，synchronized可以使用在变量，方法和代码块。
+ volatile仅能实现变量的修改可见性。但不具备原子性。而synchronized则可以保证变量的修改可见性和原子性。
+ volatile不会造成线程的阻塞，而synchronized可能会造成线程阻塞。
+ volatile标记的变量不会被编译器优化，而synchronized标记的变量可以被编译器优化。
+  ">
+
+
+<meta itemprop="datePublished" content="2019-11-05T17:07:31&#43;08:00" />
+<meta itemprop="dateModified" content="2019-11-05T17:07:31&#43;08:00" />
+<meta itemprop="wordCount" content="16">
+
+
+
+<meta itemprop="keywords" content="Java并发知识点,volatile," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Volatile关键字"/>
+<meta name="twitter:description" content="  volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。
+ vloatile仅能使用在变量级别，仅能实现变量的修改可见性。但不具备原子性。
+ volatile不会造成线程的阻塞。
+ volatile标记的变量不会被编译器优化。
+  volatile的不变性  将当前处理器缓存行的数据写回到系统内存。
+ 这个写回内存的操作会引起在其它CPU里缓存了该内存地址的数据无效。
+  volatile禁止指令重排序  普通变量仅仅会保证在方法执行过程中所有依赖赋值的结果的地方都能获取到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。  volatile与synchronized的区别(重点)  volatile、final、synchronized都可以实现可见性。
+ volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞。
+ vloatile仅能使用在变量级别，synchronized可以使用在变量，方法和代码块。
+ volatile仅能实现变量的修改可见性。但不具备原子性。而synchronized则可以保证变量的修改可见性和原子性。
+ volatile不会造成线程的阻塞，而synchronized可能会造成线程阻塞。
+ volatile标记的变量不会被编译器优化，而synchronized标记的变量可以被编译器优化。
+  "/>
+
+
+
+<meta property="article:section" content="Java并发" />
+
+<meta property="article:published_time" content="2019-11-05 17:07:31 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/11/volatile%E5%85%B3%E9%94%AE%E5%AD%97/">Volatile关键字</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<ul>
+<li><p>volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。</p></li>
+
+<li><p>vloatile仅能使用在变量级别，仅能实现变量的修改可见性。但不具备原子性。</p></li>
+
+<li><p>volatile不会造成线程的阻塞。</p></li>
+
+<li><p>volatile标记的变量不会被编译器优化。</p></li>
+</ul>
+
+<hr />
+
+<h2 id="volatile的不变性">volatile的不变性</h2>
+
+<ol>
+<li><p>将当前处理器缓存行的数据写回到系统内存。</p></li>
+
+<li><p>这个写回内存的操作会引起在其它CPU里缓存了该内存地址的数据无效。</p></li>
+</ol>
+
+<hr />
+
+<h2 id="volatile禁止指令重排序">volatile禁止指令重排序</h2>
+
+<ul>
+<li>普通变量仅仅会保证在方法执行过程中所有依赖赋值的结果的地方都能获取到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。</li>
+</ul>
+
+<hr />
+
+<h2 id="volatile与synchronized的区别-重点">volatile与synchronized的区别(重点)</h2>
+
+<ol>
+<li><p>volatile、final、synchronized都可以实现可见性。</p></li>
+
+<li><p>volatile的本质是在告诉JVM当前变量在寄存器中的值是不确定的，需要从主存中读取。synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞。</p></li>
+
+<li><p>vloatile仅能使用在变量级别，synchronized可以使用在变量，方法和代码块。</p></li>
+
+<li><p>volatile仅能实现变量的修改可见性。但不具备原子性。而synchronized则可以保证变量的修改可见性和原子性。</p></li>
+
+<li><p>volatile不会造成线程的阻塞，而synchronized可能会造成线程阻塞。</p></li>
+
+<li><p>volatile标记的变量不会被编译器优化，而synchronized标记的变量可以被编译器优化。</p></li>
+</ol>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/java%E5%B9%B6%E5%8F%91%E7%9F%A5%E8%AF%86%E7%82%B9">Java并发知识点</a></span><span class="tag"><a href="https://gj1e.github.io/tags/volatile">volatile</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>16 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-05 17:07 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/11/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E7%BC%BA%E9%99%B7/">
+                                <span class="button__text">TCP三次握手的原因及缺陷</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>
