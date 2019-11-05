@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content=" TCP为什么是三次握手 前两次比较容易理解，第三次握手看似比较多余，其实不是。第三次握手主要是为了防止已失效的请求报文段又突然传送到了服务端而产生连接的误判。
+比如：客户端发送了一个连接请求的报文段A到服务端，但是在某些网络节点上长时间滞留了，而后客户端又超时重发了一个连接请求的报文段B到服务端，而后正常建立连接，数据传送完毕之后释放连接。但是请求报文段A延迟了一段时间之后又发送到了服务端，报文段A原本是一个早已失效的报文段，但是服务端收到之后会误以为客户端又发来了一次连接请求，于是向客户端发出确认报文，并同意建立连接。
+那么问题就出现了：假如这里没有第三次握手，这时只要服务端发送了确认，新的连接就建立了，但是由于客户端没有发出建立连接的请求，因此不会理会服务端的确认，也不会向服务端发送数据。而服务端却认为新的连接已经建立了，并一直等待客户端发送数据，直到超出保活计数器的设定值，而将客户端判定为出了问题，才会关闭这个连接。这样就浪费了很多服务器的资源。
+如果采用三次握手，客户端就不会向服务端发出确认，服务端由于收不到确认，就知道客户端没有要求建立连接，从而不建立该连接。
+TCP三次握手的缺陷(扩充了解)  原文出处：https://blog.csdn.net/xtzmm1215/article/details/47385079
+ SYN- Flood攻击是当前网络上最为常见的DDoS攻击，也是最为经典的拒绝服务攻击，它就是利用了TCP协议实现上的一个缺陷，通过向网络服务所在端口发送大量 的伪造源地址的攻击报文，就可能造成目标服务器中的半开连接队列被占满，从而阻止其他合法用户进行访问。这种攻击早在1996年就被发现，但至今仍然显示 出强大的生命力。很多操作系统，甚至防火墙、路由器都无法有效地防御这种攻击，而且由于它可以方便地伪造源地址，追查起来非常困难。它的数据包特征通常 是，源发送了大量的SYN包，并且缺少三次握手的最后一步握手ACK回复。
+原理：攻击者首先伪造地址对 服务器发起SYN请求，服务器回应(SYN&#43;ACK)包，而真实的IP会认为，我没有发送请求，不作回应。服务 器没有收到回应，这样的话，服务器不知 道(SYN&#43;ACK)是否发送成功，默认情况下会重试5次（tcp_syn_retries）。这样的话，对于服务器的内存，带宽都有很大的消耗。攻击者 如果处于公网，可以伪造IP的话，对于服务器就很难根据IP来判断攻击者，给防护带来很大的困难。
+解决办法：
+ 无效连接监视释放  这种方法不停的监视系统中半开连接和不活动连接，当达到一定阈值时拆除这些连接，释放系统资源。这种绝对公平的方法往往也会将正常的连接的请求也会被释放掉，“伤敌一千，自损八百”
+ 延缓TCB分配方法  SYN Flood关键是利用了，SYN数据报文一到，系统立即分配TCB资源，从而占用了系统资源，因此有俩种技术来解决这一问题
+ Syn Cache技术  这种技术在收到SYN时不急着去分配TCB，而是先回应一个ACK报文，并在一个专用的HASH表中（Cache）中保存这种半开连接，直到收到正确的ACK报文再去分配TCB
+ Syn Cookie技术  Syn Cookie技术则完全不使用任何存储资源，它使用一种特殊的算法生成Sequence Number，这种算法考虑到了对方的IP、端口、己方IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如MSS、时间等，在收到对方 的ACK报文后，重新计算一遍，看其是否与对方回应报文中的（Sequence Number-1）相同，从而决定是否分配TCB资源
+ 使用SYN Proxy防火墙 原理：对试图穿越的SYN请求进行验证之后才放行  " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/11/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E7%BC%BA%E9%99%B7/" />
+
+
+<title>
+    
+    TCP三次握手的原因及缺陷 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="TCP三次握手的原因及缺陷">
+<meta itemprop="description" content=" TCP为什么是三次握手 前两次比较容易理解，第三次握手看似比较多余，其实不是。第三次握手主要是为了防止已失效的请求报文段又突然传送到了服务端而产生连接的误判。
+比如：客户端发送了一个连接请求的报文段A到服务端，但是在某些网络节点上长时间滞留了，而后客户端又超时重发了一个连接请求的报文段B到服务端，而后正常建立连接，数据传送完毕之后释放连接。但是请求报文段A延迟了一段时间之后又发送到了服务端，报文段A原本是一个早已失效的报文段，但是服务端收到之后会误以为客户端又发来了一次连接请求，于是向客户端发出确认报文，并同意建立连接。
+那么问题就出现了：假如这里没有第三次握手，这时只要服务端发送了确认，新的连接就建立了，但是由于客户端没有发出建立连接的请求，因此不会理会服务端的确认，也不会向服务端发送数据。而服务端却认为新的连接已经建立了，并一直等待客户端发送数据，直到超出保活计数器的设定值，而将客户端判定为出了问题，才会关闭这个连接。这样就浪费了很多服务器的资源。
+如果采用三次握手，客户端就不会向服务端发出确认，服务端由于收不到确认，就知道客户端没有要求建立连接，从而不建立该连接。
+TCP三次握手的缺陷(扩充了解)  原文出处：https://blog.csdn.net/xtzmm1215/article/details/47385079
+ SYN- Flood攻击是当前网络上最为常见的DDoS攻击，也是最为经典的拒绝服务攻击，它就是利用了TCP协议实现上的一个缺陷，通过向网络服务所在端口发送大量 的伪造源地址的攻击报文，就可能造成目标服务器中的半开连接队列被占满，从而阻止其他合法用户进行访问。这种攻击早在1996年就被发现，但至今仍然显示 出强大的生命力。很多操作系统，甚至防火墙、路由器都无法有效地防御这种攻击，而且由于它可以方便地伪造源地址，追查起来非常困难。它的数据包特征通常 是，源发送了大量的SYN包，并且缺少三次握手的最后一步握手ACK回复。
+原理：攻击者首先伪造地址对 服务器发起SYN请求，服务器回应(SYN&#43;ACK)包，而真实的IP会认为，我没有发送请求，不作回应。服务 器没有收到回应，这样的话，服务器不知 道(SYN&#43;ACK)是否发送成功，默认情况下会重试5次（tcp_syn_retries）。这样的话，对于服务器的内存，带宽都有很大的消耗。攻击者 如果处于公网，可以伪造IP的话，对于服务器就很难根据IP来判断攻击者，给防护带来很大的困难。
+解决办法：
+ 无效连接监视释放  这种方法不停的监视系统中半开连接和不活动连接，当达到一定阈值时拆除这些连接，释放系统资源。这种绝对公平的方法往往也会将正常的连接的请求也会被释放掉，“伤敌一千，自损八百”
+ 延缓TCB分配方法  SYN Flood关键是利用了，SYN数据报文一到，系统立即分配TCB资源，从而占用了系统资源，因此有俩种技术来解决这一问题
+ Syn Cache技术  这种技术在收到SYN时不急着去分配TCB，而是先回应一个ACK报文，并在一个专用的HASH表中（Cache）中保存这种半开连接，直到收到正确的ACK报文再去分配TCB
+ Syn Cookie技术  Syn Cookie技术则完全不使用任何存储资源，它使用一种特殊的算法生成Sequence Number，这种算法考虑到了对方的IP、端口、己方IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如MSS、时间等，在收到对方 的ACK报文后，重新计算一遍，看其是否与对方回应报文中的（Sequence Number-1）相同，从而决定是否分配TCB资源
+ 使用SYN Proxy防火墙 原理：对试图穿越的SYN请求进行验证之后才放行  ">
+
+
+<meta itemprop="datePublished" content="2019-11-05T16:28:49&#43;08:00" />
+<meta itemprop="dateModified" content="2019-11-05T16:28:49&#43;08:00" />
+<meta itemprop="wordCount" content="36">
+
+
+
+<meta itemprop="keywords" content="TCP协议," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="TCP三次握手的原因及缺陷"/>
+<meta name="twitter:description" content=" TCP为什么是三次握手 前两次比较容易理解，第三次握手看似比较多余，其实不是。第三次握手主要是为了防止已失效的请求报文段又突然传送到了服务端而产生连接的误判。
+比如：客户端发送了一个连接请求的报文段A到服务端，但是在某些网络节点上长时间滞留了，而后客户端又超时重发了一个连接请求的报文段B到服务端，而后正常建立连接，数据传送完毕之后释放连接。但是请求报文段A延迟了一段时间之后又发送到了服务端，报文段A原本是一个早已失效的报文段，但是服务端收到之后会误以为客户端又发来了一次连接请求，于是向客户端发出确认报文，并同意建立连接。
+那么问题就出现了：假如这里没有第三次握手，这时只要服务端发送了确认，新的连接就建立了，但是由于客户端没有发出建立连接的请求，因此不会理会服务端的确认，也不会向服务端发送数据。而服务端却认为新的连接已经建立了，并一直等待客户端发送数据，直到超出保活计数器的设定值，而将客户端判定为出了问题，才会关闭这个连接。这样就浪费了很多服务器的资源。
+如果采用三次握手，客户端就不会向服务端发出确认，服务端由于收不到确认，就知道客户端没有要求建立连接，从而不建立该连接。
+TCP三次握手的缺陷(扩充了解)  原文出处：https://blog.csdn.net/xtzmm1215/article/details/47385079
+ SYN- Flood攻击是当前网络上最为常见的DDoS攻击，也是最为经典的拒绝服务攻击，它就是利用了TCP协议实现上的一个缺陷，通过向网络服务所在端口发送大量 的伪造源地址的攻击报文，就可能造成目标服务器中的半开连接队列被占满，从而阻止其他合法用户进行访问。这种攻击早在1996年就被发现，但至今仍然显示 出强大的生命力。很多操作系统，甚至防火墙、路由器都无法有效地防御这种攻击，而且由于它可以方便地伪造源地址，追查起来非常困难。它的数据包特征通常 是，源发送了大量的SYN包，并且缺少三次握手的最后一步握手ACK回复。
+原理：攻击者首先伪造地址对 服务器发起SYN请求，服务器回应(SYN&#43;ACK)包，而真实的IP会认为，我没有发送请求，不作回应。服务 器没有收到回应，这样的话，服务器不知 道(SYN&#43;ACK)是否发送成功，默认情况下会重试5次（tcp_syn_retries）。这样的话，对于服务器的内存，带宽都有很大的消耗。攻击者 如果处于公网，可以伪造IP的话，对于服务器就很难根据IP来判断攻击者，给防护带来很大的困难。
+解决办法：
+ 无效连接监视释放  这种方法不停的监视系统中半开连接和不活动连接，当达到一定阈值时拆除这些连接，释放系统资源。这种绝对公平的方法往往也会将正常的连接的请求也会被释放掉，“伤敌一千，自损八百”
+ 延缓TCB分配方法  SYN Flood关键是利用了，SYN数据报文一到，系统立即分配TCB资源，从而占用了系统资源，因此有俩种技术来解决这一问题
+ Syn Cache技术  这种技术在收到SYN时不急着去分配TCB，而是先回应一个ACK报文，并在一个专用的HASH表中（Cache）中保存这种半开连接，直到收到正确的ACK报文再去分配TCB
+ Syn Cookie技术  Syn Cookie技术则完全不使用任何存储资源，它使用一种特殊的算法生成Sequence Number，这种算法考虑到了对方的IP、端口、己方IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如MSS、时间等，在收到对方 的ACK报文后，重新计算一遍，看其是否与对方回应报文中的（Sequence Number-1）相同，从而决定是否分配TCB资源
+ 使用SYN Proxy防火墙 原理：对试图穿越的SYN请求进行验证之后才放行  "/>
+
+
+
+<meta property="article:section" content="计算机网络" />
+
+<meta property="article:published_time" content="2019-11-05 16:28:49 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/11/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E7%BC%BA%E9%99%B7/">TCP三次握手的原因及缺陷</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="tcp为什么是三次握手">TCP为什么是三次握手</h2>
+
+<p>前两次比较容易理解，第三次握手看似比较多余，其实不是。第三次握手主要是为了防止已失效的请求报文段又突然传送到了服务端而产生连接的误判。</p>
+
+<p>比如：客户端发送了一个连接请求的报文段A到服务端，但是在某些网络节点上长时间滞留了，而后客户端又超时重发了一个连接请求的报文段B到服务端，而后正常建立连接，数据传送完毕之后释放连接。但是请求报文段A延迟了一段时间之后又发送到了服务端，报文段A原本是一个早已失效的报文段，但是服务端收到之后会误以为客户端又发来了一次连接请求，于是向客户端发出确认报文，并同意建立连接。</p>
+
+<p>那么问题就出现了：假如这里没有第三次握手，这时只要服务端发送了确认，新的连接就建立了，但是由于客户端没有发出建立连接的请求，因此不会理会服务端的确认，也不会向服务端发送数据。而服务端却认为新的连接已经建立了，并一直等待客户端发送数据，直到超出保活计数器的设定值，而将客户端判定为出了问题，才会关闭这个连接。这样就浪费了很多服务器的资源。</p>
+
+<p>如果采用三次握手，客户端就不会向服务端发出确认，服务端由于收不到确认，就知道客户端没有要求建立连接，从而不建立该连接。</p>
+
+<hr />
+
+<h2 id="tcp三次握手的缺陷-扩充了解">TCP三次握手的缺陷(扩充了解)</h2>
+
+<blockquote>
+<p>原文出处：<a href="https://blog.csdn.net/xtzmm1215/article/details/47385079" target="_blank">https://blog.csdn.net/xtzmm1215/article/details/47385079</a></p>
+</blockquote>
+
+<p><strong>SYN- Flood攻击</strong>是当前网络上最为常见的DDoS攻击，也是最为经典的拒绝服务攻击，它就是利用了TCP协议实现上的一个缺陷，通过向网络服务所在端口发送大量 的伪造源地址的攻击报文，就可能造成目标服务器中的半开连接队列被占满，从而阻止其他合法用户进行访问。这种攻击早在1996年就被发现，但至今仍然显示 出强大的生命力。很多操作系统，甚至防火墙、路由器都无法有效地防御这种攻击，而且由于它可以方便地伪造源地址，追查起来非常困难。它的数据包特征通常 是，源发送了大量的SYN包，并且缺少三次握手的最后一步握手ACK回复。</p>
+
+<p><strong>原理：</strong>攻击者首先伪造地址对 服务器发起SYN请求，服务器回应(SYN+ACK)包，而真实的IP会认为，我没有发送请求，不作回应。服务 器没有收到回应，这样的话，服务器不知 道(SYN+ACK)是否发送成功，默认情况下会重试5次（tcp_syn_retries）。这样的话，对于服务器的内存，带宽都有很大的消耗。攻击者 如果处于公网，可以伪造IP的话，对于服务器就很难根据IP来判断攻击者，给防护带来很大的困难。</p>
+
+<hr />
+
+<p><strong>解决办法：</strong></p>
+
+<ul>
+<li><strong>无效连接监视释放</strong></li>
+</ul>
+
+<p>这种方法不停的监视系统中半开连接和不活动连接，当达到一定阈值时拆除这些连接，释放系统资源。这种绝对公平的方法往往也会将正常的连接的请求也会被释放掉，“伤敌一千，自损八百”</p>
+
+<ul>
+<li><strong>延缓TCB分配方法</strong></li>
+</ul>
+
+<p>SYN Flood关键是利用了，SYN数据报文一到，系统立即分配TCB资源，从而占用了系统资源，因此有俩种技术来解决这一问题</p>
+
+<ul>
+<li><strong>Syn Cache技术</strong></li>
+</ul>
+
+<p>这种技术在收到SYN时不急着去分配TCB，而是先回应一个ACK报文，并在一个专用的HASH表中（Cache）中保存这种半开连接，直到收到正确的ACK报文再去分配TCB</p>
+
+<ul>
+<li><strong>Syn Cookie技术</strong></li>
+</ul>
+
+<p>Syn Cookie技术则完全不使用任何存储资源，它使用一种特殊的算法生成Sequence Number，这种算法考虑到了对方的IP、端口、己方IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如MSS、时间等，在收到对方 的ACK报文后，重新计算一遍，看其是否与对方回应报文中的（Sequence Number-1）相同，从而决定是否分配TCB资源</p>
+
+<ul>
+<li><strong>使用SYN Proxy防火墙</strong>
+原理：对试图穿越的SYN请求进行验证之后才放行</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/tcp%E5%8D%8F%E8%AE%AE">TCP协议</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>36 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-05 16:28 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/11/synchronized%E5%85%B3%E9%94%AE%E5%AD%97/">
+                                <span class="button__text">Synchronized关键字</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>
