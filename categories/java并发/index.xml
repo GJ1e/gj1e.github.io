@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 05 Nov 2019 17:07:31 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 08 Nov 2019 23:03:54 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/categories/java%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ReentrantLock</title>
+      <link>https://gj1e.github.io/posts/2019/11/reentrantlock/</link>
+      <pubDate>Fri, 08 Nov 2019 23:03:54 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/reentrantlock/</guid>
+      <description>Reentrantlock是一个可重入锁，在高竞争条件下有更好的性能，且可以中断。
+Reentrantlock是基于AQS实现的，AQS是基于FIFO队列实现的，整个AQS是典型的模板模式的应用，对于队列FIFO的各种操作，在AQS中都已经实现。AQS的子类一般只需要重写tryAcquire(int arg)尝试获得锁，和tryRlease(int arg)尝试释放锁两个方法即可。
+Reentrantlock中有一个抽象类Sync继承于AbstractQueuedSynchronizer。
+private final Sync sync; /** * Base of synchronization control for this lock. Subclassed * into fair and nonfair versions below. Uses AQS state to * represent the number of holds on the lock. */ abstract static class Sync extends AbstractQueuedSynchronizer { ... }  Reentrantlock根据传入构造函数的布尔类型的参数，实例化出Sync的实现类FairSync和NonfairSync，分别表示公平的Sync和非公平的Sync，也就是公平锁，和非公平锁。
+以比较常用的非公平锁为例：
+假设线程1，调用了Reentrantlock中的lock()方法那么线程1就会独占该锁。
+线程1获得锁就做了两件事：
+ 设置AQS的state为1。
+ 设置AQS的Thread为当前线程。
+  这两步做完之后就表示线程1独占了该锁。当线程2想要获得锁时，会尝试利用CAS去判断state状态是否为0，如果为0就设置为1。这一步操作肯定是失败的，因为线程1已经将state设置成了1。所以线程2就会执行lock()方法中的else分支调用acquire()方法，进而调用tryAcquire()方法，尝试获取一次锁，如果还是失败就会将这个线程加入到等待队列中。
+Reentrantlock的使用场景  需要使用可重入锁时。
+ 并发竞争很高的环境下。
+ 需要使用可中断锁。
+ 尝试等待执行，如果发现已经在执行，则尝试等待一段时间。等待超时，则不执行。</description>
+    </item>
     
     <item>
       <title>Volatile关键字</title>
