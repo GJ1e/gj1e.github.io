@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Fri, 01 Nov 2019 21:58:24 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 09 Nov 2019 21:36:03 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/categories/%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指Offer(Java实现)15题</title>
+      <link>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B015%E9%A2%98/</link>
+      <pubDate>Sat, 09 Nov 2019 21:36:03 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B015%E9%A2%98/</guid>
+      <description> 面试题15：二进制中1的个数  题目：  请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。 例如：把9表示成二进制是1001，有2位是1.因此如果输入9，则该函数输出2。    思路：  一个整数减去1，在和原数进行&amp;amp;运算，会把该整数最右边的1变成0。那么一个整数的二进制有多少个1，就可以进行多少次这样的操作。 例如：12的二进制为1100，1100-1=1011，1011&amp;amp;1100=1000； 这样，原1100中最右边的1变为了0；   /** * @Author GJ1e * @Create 2019/11/9 * @Time 21:13 * */ public class Sloution15 { public static int numberOf1(int n){ int count = 0; while (n&amp;gt;0){ count++; n = (n-1)&amp;amp;n; //能进行多少次就有多少个1 } return count; } }  </description>
+    </item>
     
     <item>
       <title>剑指Offer(Java实现)14题</title>
