@@ -4,31 +4,54 @@
   
   <url>
     <loc>https://gj1e.github.io/categories/</loc>
-    <lastmod>2019-11-09T21:36:03+08:00</lastmod>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/</loc>
-    <lastmod>2019-11-09T21:36:03+08:00</lastmod>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://gj1e.github.io/categories/mysql/</loc>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/series/mysql/</loc>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/mysql%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/posts/2019/11/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/</loc>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gj1e.github.io/posts/</loc>
-    <lastmod>2019-11-09T21:36:03+08:00</lastmod>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/series/</loc>
-    <lastmod>2019-11-09T21:36:03+08:00</lastmod>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/tags/</loc>
-    <lastmod>2019-11-09T21:36:03+08:00</lastmod>
+    <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -519,13 +542,13 @@
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/series/dubbo/</loc>
+    <loc>https://gj1e.github.io/tags/dubbo/</loc>
     <lastmod>2019-10-07T20:53:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/tags/dubbo/</loc>
+    <loc>https://gj1e.github.io/series/dubbo/</loc>
     <lastmod>2019-10-07T20:53:26+08:00</lastmod>
     <priority>0</priority>
   </url>

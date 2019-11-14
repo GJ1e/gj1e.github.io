@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL基础知识点 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/mysql%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+    <description>Recent content in MySQL基础知识点 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Thu, 14 Nov 2019 22:40:46 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/mysql%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL知识点(一)</title>
+      <link>https://gj1e.github.io/posts/2019/11/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/</link>
+      <pubDate>Thu, 14 Nov 2019 22:40:46 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80/</guid>
+      <description>MySQL的存储引擎 MyISAM
+ MyISAM是MySQL的默认数据库引擎（5.5版之前），但MyISAM不支持事务和行级锁，而且最大的缺陷就是崩溃后无法安全恢复。  InnoDB
+ 5.5版本之后，MySQL引入了InnoDB（事务性数据库引擎），MySQL 5.5版本后默认的存储引擎为InnoDB。  两者对比
+ 是否支持行级锁 : MyISAM 只有表级锁(table-level locking)，而InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。
+ 是否支持事务和崩溃后的安全恢复： MyISAM 强调的是性能，每次查询具有原子性,其执行速度比InnoDB类型更快，但是不提供事务支持。但是InnoDB 提供事务支持事务，外部键等高级数据库功能。 具有事务(commit)、回滚(rollback)和崩溃修复能力(crash recovery capabilities)的事务安全(transaction-safe (ACID compliant))型表。
+ 是否支持外键： MyISAM不支持，而InnoDB支持。
+  索引 MySQL索引使用的数据结构主要有BTree索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快；其余大部分场景，建议选择BTree索引。
+MySQL的BTree索引使用的是B树中的B+Tree，但对于主要的两种存储引擎的实现方式是不同的。
+ MyISAM：B+Tree叶节点的data域存放的是数据记录的地址。在索引检索的时候，首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其 data 域的值，然后以 data 域的值为地址读取相应的数据记录。这被称为“非聚簇索引”。
+ InnoDB：其数据文件本身就是索引文件。相比MyISAM，索引文件和数据文件是分离的，其表数据文件本身就是按B+Tree组织的一个索引结构，树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。这被称为“聚簇索引（或聚集索引）”。而其余的索引都作为辅助索引，辅助索引的data域存储相应记录主键的值而不是地址，这也是和MyISAM不同的地方。在根据主索引搜索时，直接找到key所在的节点即可取出数据；在根据辅助索引查找时，则需要先取出主键的值，再走一遍主索引。 因此，在设计表的时候，不建议使用过长的字段作为主键，也不建议使用非单调的字段作为主键，这样会造成主索引频繁分裂。 PS：整理自《Java工程师修炼之道》
+  事务  事务是逻辑上的一组操作，要么都执行，要么都不执行。  事物的四大特性(ACID)  原子性（Atomicity）：事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；
+ 一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；
+ 隔离性（Isolation）：发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；
+ 持久性（Durability）： 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。
+  并发事务带来的问题  脏读（Dirty read）:当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是不正确的。</description>
+    </item>
+    
+  </channel>
+</rss>
