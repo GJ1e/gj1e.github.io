@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Thu, 14 Nov 2019 22:40:46 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 Nov 2019 23:08:31 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>面试指南</title>
+      <link>https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Mon, 18 Nov 2019 23:08:31 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>MySQL</title>
@@ -54,15 +63,6 @@
       <pubDate>Wed, 30 Oct 2019 20:41:32 +0800</pubDate>
       
       <guid>https://gj1e.github.io/series/java%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>面试指南</title>
-      <link>https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/</link>
-      <pubDate>Wed, 23 Oct 2019 17:05:19 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/series/%E9%9D%A2%E8%AF%95%E6%8C%87%E5%8D%97/</guid>
       <description></description>
     </item>
     

@@ -6,8 +6,47 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Thu, 14 Nov 2019 22:40:46 +0800</lastBuildDate>
+        <lastBuildDate>Mon, 18 Nov 2019 23:08:31 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>面试题整理二</title>
+            <link>https://gj1e.github.io/posts/2019/11/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%BA%8C/</link>
+            <pubDate>Mon, 18 Nov 2019 23:08:31 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/11/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%BA%8C/</guid>
+            <description> 笔试题 </description>
+            <content type="html"><![CDATA[
+
+<h2 id="笔试题">笔试题</h2>
+
+<p><img src="/images/消费金面试题01.jpg" alt="消费金面试题01" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题02.jpg" alt="消费金面试题02" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题03.jpg" alt="消费金面试题03" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题04.jpg" alt="消费金面试题04" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题05.jpg" alt="消费金面试题05" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题06.jpg" alt="消费金面试题06" /></p>
+
+<hr />
+
+<p><img src="/images/消费金面试题07.jpg" alt="消费金面试题07" /></p>
+]]></content>
+        </item>
         
         <item>
             <title>MySQL知识点(一)</title>
