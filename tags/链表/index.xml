@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 19 Nov 2019 21:50:49 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 21 Nov 2019 23:22:09 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指Offer(Java实现)18-1题</title>
+      <link>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B018-1%E9%A2%98/</link>
+      <pubDate>Thu, 21 Nov 2019 23:22:09 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B018-1%E9%A2%98/</guid>
+      <description> 面试题18（二）：删除链表中重复的结点 </description>
+    </item>
     
     <item>
       <title>剑指Offer(Java实现)18题</title>
