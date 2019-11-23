@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Thu, 21 Nov 2019 23:22:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 23 Nov 2019 23:52:11 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指Offer(Java实现)19题</title>
+      <link>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B019%E9%A2%98/</link>
+      <pubDate>Sat, 23 Nov 2019 23:52:11 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B019%E9%A2%98/</guid>
+      <description> 面试题19：正则表达式匹配 题目：
+ 请实现一个函数用来匹配包含&amp;rsquo;.&amp;lsquo;和&amp;rsquo;&amp;lsquo;的正则表达式。模式中的字符&amp;rsquo;.&amp;lsquo;表示任意一个字符，而&amp;rsquo;&amp;lsquo;表示它前面的字符可以出现任意次（含0次）。在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串&amp;rdquo;aaa&amp;rdquo;与模式&amp;rdquo;a.a&amp;rdquo;和&amp;rdquo;ab*ac*a&amp;rdquo;匹配，但与&amp;rdquo;aa.a&amp;rdquo;及&amp;rdquo;ab*a&amp;rdquo;均不匹配。  </description>
+    </item>
     
     <item>
       <title>剑指Offer(Java实现)18-1题</title>
