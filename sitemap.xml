@@ -4,30 +4,59 @@
   
   <url>
     <loc>https://gj1e.github.io/categories/</loc>
-    <lastmod>2019-11-23T23:52:11+08:00</lastmod>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/</loc>
-    <lastmod>2019-11-23T23:52:11+08:00</lastmod>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/java/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/posts/</loc>
-    <lastmod>2019-11-23T23:52:11+08:00</lastmod>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/series/</loc>
-    <lastmod>2019-11-23T23:52:11+08:00</lastmod>
+    <loc>https://gj1e.github.io/posts/2019/11/redis/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/redis%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://gj1e.github.io/tags/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/</loc>
+    <lastmod>2019-11-24T18:48:38+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/series/</loc>
     <lastmod>2019-11-23T23:52:11+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -117,13 +146,13 @@
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/series/mysql/</loc>
+    <loc>https://gj1e.github.io/categories/mysql/</loc>
     <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/categories/mysql/</loc>
+    <loc>https://gj1e.github.io/series/mysql/</loc>
     <lastmod>2019-11-14T22:40:46+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -522,12 +551,6 @@
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/tags/java/</loc>
-    <lastmod>2019-10-11T10:36:18+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://gj1e.github.io/posts/2019/10/zab%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E8%BF%87%E7%A8%8B/</loc>
     <lastmod>2019-10-11T10:36:18+08:00</lastmod>
   </url>
@@ -584,13 +607,13 @@
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/series/dubbo/</loc>
+    <loc>https://gj1e.github.io/tags/dubbo/</loc>
     <lastmod>2019-10-07T20:53:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gj1e.github.io/tags/dubbo/</loc>
+    <loc>https://gj1e.github.io/series/dubbo/</loc>
     <lastmod>2019-10-07T20:53:26+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -620,12 +643,6 @@
   <url>
     <loc>https://gj1e.github.io/posts/2019/10/memcached/</loc>
     <lastmod>2019-10-04T10:33:42+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/</loc>
-    <lastmod>2019-10-04T10:33:42+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
