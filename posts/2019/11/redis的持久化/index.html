@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content=" Redis支持内存数据持久化，将存储在内存中的数据以某种形式持久化到硬盘中，Redis重启后仍能加载硬盘中的数据重新使用。
+Redis有两种持久化方式：一种RDB，一种AOF。
+ Redis默认的持久化方式为RDB，两种持久化方式可以单独使用，也可结合使用。
+ RDB  RDB方式是通过快照来完成的，当符合一定的条件时，Redis会自动将内存中的所有数据进行快照并存储到硬盘上。进行快照的条件在配置文件中指定，有两个参数：时间和改动的键的个数。
+ 当在指定时间内被更改的键的个数大于指定数值时，就会进行快照。
+ Redis在以RDB方式持久化数据时，是以一个子进程来做的，也就是说进行RDB持久化时，不会影响Redis的主进程对外的使用。
+   RDB并不能绝对保证数据的不丢失
+ RDB的快照过程：  Redis使用fork函数复制一份当前进程(父进程)的副本(子进程)。 父进程继续接受并处理客户端发来的命令，而子进程开始将内存中的数据写入到硬盘中的临时文件。 当子进程写入完所有数据后，会用该临时文件替换旧的RDB文件(默认是压缩过的)。   可以通过SAVE和BGSAVE命令来手动快照，前者是由主进程进行快照，会阻塞其它请求；后者是通过fork子进程来进行快照。
+ AOF  AOF持久化策略是将发送到Redis端的每一条命令都记录下来，并保存到硬盘中的AOF文件，AOF文件和RDB文件位置相同。   AOF持久化方式是默认关闭的，通过配置文件中的appendonly参数设为YES开启。
+AOF文件对于查询的操作不做记录。
+ AOF文件到磁盘的同步策略  appendfsync always 每次都同步(最安全，但也最慢) appendfsync everysec 每秒同步（默认的同步策略） appendfsync no 不主动同步，由操作系统来决定   文件默认先写到缓存中，系统每30秒同步一次，才是真正写入到磁盘
+ " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/11/redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96/" />
+
+
+<title>
+    
+    Redis的持久化 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Redis的持久化">
+<meta itemprop="description" content=" Redis支持内存数据持久化，将存储在内存中的数据以某种形式持久化到硬盘中，Redis重启后仍能加载硬盘中的数据重新使用。
+Redis有两种持久化方式：一种RDB，一种AOF。
+ Redis默认的持久化方式为RDB，两种持久化方式可以单独使用，也可结合使用。
+ RDB  RDB方式是通过快照来完成的，当符合一定的条件时，Redis会自动将内存中的所有数据进行快照并存储到硬盘上。进行快照的条件在配置文件中指定，有两个参数：时间和改动的键的个数。
+ 当在指定时间内被更改的键的个数大于指定数值时，就会进行快照。
+ Redis在以RDB方式持久化数据时，是以一个子进程来做的，也就是说进行RDB持久化时，不会影响Redis的主进程对外的使用。
+   RDB并不能绝对保证数据的不丢失
+ RDB的快照过程：  Redis使用fork函数复制一份当前进程(父进程)的副本(子进程)。 父进程继续接受并处理客户端发来的命令，而子进程开始将内存中的数据写入到硬盘中的临时文件。 当子进程写入完所有数据后，会用该临时文件替换旧的RDB文件(默认是压缩过的)。   可以通过SAVE和BGSAVE命令来手动快照，前者是由主进程进行快照，会阻塞其它请求；后者是通过fork子进程来进行快照。
+ AOF  AOF持久化策略是将发送到Redis端的每一条命令都记录下来，并保存到硬盘中的AOF文件，AOF文件和RDB文件位置相同。   AOF持久化方式是默认关闭的，通过配置文件中的appendonly参数设为YES开启。
+AOF文件对于查询的操作不做记录。
+ AOF文件到磁盘的同步策略  appendfsync always 每次都同步(最安全，但也最慢) appendfsync everysec 每秒同步（默认的同步策略） appendfsync no 不主动同步，由操作系统来决定   文件默认先写到缓存中，系统每30秒同步一次，才是真正写入到磁盘
+ ">
+
+
+<meta itemprop="datePublished" content="2019-11-26T20:25:20&#43;08:00" />
+<meta itemprop="dateModified" content="2019-11-26T20:25:20&#43;08:00" />
+<meta itemprop="wordCount" content="28">
+
+
+
+<meta itemprop="keywords" content="Redis知识点,分布式缓存,Java," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Redis的持久化"/>
+<meta name="twitter:description" content=" Redis支持内存数据持久化，将存储在内存中的数据以某种形式持久化到硬盘中，Redis重启后仍能加载硬盘中的数据重新使用。
+Redis有两种持久化方式：一种RDB，一种AOF。
+ Redis默认的持久化方式为RDB，两种持久化方式可以单独使用，也可结合使用。
+ RDB  RDB方式是通过快照来完成的，当符合一定的条件时，Redis会自动将内存中的所有数据进行快照并存储到硬盘上。进行快照的条件在配置文件中指定，有两个参数：时间和改动的键的个数。
+ 当在指定时间内被更改的键的个数大于指定数值时，就会进行快照。
+ Redis在以RDB方式持久化数据时，是以一个子进程来做的，也就是说进行RDB持久化时，不会影响Redis的主进程对外的使用。
+   RDB并不能绝对保证数据的不丢失
+ RDB的快照过程：  Redis使用fork函数复制一份当前进程(父进程)的副本(子进程)。 父进程继续接受并处理客户端发来的命令，而子进程开始将内存中的数据写入到硬盘中的临时文件。 当子进程写入完所有数据后，会用该临时文件替换旧的RDB文件(默认是压缩过的)。   可以通过SAVE和BGSAVE命令来手动快照，前者是由主进程进行快照，会阻塞其它请求；后者是通过fork子进程来进行快照。
+ AOF  AOF持久化策略是将发送到Redis端的每一条命令都记录下来，并保存到硬盘中的AOF文件，AOF文件和RDB文件位置相同。   AOF持久化方式是默认关闭的，通过配置文件中的appendonly参数设为YES开启。
+AOF文件对于查询的操作不做记录。
+ AOF文件到磁盘的同步策略  appendfsync always 每次都同步(最安全，但也最慢) appendfsync everysec 每秒同步（默认的同步策略） appendfsync no 不主动同步，由操作系统来决定   文件默认先写到缓存中，系统每30秒同步一次，才是真正写入到磁盘
+ "/>
+
+
+
+<meta property="article:section" content="分布式缓存" />
+
+<meta property="article:published_time" content="2019-11-26 20:25:20 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/11/redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96/">Redis的持久化</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<p>Redis支持内存数据持久化，将存储在内存中的数据以某种形式持久化到硬盘中，Redis重启后仍能加载硬盘中的数据重新使用。</p>
+
+<p>Redis有两种持久化方式：一种RDB，一种AOF。</p>
+
+<blockquote>
+<p>Redis默认的持久化方式为RDB，两种持久化方式可以单独使用，也可结合使用。</p>
+</blockquote>
+
+<h2 id="rdb">RDB</h2>
+
+<ul>
+<li><p>RDB方式是通过快照来完成的，当符合一定的条件时，Redis会自动将内存中的所有数据进行快照并存储到硬盘上。进行快照的条件在配置文件中指定，有两个参数：<strong>时间和改动的键的个数</strong>。</p></li>
+
+<li><p>当在指定时间内被更改的键的个数大于指定数值时，就会进行快照。</p></li>
+
+<li><p>Redis在以RDB方式持久化数据时，是以一个子进程来做的，也就是说进行RDB持久化时，不会影响Redis的主进程对外的使用。</p></li>
+</ul>
+
+<blockquote>
+<p><strong>RDB并不能绝对保证数据的不丢失</strong></p>
+</blockquote>
+
+<h3 id="rdb的快照过程">RDB的快照过程：</h3>
+
+<ol>
+<li>Redis使用fork函数复制一份当前进程(父进程)的副本(子进程)。</li>
+<li>父进程继续接受并处理客户端发来的命令，而子进程开始将内存中的数据写入到硬盘中的临时文件。</li>
+<li>当子进程写入完所有数据后，会用该临时文件替换旧的RDB文件(<strong>默认是压缩过的</strong>)。</li>
+</ol>
+
+<blockquote>
+<p>可以通过SAVE和BGSAVE命令来手动快照，前者是由主进程进行快照，会阻塞其它请求；后者是通过fork子进程来进行快照。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="aof">AOF</h2>
+
+<ul>
+<li>AOF持久化策略是将发送到Redis端的每一条命令都记录下来，并保存到硬盘中的AOF文件，AOF文件和RDB文件位置相同。</li>
+</ul>
+
+<blockquote>
+<p>AOF持久化方式是默认关闭的，通过配置文件中的appendonly参数设为YES开启。</p>
+
+<p>AOF文件对于<strong>查询的操作不做记录</strong>。</p>
+</blockquote>
+
+<h3 id="aof文件到磁盘的同步策略">AOF文件到磁盘的同步策略</h3>
+
+<ol>
+<li><code>appendfsync always</code>     每次都同步(最安全，但也最慢)</li>
+<li><code>appendfsync everysec</code>   每秒同步（默认的同步策略）</li>
+<li><code>appendfsync no</code>         不主动同步，由操作系统来决定</li>
+</ol>
+
+<blockquote>
+<p>文件默认先写到缓存中，系统每30秒同步一次，才是真正写入到磁盘</p>
+</blockquote>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/redis%E7%9F%A5%E8%AF%86%E7%82%B9">Redis知识点</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98">分布式缓存</a></span><span class="tag"><a href="https://gj1e.github.io/tags/java">Java</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>28 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-26 20:25 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/11/redis/">
+                                <span class="button__text">Redis</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>
