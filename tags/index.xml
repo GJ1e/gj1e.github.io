@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 26 Nov 2019 20:25:20 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Dec 2019 16:53:13 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL练习题</title>
+      <link>https://gj1e.github.io/tags/sql%E7%BB%83%E4%B9%A0%E9%A2%98/</link>
+      <pubDate>Sun, 01 Dec 2019 16:53:13 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/tags/sql%E7%BB%83%E4%B9%A0%E9%A2%98/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Java</title>

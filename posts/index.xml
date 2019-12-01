@@ -6,8 +6,161 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Tue, 26 Nov 2019 20:25:20 +0800</lastBuildDate>
+        <lastBuildDate>Sun, 01 Dec 2019 16:53:13 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>DBLeetcode176</title>
+            <link>https://gj1e.github.io/posts/2019/12/dbleetcode176/</link>
+            <pubDate>Sun, 01 Dec 2019 16:53:13 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/dbleetcode176/</guid>
+            <description>Leetcode 176.第二高的薪水 题目： 编写一个 SQL 查询，获取Employee表中第二高的薪水(Salary)
++----+--------+ | Id | Salary | +----+--------+ | 1 | 100 | | 2 | 200 | | 3 | 300 | +----+--------+  例如上述 Employee 表，SQL查询应该返回 200 作为第二高的薪水。如果不存在第二高的薪水，那么查询应返回 null。
++---------------------+ | SecondHighestSalary | +---------------------+ | 200 | +---------------------+  思路：
+ 首先查出所有员工的薪水，去重。然后按薪水降序排序，用limit选取第二高的薪水。
+ 嵌套查询，首先从表中查出最高的薪水，然后查询比全表最高薪水低的最高薪水，就是第二高的薪水。
+   SQL查询语句中的 limit 与 offset 的区别：
+limit y 分句表示: 读取 y 条数据
+limit x, y 分句表示: 跳过 x 条数据，读取 y 条数据</description>
+            <content type="html"><![CDATA[
+
+<h2 id="leetcode-176-第二高的薪水">Leetcode 176.第二高的薪水</h2>
+
+<p><strong>题目：</strong>
+编写一个 SQL 查询，获取<code>Employee</code>表中第二高的薪水(Salary)</p>
+
+<pre><code class="language-table">+----+--------+
+| Id | Salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+
+</code></pre>
+
+<p>例如上述 Employee 表，SQL查询应该返回 200 作为第二高的薪水。如果不存在第二高的薪水，那么查询应返回 null。</p>
+
+<pre><code>+---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+
+</code></pre>
+
+<hr />
+
+<p><strong>思路：</strong></p>
+
+<ol>
+<li><p>首先查出所有员工的薪水，去重。然后按薪水降序排序，用limit选取第二高的薪水。</p></li>
+
+<li><p>嵌套查询，首先从表中查出最高的薪水，然后查询比全表最高薪水低的最高薪水，就是第二高的薪水。</p></li>
+</ol>
+
+<blockquote>
+<p>SQL查询语句中的 limit 与 offset 的区别：</p>
+
+<p>limit y 分句表示: 读取 y 条数据</p>
+
+<p>limit x, y 分句表示: 跳过 x 条数据，读取 y 条数据</p>
+
+<p>limit y offset x 分句表示: 跳过 x 条数据，读取 y 条数据</p>
+</blockquote>
+
+<hr />
+
+<pre><code class="language-SQL">//思路1：
+Select distinct Salary AS 'SecondHighestSalary'
+from Employee order by Salary DESC limit 1,1;
+
+//思路2：
+Select max(Salary) as SecondHighestSalary 
+from Employee where Salary &lt;(
+	Select max(Salary) from Employee
+);
+
+</code></pre>
+
+<hr />
+
+<p><a href="https://leetcode-cn.com/problems/second-highest-salary/solution/di-er-gao-de-xin-shui-by-leetcode/" target="_blank">题目地址</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>DBLeetcode175</title>
+            <link>https://gj1e.github.io/posts/2019/12/dbleetcode175/</link>
+            <pubDate>Sun, 01 Dec 2019 16:32:16 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/dbleetcode175/</guid>
+            <description>Leetcode 175.组合两个表 题目：
+表1: Person
++-------------+---------+ | 列名 | 类型 | +-------------+---------+ | PersonId | int | | FirstName | varchar | | LastName | varchar | +-------------+---------+ PersonId 是上表主键  表2: Address
++-------------+---------+ | 列名 | 类型 | +-------------+---------+ | AddressId | int | | PersonId | int | | City | varchar | | State | varchar | +-------------+---------+ AddressId 是上表主键  编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息： FirstName, LastName, City, State  思路：</description>
+            <content type="html"><![CDATA[
+
+<h2 id="leetcode-175-组合两个表">Leetcode 175.组合两个表</h2>
+
+<p><strong>题目：</strong></p>
+
+<p>表1: <code>Person</code></p>
+
+<pre><code class="language-table">+-------------+---------+
+| 列名         | 类型     |
++-------------+---------+
+| PersonId    | int     |
+| FirstName   | varchar |
+| LastName    | varchar |
++-------------+---------+
+PersonId 是上表主键
+</code></pre>
+
+<p>表2: <code>Address</code></p>
+
+<pre><code class="language-table">+-------------+---------+
+| 列名         | 类型    |
++-------------+---------+
+| AddressId   | int     |
+| PersonId    | int     |
+| City        | varchar |
+| State       | varchar |
++-------------+---------+
+AddressId 是上表主键
+ 
+</code></pre>
+
+<p>编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息：
+ </p>
+
+<pre><code>FirstName, LastName, City, State
+</code></pre>
+
+<hr />
+
+<p><strong>思路：</strong></p>
+
+<ul>
+<li><p>按题意要求，使用outer join时可以保证指定表的每条记录都出现&mdash;-即使没有匹配, outer join又可以分为left join, right join, full join。</p></li>
+
+<li><p>我们想让Address表中即使没有Person，也让Person有Address属性,所以Address为必须出现表，那么我们可以用 Person表 left join Address，或者反过来用right join。</p></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-SQL">select FirstName,LastName,City,State 
+from Person left join Address 
+on Person.PersonId=Address.PersonId;
+
+</code></pre>
+
+<hr />
+
+<p><a href="https://leetcode-cn.com/problems/combine-two-tables/solution/" target="_blank">题目地址</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>Redis的持久化</title>

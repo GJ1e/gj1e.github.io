@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DBLeetcode on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/categories/dbleetcode/</link>
+    <description>Recent content in DBLeetcode on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Sun, 01 Dec 2019 16:53:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/categories/dbleetcode/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DBLeetcode176</title>
+      <link>https://gj1e.github.io/posts/2019/12/dbleetcode176/</link>
+      <pubDate>Sun, 01 Dec 2019 16:53:13 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/dbleetcode176/</guid>
+      <description>Leetcode 176.第二高的薪水 题目： 编写一个 SQL 查询，获取Employee表中第二高的薪水(Salary)
++----+--------+ | Id | Salary | +----+--------+ | 1 | 100 | | 2 | 200 | | 3 | 300 | +----+--------+  例如上述 Employee 表，SQL查询应该返回 200 作为第二高的薪水。如果不存在第二高的薪水，那么查询应返回 null。
++---------------------+ | SecondHighestSalary | +---------------------+ | 200 | +---------------------+  思路：
+ 首先查出所有员工的薪水，去重。然后按薪水降序排序，用limit选取第二高的薪水。
+ 嵌套查询，首先从表中查出最高的薪水，然后查询比全表最高薪水低的最高薪水，就是第二高的薪水。
+   SQL查询语句中的 limit 与 offset 的区别：
+limit y 分句表示: 读取 y 条数据
+limit x, y 分句表示: 跳过 x 条数据，读取 y 条数据</description>
+    </item>
+    
+    <item>
+      <title>DBLeetcode175</title>
+      <link>https://gj1e.github.io/posts/2019/12/dbleetcode175/</link>
+      <pubDate>Sun, 01 Dec 2019 16:32:16 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/dbleetcode175/</guid>
+      <description>Leetcode 175.组合两个表 题目：
+表1: Person
++-------------+---------+ | 列名 | 类型 | +-------------+---------+ | PersonId | int | | FirstName | varchar | | LastName | varchar | +-------------+---------+ PersonId 是上表主键  表2: Address
++-------------+---------+ | 列名 | 类型 | +-------------+---------+ | AddressId | int | | PersonId | int | | City | varchar | | State | varchar | +-------------+---------+ AddressId 是上表主键  编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息： FirstName, LastName, City, State  思路：</description>
+    </item>
+    
+  </channel>
+</rss>
