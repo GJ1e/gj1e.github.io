@@ -7,7 +7,7 @@
 <meta name="author"
     content="GJ1e ">
 <meta name="description"
-    content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&amp;gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Sloution14 { public int maxProductAfterCutting(int length){ if (length &amp;lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math." />
+    content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&amp;gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Solution14 { public int maxProductAfterCutting(int length){ if (length &amp;lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B014%E9%A2%98/" />
@@ -37,7 +37,7 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#252627"><meta itemprop="name" content="剑指Offer(Java实现)14题">
-<meta itemprop="description" content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Sloution14 { public int maxProductAfterCutting(int length){ if (length &lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math.">
+<meta itemprop="description" content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Solution14 { public int maxProductAfterCutting(int length){ if (length &lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math.">
 
 
 <meta itemprop="datePublished" content="2019-11-01T21:58:24&#43;08:00" />
@@ -51,7 +51,7 @@
 <meta name="twitter:image" content="https://gj1e.github.io"/>
 
 <meta name="twitter:title" content="剑指Offer(Java实现)14题"/>
-<meta name="twitter:description" content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Sloution14 { public int maxProductAfterCutting(int length){ if (length &lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math."/>
+<meta name="twitter:description" content="面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Solution14 { public int maxProductAfterCutting(int length){ if (length &lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math."/>
 
 
 
@@ -157,7 +157,7 @@
  * @Time 23:27
  *
  */
-public class Sloution14 {
+public class Solution14 {
     public int maxProductAfterCutting(int length){
         if (length &lt; 2)
             return 0;

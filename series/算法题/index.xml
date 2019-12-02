@@ -18,7 +18,7 @@
       <pubDate>Sat, 23 Nov 2019 23:52:11 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B019%E9%A2%98/</guid>
-      <description>面试题19：正则表达式匹配  题目：  请实现一个函数用来匹配包含&amp;rsquo;.&amp;lsquo;和&amp;rsquo;&amp;lsquo;的正则表达式。模式中的字符&amp;rsquo;.&amp;lsquo;表示任意一个字符，而&amp;rsquo;&amp;lsquo;表示它前面的字符可以出现任意次（含0次）。在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串&amp;rdquo;aaa&amp;rdquo;与模式&amp;rdquo;a.a&amp;rdquo;和&amp;rdquo;ab*ac*a&amp;rdquo;匹配，但与&amp;rdquo;aa.a&amp;rdquo;及&amp;rdquo;ab*a&amp;rdquo;均不匹配。    思路：  当字符串中的字符和模式中的字符相匹配时，或者当模式中的字符为&amp;rdquo;.&amp;ldquo;时，字符串和模式串同时向后移动继续匹配。 当模式中的第二个字符是“*”时，一种选择是模式上向后移动两个字符。这相当于*和它前面的字符被忽略了，因为*可以匹配字符串中的0哥字符。如果模式中的第一个字符和字符串中的第一个字符相匹配，则字符串向后移动一个字符，而模式上有两种选择：可以在模式上向后移动两个字符，也可以保持模式不变。   /** * @Author GJ1e * @Create 2019/12/1 * @Time 19:54 * */ public class Sloution19 { public boolean match(char[] str, char[] pattern) { if (str == null || pattern == null) { return false; } return matchRecur(str, pattern, 0, 0); } private boolean matchRecur(char[] str, char[] pattern, int s, int p) { if (s == str.</description>
+      <description>面试题19：正则表达式匹配  题目：  请实现一个函数用来匹配包含&amp;rsquo;.&amp;lsquo;和&amp;rsquo;&amp;lsquo;的正则表达式。模式中的字符&amp;rsquo;.&amp;lsquo;表示任意一个字符，而&amp;rsquo;&amp;lsquo;表示它前面的字符可以出现任意次（含0次）。在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串&amp;rdquo;aaa&amp;rdquo;与模式&amp;rdquo;a.a&amp;rdquo;和&amp;rdquo;ab*ac*a&amp;rdquo;匹配，但与&amp;rdquo;aa.a&amp;rdquo;及&amp;rdquo;ab*a&amp;rdquo;均不匹配。    思路：  当字符串中的字符和模式中的字符相匹配时，或者当模式中的字符为&amp;rdquo;.&amp;ldquo;时，字符串和模式串同时向后移动继续匹配。 当模式中的第二个字符是“*”时，一种选择是模式上向后移动两个字符。这相当于*和它前面的字符被忽略了，因为*可以匹配字符串中的0哥字符。如果模式中的第一个字符和字符串中的第一个字符相匹配，则字符串向后移动一个字符，而模式上有两种选择：可以在模式上向后移动两个字符，也可以保持模式不变。   /** * @Author GJ1e * @Create 2019/12/1 * @Time 19:54 * */ public class Solution19 { public boolean match(char[] str, char[] pattern) { if (str == null || pattern == null) { return false; } return matchRecur(str, pattern, 0, 0); } private boolean matchRecur(char[] str, char[] pattern, int s, int p) { if (s == str.</description>
     </item>
     
     <item>
@@ -39,7 +39,7 @@
       <description>面试题18:删除链表的节点  问题：  给定单向链表的头指针和一个节点指针，定义一个函数在O(1)时间内删除该节点。    思路:
  删除链表中的某个节点，并不一定是删除本身的节点。 可以把要删除节点的下一个节点的内容复制到需要删除的节点上覆盖原有的内容，然后在把下一个节点删除，这也就是相当于把需要的节点删除了。  异常情况：
  1.删除节点是尾节点 2.链表只有一个节点 3.空链表，或删除节点为空。    注：因收到O(1)时间的限制，以下的解法均基于一个假设：要删除的节点的确在链表中。
- /** * @Author GJ1e * @Create 2019/9/14 * @Time 14:32 * */ public class Sloution18 { //定义链表 class ListNode{ int value; ListNode next = null; } public ListNode deleteListNode(ListNode listNode , ListNode deleteNode){ if (listNode == null || deleteNode == null) return listNode; if(deleteNode.next != null) //删除的节点不是尾节点 { ListNode temp = deleteNode.</description>
+ /** * @Author GJ1e * @Create 2019/9/14 * @Time 14:32 * */ public class Solution18 { //定义链表 class ListNode{ int value; ListNode next = null; } public ListNode deleteListNode(ListNode listNode , ListNode deleteNode){ if (listNode == null || deleteNode == null) return listNode; if(deleteNode.next != null) //删除的节点不是尾节点 { ListNode temp = deleteNode.</description>
     </item>
     
     <item>
@@ -48,7 +48,7 @@
       <pubDate>Tue, 19 Nov 2019 21:44:14 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B017%E9%A2%98/</guid>
-      <description>面试题17：打印从1到最大的N位数  题目：  输入数字n，按顺序打印出从1到最大的n位十进制数。比如输入3，则打印1，2，3一直到最大的3位数999.    思路：  大数问题，注意溢出，用字符串来描述数字。 把问题转换成数字排列的解法，n位所有十进制数，其实就是n个从0到9的全排列。 也就是说，我们把数字的每一位都从0到9排列一趟，就得到了所有十进制数。 注意，最后打印时，要把排在数字前面的0过滤掉。   /** * @Author GJ1e * @Create 2019/11/19 * @Time 20:44 * */ public class Sloution17 { public void print1ToMaxOfNDigits(int n){ if (n&amp;lt;=0) return; char[] numbers = new char[n+1]; numbers[n] = &#39;\0&#39;; for (int i = 0; i &amp;lt; 10; i++) { numbers[0] = (char)(i+&#39;0&#39;); print1ToMaxOfNDigitsRecursively(numbers,n,0); //调用递归函数进行数字每一位的全排列 } } private void print1ToMaxOfNDigitsRecursively(char[] numbers, int length, int index){ if (length-1 == index){ //递归结束的条件，就是设置了数字的最后一位。 printNumber(numbers); //调用打印函数 return; } for (int i = 0; i &amp;lt; 10; i++) { numbers[index+1] = (char)(i+&#39;0&#39;); print1ToMaxOfNDigitsRecursively(numbers, length, index+1); } } private static void printNumber(char[] numbers){ boolean isBegin0 = true; for (int i = 0; i &amp;lt; numbers.</description>
+      <description>面试题17：打印从1到最大的N位数  题目：  输入数字n，按顺序打印出从1到最大的n位十进制数。比如输入3，则打印1，2，3一直到最大的3位数999.    思路：  大数问题，注意溢出，用字符串来描述数字。 把问题转换成数字排列的解法，n位所有十进制数，其实就是n个从0到9的全排列。 也就是说，我们把数字的每一位都从0到9排列一趟，就得到了所有十进制数。 注意，最后打印时，要把排在数字前面的0过滤掉。   /** * @Author GJ1e * @Create 2019/11/19 * @Time 20:44 * */ public class Solution17 { public void print1ToMaxOfNDigits(int n){ if (n&amp;lt;=0) return; char[] numbers = new char[n+1]; numbers[n] = &#39;\0&#39;; for (int i = 0; i &amp;lt; 10; i++) { numbers[0] = (char)(i+&#39;0&#39;); print1ToMaxOfNDigitsRecursively(numbers,n,0); //调用递归函数进行数字每一位的全排列 } } private void print1ToMaxOfNDigitsRecursively(char[] numbers, int length, int index){ if (length-1 == index){ //递归结束的条件，就是设置了数字的最后一位。 printNumber(numbers); //调用打印函数 return; } for (int i = 0; i &amp;lt; 10; i++) { numbers[index+1] = (char)(i+&#39;0&#39;); print1ToMaxOfNDigitsRecursively(numbers, length, index+1); } } private static void printNumber(char[] numbers){ boolean isBegin0 = true; for (int i = 0; i &amp;lt; numbers.</description>
     </item>
     
     <item>
@@ -60,7 +60,7 @@
       <description>面试题16：数值的整数次方  题目：  实现函数double Power(double base， int exponent)，求base的exponent次方。不得使用库函数，不需要考虑大数问题。    思路：
  当指数为负数的时候，先对指数求绝对值，算出次方的结果之后再取倒数。
  当base为0，且指数为负数时，返回0.
-   /** * @Author GJ1e * @Create 2019/11/9 * @Time 21:34 * */ public class Sloution16 { public double power(double base, int exponent){ Double base1 = base; if (base1.compareTo(0.0)==0 &amp;amp;&amp;amp; exponent&amp;lt;0){ return 0.0; } int absExponent = exponent; if (exponent &amp;lt; 0) //指数为负数时，先求指数的绝对值 absExponent = -exponent; double result = powerCore(base, absExponent); //调用函数，计算次方的结果 if (exponent &amp;lt; 0) //指数为负数，对次方结果取倒数 result = 1.</description>
+   /** * @Author GJ1e * @Create 2019/11/9 * @Time 21:34 * */ public class Solution16 { public double power(double base, int exponent){ Double base1 = base; if (base1.compareTo(0.0)==0 &amp;amp;&amp;amp; exponent&amp;lt;0){ return 0.0; } int absExponent = exponent; if (exponent &amp;lt; 0) //指数为负数时，先求指数的绝对值 absExponent = -exponent; double result = powerCore(base, absExponent); //调用函数，计算次方的结果 if (exponent &amp;lt; 0) //指数为负数，对次方结果取倒数 result = 1.</description>
     </item>
     
     <item>
@@ -69,7 +69,7 @@
       <pubDate>Sat, 09 Nov 2019 21:36:03 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B015%E9%A2%98/</guid>
-      <description> 面试题15：二进制中1的个数  题目：  请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。 例如：把9表示成二进制是1001，有2位是1.因此如果输入9，则该函数输出2。    思路：  一个整数减去1，在和原数进行&amp;amp;运算，会把该整数最右边的1变成0。那么一个整数的二进制有多少个1，就可以进行多少次这样的操作。 例如：12的二进制为1100，1100-1=1011，1011&amp;amp;1100=1000； 这样，原1100中最右边的1变为了0；   /** * @Author GJ1e * @Create 2019/11/9 * @Time 21:13 * */ public class Sloution15 { public static int numberOf1(int n){ int count = 0; while (n&amp;gt;0){ count++; n = (n-1)&amp;amp;n; //能进行多少次就有多少个1 } return count; } }  </description>
+      <description> 面试题15：二进制中1的个数  题目：  请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。 例如：把9表示成二进制是1001，有2位是1.因此如果输入9，则该函数输出2。    思路：  一个整数减去1，在和原数进行&amp;amp;运算，会把该整数最右边的1变成0。那么一个整数的二进制有多少个1，就可以进行多少次这样的操作。 例如：12的二进制为1100，1100-1=1011，1011&amp;amp;1100=1000； 这样，原1100中最右边的1变为了0；   /** * @Author GJ1e * @Create 2019/11/9 * @Time 21:13 * */ public class Solution15 { public static int numberOf1(int n){ int count = 0; while (n&amp;gt;0){ count++; n = (n-1)&amp;amp;n; //能进行多少次就有多少个1 } return count; } }  </description>
     </item>
     
     <item>
@@ -78,7 +78,7 @@
       <pubDate>Fri, 01 Nov 2019 21:58:24 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B014%E9%A2%98/</guid>
-      <description>面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&amp;gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Sloution14 { public int maxProductAfterCutting(int length){ if (length &amp;lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math.</description>
+      <description>面试题14：剪绳子  题目：  给你一根长度为n绳子，请把绳子剪成m段（m、n都是整数，n&amp;gt;1并且m≥1）。每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]*k[1]*…*k[m]可能的最大乘积是多少？例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。    思路：  尽可能多地减去长度为3的绳子段,当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。   package com.gj1e.question; /** * @Author GJ1e * @Create 2019/11/1 * @Time 23:27 * */ public class Solution14 { public int maxProductAfterCutting(int length){ if (length &amp;lt; 2) return 0; if (length == 2) return 1; if (length == 3) return 2; int timesOf3 = length / 3; // 尽可能多地减去长度为3的绳子段 // 当绳子最后剩下的长度为4的时候，不能再剪去长度为3的绳子段。 // 此时更好的方法是把绳子剪成长度为2的两段，因为2*2 &amp;gt; 3*1。 if (length - timesOf3*3 == 1) timesOf3 -= 1; int timesOf2 = (length - timesOf3 * 3) / 2; return (int) (Math.</description>
     </item>
     
     <item>
@@ -87,7 +87,7 @@
       <pubDate>Tue, 29 Oct 2019 20:41:11 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B013%E9%A2%98/</guid>
-      <description>面试题13：机器人的运动范围  题目：  地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？    思路：  这个题和12题一样，也是用回溯法的思路来解。 在这个矩阵中，除边界上的格子之外，其他的格子都有4个相邻的格子。 机器人从坐标(0,0)开始移动，准备进入下一个格子(i,j)之前检查是否满足限制条件能否进入，如果可以进入就+1，同时用一个布尔矩阵来记录可以进入的格子，然后再来判断它能否进入四个相邻的格子(i,j-1),(i-1,j),(i,j+1),(i+1,j)。   /** * @Author GJ1e * @Create 2019/10/29 * @Time 9:41 * */ public class Sloution13 { public int movingCount(int threshold, int rows, int cols){ if (threshold&amp;lt;0 || rows&amp;lt;=0 || cols&amp;lt;=0) //异常矩阵检查 return -1; boolean[] visite = new boolean[rows*cols]; int count = movingCountCore(threshold,rows,cols,0,0,visite); //以(0,0)为起点坐标 return count; } /** * * @param threshold 进入格子的限制值 * @param rows 矩阵的行 * @param cols 矩阵的列 * @param row 起点的行坐标 * @param col 起点的列坐标 * @param visit 用来记录已经进入过的格子 * @return */ public int movingCountCore(int threshold, int rows, int cols, int row, int col, boolean[] visit){ int count = 0; if (row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;gt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;gt;cols &amp;amp;&amp;amp; (getDigitSum(row)+getDigitSum(col))&amp;lt;=threshold &amp;amp;&amp;amp; !</description>
+      <description>面试题13：机器人的运动范围  题目：  地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？    思路：  这个题和12题一样，也是用回溯法的思路来解。 在这个矩阵中，除边界上的格子之外，其他的格子都有4个相邻的格子。 机器人从坐标(0,0)开始移动，准备进入下一个格子(i,j)之前检查是否满足限制条件能否进入，如果可以进入就+1，同时用一个布尔矩阵来记录可以进入的格子，然后再来判断它能否进入四个相邻的格子(i,j-1),(i-1,j),(i,j+1),(i+1,j)。   /** * @Author GJ1e * @Create 2019/10/29 * @Time 9:41 * */ public class Solution13 { public int movingCount(int threshold, int rows, int cols){ if (threshold&amp;lt;0 || rows&amp;lt;=0 || cols&amp;lt;=0) //异常矩阵检查 return -1; boolean[] visite = new boolean[rows*cols]; int count = movingCountCore(threshold,rows,cols,0,0,visite); //以(0,0)为起点坐标 return count; } /** * * @param threshold 进入格子的限制值 * @param rows 矩阵的行 * @param cols 矩阵的列 * @param row 起点的行坐标 * @param col 起点的列坐标 * @param visit 用来记录已经进入过的格子 * @return */ public int movingCountCore(int threshold, int rows, int cols, int row, int col, boolean[] visit){ int count = 0; if (row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;gt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;gt;cols &amp;amp;&amp;amp; (getDigitSum(row)+getDigitSum(col))&amp;lt;=threshold &amp;amp;&amp;amp; !</description>
     </item>
     
     <item>
@@ -104,7 +104,7 @@ a b t g c f c s j d e h  这个字符矩阵中包含一条字符串bfce的路径
  由于回朔法的递归特性，路径可以被开成一个栈。当在矩阵中定位了路径中前n个字符的位置之后，在与第n个字符对应的格子的周围都没有找到第n+1个字符，这个时候只要在路径上回到第n-1个字符，重新定位第n个字符。
  由于路径不能重复进入矩阵的格子，还需要定义和字符矩阵大小一样的布尔值矩阵，用来标识路径是否已经进入每个格子。 当矩阵中坐标为（row,col）的格子和路径字符串中下标pathLength的字符一样时，从4个相邻的格子(row,col-1),(row-1,col),(row,col+1)以及(row+1,col)中去定位路径字符串中下一个字符如果4个相邻的格子都没有匹配字符串中pathLength+1的字符，表明当前路径字符串中下标为pathLength的字符在矩阵中的定位不正确，我们需要回到前一个字符（pathLength-1）然后重新定位。
  一直重复这个过程，直到路径字符串上所有字符都在矩阵中找到合适的位置
-   /** * @Author GJ1e * @Create 2019/10/26 * @Time 20:16 * */ public class Sloution12 { public boolean hasPath(char[] matrix, int rows, int cols, char[] str){ if (matrix==null || rows&amp;lt;=0 || cols&amp;lt;=0 || str==null) //非法矩阵和异常字符串检查 return false; boolean[] visited = new boolean[rows*cols]; int pathLength = 0; //字符串索引初始下标和路径长度 for (int row = 0; row &amp;lt; rows; row++) { for (int col = 0; col &amp;lt; cols; col++) { if (hasPathCore(matrix,rows,cols,str,row,col,visited,pathLength)) return true; } } return false; } /** * * @param matrix 字符矩阵 * @param rows 矩阵的行 * @param cols 矩阵的列 * @param str 字符串 * @param row 索引的行 * @param col 索引的列 * @param visited 布尔矩阵，用来标识路径是否已经进入了每个格子 * @param pathLength 记录字符串的索引下标和路径的长度 * @return */ public boolean hasPathCore(char[] matrix, int rows, int cols, char[] str, int row, int col, boolean[] visited, int pathLength){ boolean flag = false; if (row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;lt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;lt;cols&amp;amp;&amp;amp; !</description>
+   /** * @Author GJ1e * @Create 2019/10/26 * @Time 20:16 * */ public class Solution12 { public boolean hasPath(char[] matrix, int rows, int cols, char[] str){ if (matrix==null || rows&amp;lt;=0 || cols&amp;lt;=0 || str==null) //非法矩阵和异常字符串检查 return false; boolean[] visited = new boolean[rows*cols]; int pathLength = 0; //字符串索引初始下标和路径长度 for (int row = 0; row &amp;lt; rows; row++) { for (int col = 0; col &amp;lt; cols; col++) { if (hasPathCore(matrix,rows,cols,str,row,col,visited,pathLength)) return true; } } return false; } /** * * @param matrix 字符矩阵 * @param rows 矩阵的行 * @param cols 矩阵的列 * @param str 字符串 * @param row 索引的行 * @param col 索引的列 * @param visited 布尔矩阵，用来标识路径是否已经进入了每个格子 * @param pathLength 记录字符串的索引下标和路径的长度 * @return */ public boolean hasPathCore(char[] matrix, int rows, int cols, char[] str, int row, int col, boolean[] visited, int pathLength){ boolean flag = false; if (row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;lt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;lt;cols&amp;amp;&amp;amp; !</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@ a b t g c f c s j d e h  这个字符矩阵中包含一条字符串bfce的路径
  二分查找算法的思路来解。 因为数组是非递减(注意不是严格递增，会出现：2，2，2，2，1，2这样的)且排序的数组。 mid = low +(high-low)/2 有三种情况： 第一种：array[mid] &amp;gt; array[high],这种类似于{3，4，5，1，2}最小的数字在mid的右边。所以：low = mid+1
  第二种：array[mid] &amp;lt; array[high],这种类似于{1,1,1,3,4}最小的数字有可能就是mid或者在mid的左边。所以：high = mid
  第三种：array[mid] == array[high],这种类似于{1,0,1,1,1}或{1，1，1，0，1}这时最小的数字不好判断，只能一个一个试。所以：high = high-1；
-   /** * @Author GJ1e * @Create 2019/10/26 * @Time 19:49 * */ public class Sloution11 { public int minNumberInRotateArray(int [] array){ if (array==null || array.length &amp;lt;= 0) return -1; int low = 0; int high = array.</description>
+   /** * @Author GJ1e * @Create 2019/10/26 * @Time 19:49 * */ public class Solution11 { public int minNumberInRotateArray(int [] array){ if (array==null || array.length &amp;lt;= 0) return -1; int low = 0; int high = array.</description>
     </item>
     
     <item>
@@ -126,7 +126,7 @@ a b t g c f c s j d e h  这个字符矩阵中包含一条字符串bfce的路径
       <pubDate>Sun, 27 Oct 2019 21:26:01 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B010-3%E9%A2%98/</guid>
-      <description>面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &amp;lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)+f(2) 以此类推，f(n)=f(n-1)+f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Sloution10_3 { public int RectCover(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) + RectCover(n-2); } }  此代码已在牛客网AC</description>
+      <description>面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &amp;lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)+f(2) 以此类推，f(n)=f(n-1)+f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Solution10_3 { public int RectCover(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) + RectCover(n-2); } }  此代码已在牛客网AC</description>
     </item>
     
     <item>
@@ -155,7 +155,7 @@ f(n) = f(n-1) + f(n-2) + f(n-3) + &amp;hellip; + f(n-(n-1)) + f(n-n)
       <pubDate>Tue, 15 Oct 2019 23:16:23 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B010-1%E9%A2%98/</guid>
-      <description>面试题10的扩展题：青蛙跳台阶问题  题目：  一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。    思路：  和面试题10的思路差不多，一种递归，一种找规律。 找规律：f(0)=0,f(1)=1,f(2)=2,f(3)=f(1)+f(2),f(4)=f(2)+f(3)···以此类推。   /** * @Author GJ1e * @Create 2019/10/15 * @Time 20:18 * */ public class Sloution10_1 { //递归 public int JumpFloor(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; return JumpFloor(n-1) + JumpFloor(n-2); } //找规律 public int JumpFloor01(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; int jumpOne = 1; int jumpTwo = 2; int jumpN = 0; for (int i = 3; i &amp;lt;= n; i++) { jumpN = jumpOne + jumpTwo; jumpOne = jumpTwo; jumpTwo = jumpN; } return jumpN; } }  两种方法的代码都已AC</description>
+      <description>面试题10的扩展题：青蛙跳台阶问题  题目：  一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。    思路：  和面试题10的思路差不多，一种递归，一种找规律。 找规律：f(0)=0,f(1)=1,f(2)=2,f(3)=f(1)+f(2),f(4)=f(2)+f(3)···以此类推。   /** * @Author GJ1e * @Create 2019/10/15 * @Time 20:18 * */ public class Solution10_1 { //递归 public int JumpFloor(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; return JumpFloor(n-1) + JumpFloor(n-2); } //找规律 public int JumpFloor01(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; int jumpOne = 1; int jumpTwo = 2; int jumpN = 0; for (int i = 3; i &amp;lt;= n; i++) { jumpN = jumpOne + jumpTwo; jumpOne = jumpTwo; jumpTwo = jumpN; } return jumpN; } }  两种方法的代码都已AC</description>
     </item>
     
     <item>
@@ -164,7 +164,7 @@ f(n) = f(n-1) + f(n-2) + f(n-3) + &amp;hellip; + f(n-(n-1)) + f(n-n)
       <pubDate>Tue, 15 Oct 2019 23:14:53 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B010%E9%A2%98/</guid>
-      <description>面试题10:斐波那契数列  题目：  大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。    思路：  第一种递归。 第二种找规律，f(0)=0,f(1)=1,f(2)=f(1)+f(0),f(3)=f(2)+f(1)···以此类推   /** * @Author GJ1e * @Create 2019/10/15 * @Time 20:05 * */ public class Sloution { //递归 public int fibonacci01(int n){ if (n&amp;lt;=0) return 0; else if (n == 1) return 1; return fibonacci01(n-1) + fibonacci01(n-2); } //找规律 public int fibonacci02(int n){ if (n&amp;lt;=0) return 0; else if (n == 1) return 1; int fibOne = 1; int fibTwo = 0; int fibN = 0; for (int i = 2; i &amp;lt;= n; i++) { fibN = fibOne + fibTwo; fibTwo = fibOne; fibOne = fibN; } return fibN; } }  两种方法的代码都已AC</description>
+      <description>面试题10:斐波那契数列  题目：  大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。    思路：  第一种递归。 第二种找规律，f(0)=0,f(1)=1,f(2)=f(1)+f(0),f(3)=f(2)+f(1)···以此类推   /** * @Author GJ1e * @Create 2019/10/15 * @Time 20:05 * */ public class Solution10 { //递归 public int fibonacci01(int n){ if (n&amp;lt;=0) return 0; else if (n == 1) return 1; return fibonacci01(n-1) + fibonacci01(n-2); } //找规律 public int fibonacci02(int n){ if (n&amp;lt;=0) return 0; else if (n == 1) return 1; int fibOne = 1; int fibTwo = 0; int fibN = 0; for (int i = 2; i &amp;lt;= n; i++) { fibN = fibOne + fibTwo; fibTwo = fibOne; fibOne = fibN; } return fibN; } }  两种方法的代码都已AC</description>
     </item>
     
     <item>
@@ -178,7 +178,7 @@ f(n) = f(n-1) + f(n-2) + f(n-3) + &amp;hellip; + f(n-(n-1)) + f(n-n)
  首先插入元素1，随便把它插入哪个栈，比如我们就把它插入stack1，此时stack1中的元素有{1}，stack2为空。
  在压入两个元素2，3还是插入stack1，此时stack1中的元素有{1，2，3}其中元素3位于栈顶。这时如果删除一个元素，按照队列先进先出的规则，应该删除元素1。但是元素1并不位于栈顶，因此不能直接删除，如果我们把stack1中的元素依次弹出并压入stack2中，则stack2中元素的顺序正好和stack1中的顺序相反，stack2中元素的顺序为{3，2，1}.这是元素1就位于栈顶了，就可以直接弹出了，且stack2中所有元素的弹出顺序都和队列出队的顺序一样。
  因此可以总结出，当stack2不位空时，stack2中的栈顶元素就是最先入队列的元素，直接弹出即可。当stack2位空时，我们可就把stack1中的元素逐个弹出并压入stack2中。如果接下来在插入一个元素4，则还是把它压入stack1。
-   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Sloution { Stack&amp;lt;Integer&amp;gt; stack1 = new Stack&amp;lt;Integer&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stack2 = new Stack&amp;lt;Integer&amp;gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;amp;&amp;amp; stack2.empty()) throw new RuntimeException(&amp;quot;请添加元素&amp;quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!</description>
+   /** * @Author GJ1e * @Create 2019/10/15 * @Time 18:39 * */ public class Solution { Stack&amp;lt;Integer&amp;gt; stack1 = new Stack&amp;lt;Integer&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stack2 = new Stack&amp;lt;Integer&amp;gt;(); //队列的Push操作。 public void Push(int elemen){ stack1.push(elemen); } //队列的Pop操作 public int Pop(){ if (stack1.empty() &amp;amp;&amp;amp; stack2.empty()) throw new RuntimeException(&amp;quot;请添加元素&amp;quot;); if (stack2.empty()){ //stack2为空就把stack1中的元素弹出并压入stack2中。 while (!</description>
     </item>
     
     <item>
@@ -202,7 +202,7 @@ f(n) = f(n-1) + f(n-2) + f(n-3) + &amp;hellip; + f(n-(n-1)) + f(n-n)
       <pubDate>Tue, 15 Oct 2019 23:14:13 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B007%E9%A2%98/</guid>
-      <description>面试题07：重建二叉树  题目：  输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。    思路：  现根据先序序列找二叉树的根节点，先序序列的第一个节点就是root节点。 然后找出中序序列中root节点的位置。 根据中序序列的性质，root节点的左边为左子树的节点，右边为右子树的节点。 然后用递归的方式重建二叉树的左子树和右子树。   /** * @Author GJ1e * @Create 2019/10/26 * @Time 14:59 * */ public class Sloution { class BinaryTreeNode{ int vaule; BinaryTreeNode left = null; BinaryTreeNode right = null; public BinaryTreeNode(int vaule){ this.vaule = vaule; } } public BinaryTreeNode reConstructBinaryTree(int [] pre, int [] in) { if (pre==null || pre.length&amp;lt;=0 || in==null || in.</description>
+      <description>面试题07：重建二叉树  题目：  输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。    思路：  现根据先序序列找二叉树的根节点，先序序列的第一个节点就是root节点。 然后找出中序序列中root节点的位置。 根据中序序列的性质，root节点的左边为左子树的节点，右边为右子树的节点。 然后用递归的方式重建二叉树的左子树和右子树。   /** * @Author GJ1e * @Create 2019/10/26 * @Time 14:59 * */ public class Solution { class BinaryTreeNode{ int vaule; BinaryTreeNode left = null; BinaryTreeNode right = null; public BinaryTreeNode(int vaule){ this.vaule = vaule; } } public BinaryTreeNode reConstructBinaryTree(int [] pre, int [] in) { if (pre==null || pre.length&amp;lt;=0 || in==null || in.</description>
     </item>
     
     <item>

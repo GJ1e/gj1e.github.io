@@ -7,7 +7,7 @@
 <meta name="author"
     content="GJ1e ">
 <meta name="description"
-    content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &amp;lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Sloution10_3 { public int RectCover(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC" />
+    content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &amp;lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Solution10_3 { public int RectCover(int n){ if (n&amp;lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://gj1e.github.io/posts/2019/10/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B010-3%E9%A2%98/" />
@@ -37,7 +37,7 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#252627"><meta itemprop="name" content="剑指Offer(Java实现)10-3题">
-<meta itemprop="description" content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Sloution10_3 { public int RectCover(int n){ if (n&lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC">
+<meta itemprop="description" content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Solution10_3 { public int RectCover(int n){ if (n&lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC">
 
 
 <meta itemprop="datePublished" content="2019-10-27T21:26:01&#43;08:00" />
@@ -51,7 +51,7 @@
 <meta name="twitter:image" content="https://gj1e.github.io"/>
 
 <meta name="twitter:title" content="剑指Offer(Java实现)10-3题"/>
-<meta name="twitter:description" content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Sloution10_3 { public int RectCover(int n){ if (n&lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC"/>
+<meta name="twitter:description" content="面试题10的扩展题：矩形覆盖  题目：  我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？    思路：  斐波那契数列的变形题，思路就是递归循环。 2*n的大矩形，和n个2*1的小矩形，其中n*2为大矩阵的大小，有以下几种情形： n &lt;= 0 大矩形为2*0,直接return 0； n = 1 大矩形为2*1，只有一种摆放方法，return1； n = 2 大矩形为2*2，有两种摆放方法，return2； n = 3 分为两步考虑：有三种摆放方法，所以f(3)=f(1)&#43;f(2) 以此类推，f(n)=f(n-1)&#43;f(n-2)   /** * @Author GJ1e * @Create 2019/10/27 * @Time 22:20 * */ public class Solution10_3 { public int RectCover(int n){ if (n&lt;=0) return 0; else if (n==1) return 1; else if (n==2) return 2; else return RectCover(n-1) &#43; RectCover(n-2); } }  此代码已在牛客网AC"/>
 
 
 
@@ -161,7 +161,7 @@
  * @Time 22:20
  *
  */
-public class Sloution10_3 {
+public class Solution10_3 {
     public int RectCover(int n){
         if (n&lt;=0)
             return 0;
