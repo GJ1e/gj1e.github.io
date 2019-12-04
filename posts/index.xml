@@ -6,8 +6,72 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Mon, 02 Dec 2019 22:47:08 +0800</lastBuildDate>
+        <lastBuildDate>Wed, 04 Dec 2019 23:17:36 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>DBLeetcode182</title>
+            <link>https://gj1e.github.io/posts/2019/12/dbleetcode182/</link>
+            <pubDate>Wed, 04 Dec 2019 23:17:36 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/dbleetcode182/</guid>
+            <description>Leetcode 182.查找重复的电子邮件 题目：
+编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。
+示例： +----+---------+ | Id | Email | +----+---------+ | 1 | a@b.com | | 2 | c@d.com | | 3 | a@b.com | +----+---------+  根据以上输入，你的查询应返回以下结果：
++---------+ | Email | +---------+ | a@b.com | +---------+  说明：所有电子邮箱都是小写字母。
+思路：
+利用GROUP BY 和 HAVING 从Person中挑选出现超过一次的Email，通过Email分组。
+SELECT Email FROM Person GROUP BY Email HAVING COUNT(Email)&amp;gt;1;  题目地址</description>
+            <content type="html"><![CDATA[
+
+<h2 id="leetcode-182-查找重复的电子邮件">Leetcode 182.查找重复的电子邮件</h2>
+
+<p><strong>题目：</strong></p>
+
+<p>编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。</p>
+
+<pre><code class="language-table">示例：
+
++----+---------+
+| Id | Email   |
++----+---------+
+| 1  | a@b.com |
+| 2  | c@d.com |
+| 3  | a@b.com |
++----+---------+
+</code></pre>
+
+<p>根据以上输入，你的查询应返回以下结果：</p>
+
+<pre><code class="language-table">+---------+
+| Email   |
++---------+
+| a@b.com |
++---------+
+</code></pre>
+
+<p>说明：所有电子邮箱都是小写字母。</p>
+
+<hr />
+
+<p><strong>思路：</strong></p>
+
+<p>利用<code>GROUP BY</code> 和 <code>HAVING</code> 从Person中挑选出现超过一次的Email，通过Email分组。</p>
+
+<hr />
+
+<pre><code class="language-SQL">SELECT Email 
+FROM Person 
+GROUP BY Email 
+HAVING COUNT(Email)&gt;1;
+
+</code></pre>
+
+<hr />
+
+<p><a href="https://leetcode-cn.com/problems/duplicate-emails/" target="_blank">题目地址</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>DBLeetcode181</title>

@@ -7,18 +7,21 @@
 <meta name="author"
     content="GJ1e ">
 <meta name="description"
-    content="Leetcode 181.超过经理收入的员工 题目：
-Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。
-&#43;----&#43;-------&#43;--------&#43;-----------&#43; | Id | Name | Salary | ManagerId | &#43;----&#43;-------&#43;--------&#43;-----------&#43; | 1 | Joe | 70000 | 3 | | 2 | Henry | 80000 | 4 | | 3 | Sam | 60000 | NULL | | 4 | Max | 90000 | NULL | &#43;----&#43;-------&#43;--------&#43;-----------&#43;  给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。
-&#43;----------&#43; | Employee | &#43;----------&#43; | Joe | &#43;----------&#43;  思路：" />
+    content="Leetcode 182.查找重复的电子邮件 题目：
+编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。
+示例： &#43;----&#43;---------&#43; | Id | Email | &#43;----&#43;---------&#43; | 1 | a@b.com | | 2 | c@d.com | | 3 | a@b.com | &#43;----&#43;---------&#43;  根据以上输入，你的查询应返回以下结果：
+&#43;---------&#43; | Email | &#43;---------&#43; | a@b.com | &#43;---------&#43;  说明：所有电子邮箱都是小写字母。
+思路：
+利用GROUP BY 和 HAVING 从Person中挑选出现超过一次的Email，通过Email分组。
+SELECT Email FROM Person GROUP BY Email HAVING COUNT(Email)&amp;gt;1;  题目地址" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="https://gj1e.github.io/posts/2019/12/dbleetcode181/" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/12/dbleetcode182/" />
 
 
 <title>
     
-    DBLeetcode181 :: Gao J1e&#39;s Blog  — Hello Friend
+    DBLeetcode182 :: Gao J1e&#39;s Blog  — Hello Friend
     
 </title>
 
@@ -39,16 +42,19 @@ Employee 表包含所有员工，他们的经理也属于员工。每个员工�
 <link rel="manifest" href="/site.webmanifest">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
 <link rel="shortcut icon" href="/favicon.ico">
-<meta name="theme-color" content="#252627"><meta itemprop="name" content="DBLeetcode181">
-<meta itemprop="description" content="Leetcode 181.超过经理收入的员工 题目：
-Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。
-&#43;----&#43;-------&#43;--------&#43;-----------&#43; | Id | Name | Salary | ManagerId | &#43;----&#43;-------&#43;--------&#43;-----------&#43; | 1 | Joe | 70000 | 3 | | 2 | Henry | 80000 | 4 | | 3 | Sam | 60000 | NULL | | 4 | Max | 90000 | NULL | &#43;----&#43;-------&#43;--------&#43;-----------&#43;  给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。
-&#43;----------&#43; | Employee | &#43;----------&#43; | Joe | &#43;----------&#43;  思路：">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="DBLeetcode182">
+<meta itemprop="description" content="Leetcode 182.查找重复的电子邮件 题目：
+编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。
+示例： &#43;----&#43;---------&#43; | Id | Email | &#43;----&#43;---------&#43; | 1 | a@b.com | | 2 | c@d.com | | 3 | a@b.com | &#43;----&#43;---------&#43;  根据以上输入，你的查询应返回以下结果：
+&#43;---------&#43; | Email | &#43;---------&#43; | a@b.com | &#43;---------&#43;  说明：所有电子邮箱都是小写字母。
+思路：
+利用GROUP BY 和 HAVING 从Person中挑选出现超过一次的Email，通过Email分组。
+SELECT Email FROM Person GROUP BY Email HAVING COUNT(Email)&gt;1;  题目地址">
 
 
-<meta itemprop="datePublished" content="2019-12-02T22:47:08&#43;08:00" />
-<meta itemprop="dateModified" content="2019-12-02T22:47:08&#43;08:00" />
-<meta itemprop="wordCount" content="91">
+<meta itemprop="datePublished" content="2019-12-04T23:17:36&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-04T23:17:36&#43;08:00" />
+<meta itemprop="wordCount" content="59">
 
 
 
@@ -56,17 +62,20 @@ Employee 表包含所有员工，他们的经理也属于员工。每个员工�
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://gj1e.github.io"/>
 
-<meta name="twitter:title" content="DBLeetcode181"/>
-<meta name="twitter:description" content="Leetcode 181.超过经理收入的员工 题目：
-Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。
-&#43;----&#43;-------&#43;--------&#43;-----------&#43; | Id | Name | Salary | ManagerId | &#43;----&#43;-------&#43;--------&#43;-----------&#43; | 1 | Joe | 70000 | 3 | | 2 | Henry | 80000 | 4 | | 3 | Sam | 60000 | NULL | | 4 | Max | 90000 | NULL | &#43;----&#43;-------&#43;--------&#43;-----------&#43;  给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。
-&#43;----------&#43; | Employee | &#43;----------&#43; | Joe | &#43;----------&#43;  思路："/>
+<meta name="twitter:title" content="DBLeetcode182"/>
+<meta name="twitter:description" content="Leetcode 182.查找重复的电子邮件 题目：
+编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。
+示例： &#43;----&#43;---------&#43; | Id | Email | &#43;----&#43;---------&#43; | 1 | a@b.com | | 2 | c@d.com | | 3 | a@b.com | &#43;----&#43;---------&#43;  根据以上输入，你的查询应返回以下结果：
+&#43;---------&#43; | Email | &#43;---------&#43; | a@b.com | &#43;---------&#43;  说明：所有电子邮箱都是小写字母。
+思路：
+利用GROUP BY 和 HAVING 从Person中挑选出现超过一次的Email，通过Email分组。
+SELECT Email FROM Person GROUP BY Email HAVING COUNT(Email)&gt;1;  题目地址"/>
 
 
 
 <meta property="article:section" content="DBLeetcode" />
 
-<meta property="article:published_time" content="2019-12-02 22:47:08 &#43;0800 CST" />
+<meta property="article:published_time" content="2019-12-04 23:17:36 &#43;0800 CST" />
 
 
 
@@ -129,57 +138,59 @@ Employee 表包含所有员工，他们的经理也属于员工。每个员工�
         </div>
 
         <article>
-            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/12/dbleetcode181/">DBLeetcode181</a></h1>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/12/dbleetcode182/">DBLeetcode182</a></h1>
 
             
 
             <div class="post-content">
                 
 
-<h2 id="leetcode-181-超过经理收入的员工">Leetcode 181.超过经理收入的员工</h2>
+<h2 id="leetcode-182-查找重复的电子邮件">Leetcode 182.查找重复的电子邮件</h2>
 
 <p><strong>题目：</strong></p>
 
-<p>Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。</p>
+<p>编写一个 SQL 查询，查找 Person 表中所有重复的电子邮箱。</p>
 
-<pre><code>+----+-------+--------+-----------+
-| Id | Name  | Salary | ManagerId |
-+----+-------+--------+-----------+
-| 1  | Joe   | 70000  | 3         |
-| 2  | Henry | 80000  | 4         |
-| 3  | Sam   | 60000  | NULL      |
-| 4  | Max   | 90000  | NULL      |
-+----+-------+--------+-----------+
+<pre><code class="language-table">示例：
+
++----+---------+
+| Id | Email   |
++----+---------+
+| 1  | a@b.com |
+| 2  | c@d.com |
+| 3  | a@b.com |
++----+---------+
 </code></pre>
 
-<p>给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。</p>
+<p>根据以上输入，你的查询应返回以下结果：</p>
 
-<pre><code>+----------+
-| Employee |
-+----------+
-| Joe      |
-+----------+
+<pre><code class="language-table">+---------+
+| Email   |
++---------+
+| a@b.com |
++---------+
 </code></pre>
+
+<p>说明：所有电子邮箱都是小写字母。</p>
 
 <hr />
 
 <p><strong>思路：</strong></p>
 
-<ul>
-<li>直接join把表连接起来查询，用on指明限制条件。</li>
-</ul>
+<p>利用<code>GROUP BY</code> 和 <code>HAVING</code> 从Person中挑选出现超过一次的Email，通过Email分组。</p>
 
 <hr />
 
-<pre><code class="language-SQL">select a.Name AS 'Employee' 
-from Employee AS a join Employee AS b 
-on a.ManagerId=b.Id and a.salary &gt; b.salary;
+<pre><code class="language-SQL">SELECT Email 
+FROM Person 
+GROUP BY Email 
+HAVING COUNT(Email)&gt;1;
 
 </code></pre>
 
 <hr />
 
-<p><a href="https://leetcode-cn.com/problems/employees-earning-more-than-their-managers/" target="_blank">题目地址</a></p>
+<p><a href="https://leetcode-cn.com/problems/duplicate-emails/" target="_blank">题目地址</a></p>
 
             </div>
         </article>
@@ -192,9 +203,9 @@ on a.ManagerId=b.Id and a.salary &gt; b.salary;
                 </p>
 			
 			
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>91 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>59 Words</p>
 
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-02 22:47 &#43;0800</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-04 23:17 &#43;0800</p>
         </div>
 
         
@@ -206,18 +217,11 @@ on a.ManagerId=b.Id and a.salary &gt; b.salary;
 
                 <div class="pagination__buttons">
                     
-                        <span class="button previous">
-                            <a href="https://gj1e.github.io/posts/2019/12/dbleetcode182/">
-                                <span class="button__icon">←</span>
-                                <span class="button__text">DBLeetcode182</span>
-                            </a>
-                        </span>
-                    
 
                     
                         <span class="button next">
-                            <a href="https://gj1e.github.io/posts/2019/12/dbleetcode176/">
-                                <span class="button__text">DBLeetcode176</span>
+                            <a href="https://gj1e.github.io/posts/2019/12/dbleetcode181/">
+                                <span class="button__text">DBLeetcode181</span>
                                 <span class="button__icon">→</span>
                             </a>
                         </span>
