@@ -6,8 +6,143 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Wed, 04 Dec 2019 23:17:36 +0800</lastBuildDate>
+        <lastBuildDate>Fri, 06 Dec 2019 23:08:21 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>快速排序</title>
+            <link>https://gj1e.github.io/posts/2019/12/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</link>
+            <pubDate>Fri, 06 Dec 2019 23:08:21 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</guid>
+            <description>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要 Ο(nlogn) 次比较。
+ 在最坏状况下则需要 Ο(n2) 次比较，但这种状况并不常见。事实上，快速排序通常明显比其他 Ο(nlogn) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来。
+ 快速排序使用分治法（Divide and conquer）策略来把一个串行（list）分为两个子串行（sub-lists）。
+  /** * @Author GJ1e * @Create 2019/9/21 * @Time 11:26 * */ public class QuickSort { public static void sort (Comparable[] a,int start,int end){ if(start&amp;gt;=end) return; int j = partition(a,start,end); sort(a,start,j-1); sort(a,j+1,end); } private static int partition (Comparable[] a,int start,int end){ int i = start; int j = end+1; Comparable v = a[start]; //设置切分元素 while (true){ while (v.</description>
+            <content type="html"><![CDATA[<ul>
+<li><p>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要 Ο(nlogn) 次比较。</p></li>
+
+<li><p>在最坏状况下则需要 Ο(n2) 次比较，但这种状况并不常见。事实上，快速排序通常明显比其他 Ο(nlogn) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来。</p></li>
+
+<li><p>快速排序使用分治法（Divide and conquer）策略来把一个串行（list）分为两个子串行（sub-lists）。</p></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">
+/**
+ * @Author GJ1e
+ * @Create 2019/9/21
+ * @Time 11:26
+ *
+ */
+public class QuickSort {
+
+    public static void sort (Comparable[] a,int start,int end){
+        if(start&gt;=end) return;
+        int j = partition(a,start,end);
+        sort(a,start,j-1);
+        sort(a,j+1,end);
+    }
+
+    private static int partition (Comparable[] a,int start,int end){
+        int i = start;
+        int j = end+1;
+        Comparable v = a[start];    //设置切分元素
+
+        while (true){
+            while (v.compareTo(a[++i])&gt;0) if(i==end) break;     //V &gt; a[++i]
+            while (v.compareTo(a[--j])&lt;0) if(j==start) break;   //V &lt; a[--j]
+            if (i&gt;=j) break;    //当指针i和j相遇时，就退出主循环。
+            swap(a,i,j);    //小的放左边，大的放右边。
+        }
+        swap(a,start,j);    //将切分元素放入正确的位置
+        return j;           //将数组切分成，a[start,j-1],a[j+1,end]。
+    }
+
+    private static void swap (Comparable[] a,int i,int j){
+        Comparable temp = a[i];
+        a[i]=a[j];
+        a[j]=temp;
+    }
+
+}
+
+</code></pre>
+
+<hr />
+]]></content>
+        </item>
+        
+        <item>
+            <title>冒泡排序</title>
+            <link>https://gj1e.github.io/posts/2019/12/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</link>
+            <pubDate>Fri, 06 Dec 2019 22:53:25 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</guid>
+            <description>  冒泡排序（Bubble Sort）也是一种简单直观的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。
+ 冒泡排序还有一种优化算法，就是立一个 flag，当在一趟序列遍历中元素没有发生交换，则证明该序列已经有序。但这种改进对于提升性能来说并没有什么太大作用。
+  “算法步骤”  比较相邻的两个元素，如果前者比后者大，就交换。
+ 对每一对相邻的元素做同样的工作，从开始的第一对，到结尾的最后一对。都执行完之后，最后一个元素是最大的。
+ 继续针对所有的元素重复以上的步骤，最后一个除外。
+ 持续每次对越来越少的元素重复以上的步骤，直到没有任何一对元素需要比较。
+  /** * @Author GJ1e * @Create 2019/9/21 * @Time 15:47 * */ public class BubbleSort { private static void sort (Comparable[] a){ if(a==null||a.length&amp;lt;=1) return; for (int i = 0;i&amp;lt;a.length-1;i++){ //设置一个flag标记 boolean flag = true; for (int j = 0;j&amp;lt;a.length-1;j++){ if (a[j].compareTo(a[j+1])&amp;gt;0){ Comparable temp = a[j]; a[j]=a[j+1]; a[j+1]=temp; flag = false; } } if (flag) break; } } }  </description>
+            <content type="html"><![CDATA[
+
+<ul>
+<li><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p></li>
+
+<li><p>冒泡排序还有一种优化算法，就是立一个 flag，当在一趟序列遍历中元素没有发生交换，则证明该序列已经有序。但这种改进对于提升性能来说并没有什么太大作用。</p></li>
+</ul>
+
+<hr />
+
+<h3 id="算法步骤">“算法步骤”</h3>
+
+<ol>
+<li><p>比较相邻的两个元素，如果前者比后者大，就交换。</p></li>
+
+<li><p>对每一对相邻的元素做同样的工作，从开始的第一对，到结尾的最后一对。都执行完之后，最后一个元素是最大的。</p></li>
+
+<li><p>继续针对所有的元素重复以上的步骤，最后一个除外。</p></li>
+
+<li><p>持续每次对越来越少的元素重复以上的步骤，直到没有任何一对元素需要比较。</p></li>
+</ol>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/9/21
+ * @Time 15:47
+ *
+ */
+public class BubbleSort {
+   
+    private static void sort (Comparable[] a){
+        if(a==null||a.length&lt;=1) return;
+        for (int i = 0;i&lt;a.length-1;i++){
+            //设置一个flag标记
+            boolean flag = true;
+            for (int j = 0;j&lt;a.length-1;j++){
+                if (a[j].compareTo(a[j+1])&gt;0){
+                    Comparable temp = a[j];
+                    a[j]=a[j+1];
+                    a[j+1]=temp;
+                    flag = false;
+                }
+            }
+            if (flag) break;
+        }
+
+    }
+}
+
+</code></pre>
+
+<hr />
+]]></content>
+        </item>
         
         <item>
             <title>DBLeetcode182</title>

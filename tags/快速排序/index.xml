@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>快速排序 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</link>
+    <description>Recent content in 快速排序 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Fri, 06 Dec 2019 23:08:21 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>快速排序</title>
+      <link>https://gj1e.github.io/posts/2019/12/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Fri, 06 Dec 2019 23:08:21 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</guid>
+      <description>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要 Ο(nlogn) 次比较。
+ 在最坏状况下则需要 Ο(n2) 次比较，但这种状况并不常见。事实上，快速排序通常明显比其他 Ο(nlogn) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来。
+ 快速排序使用分治法（Divide and conquer）策略来把一个串行（list）分为两个子串行（sub-lists）。
+  /** * @Author GJ1e * @Create 2019/9/21 * @Time 11:26 * */ public class QuickSort { public static void sort (Comparable[] a,int start,int end){ if(start&amp;gt;=end) return; int j = partition(a,start,end); sort(a,start,j-1); sort(a,j+1,end); } private static int partition (Comparable[] a,int start,int end){ int i = start; int j = end+1; Comparable v = a[start]; //设置切分元素 while (true){ while (v.</description>
+    </item>
+    
+  </channel>
+</rss>
