@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Fri, 06 Dec 2019 23:08:21 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Dec 2019 20:59:43 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>生产者与消费者问题</title>
+      <link>https://gj1e.github.io/posts/2019/12/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 07 Dec 2019 20:59:43 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/</guid>
+      <description>问题描述  生产者消费者问题（Producer-consumer problem），也称有限缓冲问题（Bounded-buffer problem），是一个多线程同步问题的经典案例。生产者生成一定量的数据放到缓冲区中，然后重复此过程；与此同时，消费者也在缓冲区消耗这些数据。生产者和消费者之间必须保持同步，要保证生产者不会在缓冲区满时放入数据，消费者也不会在缓冲区空时消耗数据。不够完善的解决方法容易出现死锁的情况，此时进程都在等待唤醒。  解决问题的核心  保证同一资源被多个线程并发访问时的完整性。常用的同步方法是采用信号或加锁机制，保证资源在任意时刻至多被一个线程访问。
+代码实现 利用Synchronized，wait() / notify()方法实现
+import java.util.LinkedList; /** * @Author GJ1e * @Create 2019/12/7 * @Time 19:09 * * 缓冲区 */ public class Storage { private final int STORAGE_MAX = 10; //缓冲区载体 private LinkedList&amp;lt;Object&amp;gt; list = new LinkedList&amp;lt;Object&amp;gt;(); public void proudce(){ synchronized(list){ while (list.size()+1 &amp;gt; 10){ System.out.println(&amp;quot;生产者&amp;quot;+Thread.currentThread().getName()+&amp;quot;仓库已满&amp;quot;); try { list.wait(); } catch (InterruptedException e) { e.printStackTrace(); } } list.add(new Object()); System.out.println(&amp;quot;生产者&amp;quot;+Thread.currentThread().getName() +&amp;quot;生产一个商品，现在库存为&amp;quot;+list.</description>
+    </item>
     
     <item>
       <title>快速排序</title>

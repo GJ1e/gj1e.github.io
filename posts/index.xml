@@ -6,8 +6,242 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Fri, 06 Dec 2019 23:08:21 +0800</lastBuildDate>
+        <lastBuildDate>Sat, 07 Dec 2019 20:59:43 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>生产者与消费者问题</title>
+            <link>https://gj1e.github.io/posts/2019/12/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/</link>
+            <pubDate>Sat, 07 Dec 2019 20:59:43 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/</guid>
+            <description>问题描述  生产者消费者问题（Producer-consumer problem），也称有限缓冲问题（Bounded-buffer problem），是一个多线程同步问题的经典案例。生产者生成一定量的数据放到缓冲区中，然后重复此过程；与此同时，消费者也在缓冲区消耗这些数据。生产者和消费者之间必须保持同步，要保证生产者不会在缓冲区满时放入数据，消费者也不会在缓冲区空时消耗数据。不够完善的解决方法容易出现死锁的情况，此时进程都在等待唤醒。  解决问题的核心  保证同一资源被多个线程并发访问时的完整性。常用的同步方法是采用信号或加锁机制，保证资源在任意时刻至多被一个线程访问。
+代码实现 利用Synchronized，wait() / notify()方法实现
+import java.util.LinkedList; /** * @Author GJ1e * @Create 2019/12/7 * @Time 19:09 * * 缓冲区 */ public class Storage { private final int STORAGE_MAX = 10; //缓冲区载体 private LinkedList&amp;lt;Object&amp;gt; list = new LinkedList&amp;lt;Object&amp;gt;(); public void proudce(){ synchronized(list){ while (list.size()+1 &amp;gt; 10){ System.out.println(&amp;quot;生产者&amp;quot;+Thread.currentThread().getName()+&amp;quot;仓库已满&amp;quot;); try { list.wait(); } catch (InterruptedException e) { e.printStackTrace(); } } list.add(new Object()); System.out.println(&amp;quot;生产者&amp;quot;+Thread.currentThread().getName() +&amp;quot;生产一个商品，现在库存为&amp;quot;+list.</description>
+            <content type="html"><![CDATA[
+
+<h2 id="问题描述">问题描述</h2>
+
+<ul>
+<li>生产者消费者问题（Producer-consumer problem），也称有限缓冲问题（Bounded-buffer problem），是一个多线程同步问题的经典案例。生产者生成一定量的数据放到缓冲区中，然后重复此过程；与此同时，消费者也在缓冲区消耗这些数据。生产者和消费者之间必须保持同步，要保证生产者不会在缓冲区满时放入数据，消费者也不会在缓冲区空时消耗数据。不够完善的解决方法容易出现死锁的情况，此时进程都在等待唤醒。</li>
+</ul>
+
+<hr />
+
+<h3 id="解决问题的核心">解决问题的核心</h3>
+
+<p>   保证同一资源被多个线程并发访问时的完整性。常用的同步方法是采用信号或加锁机制，保证资源在任意时刻至多被一个线程访问。</p>
+
+<hr />
+
+<h3 id="代码实现">代码实现</h3>
+
+<p>利用<code>Synchronized，wait() / notify()方法</code>实现</p>
+
+<pre><code class="language-java">
+import java.util.LinkedList;
+
+/**
+ * @Author GJ1e
+ * @Create 2019/12/7
+ * @Time 19:09
+ * 
+ * 缓冲区
+ */
+public class Storage {
+    private final  int STORAGE_MAX = 10;
+
+    //缓冲区载体
+    private LinkedList&lt;Object&gt; list = new LinkedList&lt;Object&gt;();
+
+    public void proudce(){
+
+        synchronized(list){
+            while (list.size()+1 &gt; 10){
+                System.out.println(&quot;生产者&quot;+Thread.currentThread().getName()+&quot;仓库已满&quot;);
+                try {
+                    list.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            list.add(new Object());
+            System.out.println(&quot;生产者&quot;+Thread.currentThread().getName()
+                    +&quot;生产一个商品，现在库存为&quot;+list.size());
+            list.notifyAll();
+        }
+    }
+
+    public void consume(){
+
+        synchronized(this.list){
+
+            while (list.size()==0){
+                System.out.println(&quot;消费者&quot;+Thread.currentThread().getName()+&quot;仓库已空&quot;);
+
+                try {
+                    list.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            list.remove();
+            System.out.println(&quot;消费者&quot;+Thread.currentThread().getName()
+                    +&quot;已消费1个产品，现库存为&quot;+list.size());
+            list.notifyAll();
+        }
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>生产者</strong></p>
+
+<pre><code class="language-java">
+/**
+ * @Author GJ1e
+ * @Create 2019/12/7
+ * @Time 19:26
+ */
+public class Producer implements Runnable {
+    private  Storage storage;
+
+    public Producer() {
+    }
+
+    public Producer(Storage storage) {
+        this.storage = storage;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            try {
+                Thread.sleep(1000);
+                storage.proudce();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>消费者</strong></p>
+
+<pre><code class="language-java">
+/**
+ * @Author GJ1e
+ * @Create 2019/12/7
+ * @Time 19:31
+ */
+public class Consumer implements Runnable {
+
+    private Storage storage;
+
+    public Consumer(Storage storage) {
+        this.storage = storage;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            try {
+                Thread.sleep(3000);
+                storage.consume();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>主函数</strong></p>
+
+<pre><code class="language-java">
+/**
+ * @Author GJ1e
+ * @Create 2019/12/7
+ * @Time 19:34
+ */
+public class TestPS {
+    public static void main(String[] args) {
+        Storage storage = new Storage();
+
+        //生产者
+        Thread p1 = new Thread(new Producer(storage));
+        Thread p2 = new Thread(new Producer(storage));
+        Thread p3 = new Thread(new Producer(storage));
+
+        //消费者
+        Thread c1 = new Thread(new Consumer(storage));
+        Thread c2 = new Thread(new Consumer(storage));
+        Thread c3 = new Thread(new Consumer(storage));
+
+        p1.start();
+        p2.start();
+        p3.start();
+        c1.start();
+        c2.start();
+        c3.start();
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<p><strong>输出结果</strong></p>
+
+<pre><code class="language-text">生产者Thread-2生产一个商品，现在库存为1
+生产者Thread-0生产一个商品，现在库存为2
+生产者Thread-1生产一个商品，现在库存为3
+生产者Thread-1生产一个商品，现在库存为4
+生产者Thread-0生产一个商品，现在库存为5
+生产者Thread-2生产一个商品，现在库存为6
+消费者Thread-4已消费1个产品，现库存为5
+消费者Thread-3已消费1个产品，现库存为4
+消费者Thread-5已消费1个产品，现库存为3
+生产者Thread-0生产一个商品，现在库存为4
+生产者Thread-1生产一个商品，现在库存为5
+生产者Thread-2生产一个商品，现在库存为6
+生产者Thread-2生产一个商品，现在库存为7
+生产者Thread-0生产一个商品，现在库存为8
+生产者Thread-1生产一个商品，现在库存为9
+生产者Thread-2生产一个商品，现在库存为10
+生产者Thread-0仓库已满
+生产者Thread-1仓库已满
+消费者Thread-4已消费1个产品，现库存为9
+生产者Thread-1生产一个商品，现在库存为10
+生产者Thread-0仓库已满
+消费者Thread-3已消费1个产品，现库存为9
+消费者Thread-5已消费1个产品，现库存为8
+生产者Thread-0生产一个商品，现在库存为9
+生产者Thread-2生产一个商品，现在库存为10
+生产者Thread-0仓库已满
+生产者Thread-1仓库已满
+生产者Thread-2仓库已满
+····
+
+</code></pre>
+
+<hr />
+
+<p>一个生产者线程运行produce方法，睡眠1s；一个消费者运行一次consume方法，睡眠3s。此次实验过程中，有3个生产者和3个消费者，也就是我们说的多对多的情况。仓库的容量为10，可以看出消费的速度明显慢于生产的速度，符合设定。</p>
+
+<hr />
+]]></content>
+        </item>
         
         <item>
             <title>快速排序</title>
