@@ -6,8 +6,59 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Sat, 07 Dec 2019 20:59:43 +0800</lastBuildDate>
+        <lastBuildDate>Thu, 12 Dec 2019 23:29:33 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>插入排序</title>
+            <link>https://gj1e.github.io/posts/2019/12/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</link>
+            <pubDate>Thu, 12 Dec 2019 23:29:33 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2019/12/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</guid>
+            <description> 插入排序是一种最简单直观的排序算法，它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。  “算法步骤”
+ 将第一个待排序序列的元素看作一个有序序列，把第二个到最后一个元素看作是未排序的序列。
+ 从头到尾依次扫描未排序序列，将扫描到的每个元素插入有序序列的适当位置，（如果待插入的元素与有序序列中的某个元素相等，则将待插入元素插入到相等元素的后面。）
+  /** * @Author GJ1e * @Create 2019/9/21 * @Time 17:44 * */ public class InsertionSort { private static void sort (Comparable[] a){ for (int i = 1;i&amp;lt;a.length;i++){ //从第二个元素开始，第一个元素默认已排序好。 for(int j = i;j&amp;gt;0&amp;amp;&amp;amp;a[j].compareTo(a[j-1])&amp;lt;0;j--){ //a[j]&amp;lt;a[j-1],交换。 Comparable temp = a[j]; a[j] = a[j-1]; a[j-1] = temp; } } } }  </description>
+            <content type="html"><![CDATA[<ul>
+<li><strong>插入排序</strong>是一种最简单直观的排序算法，它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</li>
+</ul>
+
+<hr />
+
+<p><strong>“算法步骤”</strong></p>
+
+<ol>
+<li><p>将第一个待排序序列的元素看作一个有序序列，把第二个到最后一个元素看作是未排序的序列。</p></li>
+
+<li><p>从头到尾依次扫描未排序序列，将扫描到的每个元素插入有序序列的适当位置，（如果待插入的元素与有序序列中的某个元素相等，则将待插入元素插入到相等元素的后面。）</p></li>
+</ol>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/9/21
+ * @Time 17:44
+ *
+ */
+public class InsertionSort {
+  
+    private static void sort (Comparable[] a){
+        for (int i = 1;i&lt;a.length;i++){     //从第二个元素开始，第一个元素默认已排序好。
+            for(int j = i;j&gt;0&amp;&amp;a[j].compareTo(a[j-1])&lt;0;j--){   //a[j]&lt;a[j-1],交换。
+                Comparable temp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = temp;
+            }
+        }
+    }
+}
+
+</code></pre>
+
+<hr />
+]]></content>
+        </item>
         
         <item>
             <title>生产者与消费者问题</title>
