@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Sat, 14 Dec 2019 23:44:53 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Dec 2019 20:36:08 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lombok笔记</title>
+      <link>https://gj1e.github.io/posts/2019/12/lombok%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 16 Dec 2019 20:36:08 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/lombok%E7%AC%94%E8%AE%B0/</guid>
+      <description>lombok是一款在java开发中简洁化代码十分有用的插件工具。使用lombok注解，目的和作用就在于不用再去写经常反复去写的（如Getter，Setter，Constructor等）一些代码了。
+首先，常用到的几个注解：
+ @Data使用这个注解，就不用再去手写Getter,Setter,equals,canEqual,hasCode,toString等方法了，注解后在编译时会自动加进去。
+ @Setter在类上使用这个注解之后会自动为类中声明的变量创建Setter方法。
+ @Getter在类上使用这个注解之后会自动为类中声明的变量创建Getter方法。
+ @AllArgsConstructor 使用后添加一个构造函数，该构造函数含有所有已声明字段属性参数
+ @NoArgsConstructor使用后创建一个无参构造函数
+  </description>
+    </item>
     
     <item>
       <title>选择排序</title>
