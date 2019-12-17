@@ -8,13 +8,8 @@
     content="GJ1e ">
 <meta name="description"
     content="lombok是一款在java开发中简洁化代码十分有用的插件工具。使用lombok注解，目的和作用就在于不用再去写经常反复去写的（如Getter，Setter，Constructor等）一些代码了。
-首先，常用到的几个注解：
- @Data使用这个注解，就不用再去手写Getter,Setter,equals,canEqual,hasCode,toString等方法了，注解后在编译时会自动加进去。
- @Setter在类上使用这个注解之后会自动为类中声明的变量创建Setter方法。
- @Getter在类上使用这个注解之后会自动为类中声明的变量创建Getter方法。
- @AllArgsConstructor 使用后添加一个构造函数，该构造函数含有所有已声明字段属性参数
- @NoArgsConstructor使用后创建一个无参构造函数
-  " />
+首先引入 maven 依赖：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.projectlombok&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;lombok&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.16.6&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;  在类上添加注释效果如下： @Getter //为字段创建getter方法 @Setter //为字段创建setter @EqualsAndHashCode //实现equals()和hashCode() @ToString //实现toString() @Data //使用上面四个注解的特征 @Cleanup //关闭流 @Synchronized //对象上同步 @SneakyThrows //抛出异常 @NoArgsConstructor //注解在类上；为类提供一个无参的构造方法 @AllArgsConstructor //注解在类上；为类提供一个全参的构造方法 @Data //注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法 @Setter //可用在类或属性上；为属性提供 setting 方法 @Getter //可用在类或属性上；为属性提供 getting 方法  " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://gj1e.github.io/posts/2019/12/lombok%E7%AC%94%E8%AE%B0/" />
@@ -45,18 +40,13 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#252627"><meta itemprop="name" content="Lombok笔记">
 <meta itemprop="description" content="lombok是一款在java开发中简洁化代码十分有用的插件工具。使用lombok注解，目的和作用就在于不用再去写经常反复去写的（如Getter，Setter，Constructor等）一些代码了。
-首先，常用到的几个注解：
- @Data使用这个注解，就不用再去手写Getter,Setter,equals,canEqual,hasCode,toString等方法了，注解后在编译时会自动加进去。
- @Setter在类上使用这个注解之后会自动为类中声明的变量创建Setter方法。
- @Getter在类上使用这个注解之后会自动为类中声明的变量创建Getter方法。
- @AllArgsConstructor 使用后添加一个构造函数，该构造函数含有所有已声明字段属性参数
- @NoArgsConstructor使用后创建一个无参构造函数
-  ">
+首先引入 maven 依赖：
+&lt;dependency&gt; &lt;groupId&gt;org.projectlombok&lt;/groupId&gt; &lt;artifactId&gt;lombok&lt;/artifactId&gt; &lt;version&gt;1.16.6&lt;/version&gt; &lt;/dependency&gt;  在类上添加注释效果如下： @Getter //为字段创建getter方法 @Setter //为字段创建setter @EqualsAndHashCode //实现equals()和hashCode() @ToString //实现toString() @Data //使用上面四个注解的特征 @Cleanup //关闭流 @Synchronized //对象上同步 @SneakyThrows //抛出异常 @NoArgsConstructor //注解在类上；为类提供一个无参的构造方法 @AllArgsConstructor //注解在类上；为类提供一个全参的构造方法 @Data //注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法 @Setter //可用在类或属性上；为属性提供 setting 方法 @Getter //可用在类或属性上；为属性提供 getting 方法  ">
 
 
 <meta itemprop="datePublished" content="2019-12-16T20:36:08&#43;08:00" />
 <meta itemprop="dateModified" content="2019-12-16T20:36:08&#43;08:00" />
-<meta itemprop="wordCount" content="8">
+<meta itemprop="wordCount" content="45">
 
 
 
@@ -66,13 +56,8 @@
 
 <meta name="twitter:title" content="Lombok笔记"/>
 <meta name="twitter:description" content="lombok是一款在java开发中简洁化代码十分有用的插件工具。使用lombok注解，目的和作用就在于不用再去写经常反复去写的（如Getter，Setter，Constructor等）一些代码了。
-首先，常用到的几个注解：
- @Data使用这个注解，就不用再去手写Getter,Setter,equals,canEqual,hasCode,toString等方法了，注解后在编译时会自动加进去。
- @Setter在类上使用这个注解之后会自动为类中声明的变量创建Setter方法。
- @Getter在类上使用这个注解之后会自动为类中声明的变量创建Getter方法。
- @AllArgsConstructor 使用后添加一个构造函数，该构造函数含有所有已声明字段属性参数
- @NoArgsConstructor使用后创建一个无参构造函数
-  "/>
+首先引入 maven 依赖：
+&lt;dependency&gt; &lt;groupId&gt;org.projectlombok&lt;/groupId&gt; &lt;artifactId&gt;lombok&lt;/artifactId&gt; &lt;version&gt;1.16.6&lt;/version&gt; &lt;/dependency&gt;  在类上添加注释效果如下： @Getter //为字段创建getter方法 @Setter //为字段创建setter @EqualsAndHashCode //实现equals()和hashCode() @ToString //实现toString() @Data //使用上面四个注解的特征 @Cleanup //关闭流 @Synchronized //对象上同步 @SneakyThrows //抛出异常 @NoArgsConstructor //注解在类上；为类提供一个无参的构造方法 @AllArgsConstructor //注解在类上；为类提供一个全参的构造方法 @Data //注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法 @Setter //可用在类或属性上；为属性提供 setting 方法 @Getter //可用在类或属性上；为属性提供 getting 方法  "/>
 
 
 
@@ -148,20 +133,34 @@
             <div class="post-content">
                 <p>lombok是一款在java开发中简洁化代码十分有用的插件工具。使用lombok注解，目的和作用就在于不用再去写经常反复去写的（如Getter，Setter，Constructor等）一些代码了。</p>
 
-<p>首先，常用到的几个注解：</p>
+<p>首先引入 maven 依赖：</p>
 
-<ul>
-<li><p><code>@Data</code>使用这个注解，就不用再去手写Getter,Setter,equals,canEqual,hasCode,toString等方法了，注解后在编译时会自动加进去。</p></li>
+<pre><code class="language-html">&lt;dependency&gt;  
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;  
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;  
+    &lt;version&gt;1.16.6&lt;/version&gt;  
+&lt;/dependency&gt;
+</code></pre>
 
-<li><p><code>@Setter</code>在类上使用这个注解之后会自动为类中声明的变量创建Setter方法。</p></li>
+<hr />
 
-<li><p><code>@Getter</code>在类上使用这个注解之后会自动为类中声明的变量创建Getter方法。</p></li>
+<pre><code class="language-html">在类上添加注释效果如下：
 
-<li><p><code>@AllArgsConstructor</code>
-使用后添加一个构造函数，该构造函数含有所有已声明字段属性参数</p></li>
+@Getter  //为字段创建getter方法
+@Setter //为字段创建setter
+@EqualsAndHashCode //实现equals()和hashCode()
+@ToString  //实现toString()
+@Data //使用上面四个注解的特征
+@Cleanup  //关闭流
+@Synchronized //对象上同步
+@SneakyThrows //抛出异常
+@NoArgsConstructor  //注解在类上；为类提供一个无参的构造方法
+@AllArgsConstructor  //注解在类上；为类提供一个全参的构造方法
+@Data  //注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法
+@Setter  //可用在类或属性上；为属性提供 setting 方法
+@Getter  //可用在类或属性上；为属性提供 getting 方法
 
-<li><p><code>@NoArgsConstructor</code>使用后创建一个无参构造函数</p></li>
-</ul>
+</code></pre>
 
 <hr />
 
@@ -176,7 +175,7 @@
                 </p>
 			
 			
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>8 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>45 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-16 20:36 &#43;0800</p>
         </div>
@@ -189,6 +188,13 @@
                 </div>
 
                 <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://gj1e.github.io/posts/2019/12/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">二分查找</span>
+                            </a>
+                        </span>
                     
 
                     

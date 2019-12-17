@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Sat, 14 Dec 2019 23:44:53 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 17 Dec 2019 19:59:58 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/categories/%E6%8E%92%E5%BA%8F%E4%B8%8E%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>二分查找</title>
+      <link>https://gj1e.github.io/posts/2019/12/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</link>
+      <pubDate>Tue, 17 Dec 2019 19:59:58 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</guid>
+      <description>  二分查找也称折半查找（Binary Search），它是一种效率较高的查找方法。但是，折半查找要求线性表必须采用顺序存储结构，而且表中元素按关键字有序排列。  查找过程  首先，假设表中元素是按升序排列，将表中间位置记录的关键字与查找关键字比较，如果两者相等，则查找成功；否则利用中间位置记录将表分成前、后两个子表，如果中间位置记录的关键字大于查找关键字，则进一步查找前一子表，否则进一步查找后一子表。重复以上过程，直到找到满足条件的记录，使查找成功，或直到子表不存在为止，此时查找不成功  算法要求  必须是按顺序排序好的数组才可以使用二分查找算法，进行关键字查找。
+/** * @Author GJ1e * @Create 2019/9/21 * @Time 20:04 * */ public class BinarySearch { //非递归二分查找 private static int search (int[] nums,int key){ int low = 0; int high = nums.length -1; while (low&amp;lt;=high){ int mid = low + (high-low)/2; if (nums[mid]&amp;lt;key) {low = mid+1;} else if (nums[mid]&amp;gt;key) {high = mid-1;} else return mid; } return low;	//若查找元素不存在则返回数组的第一个元素 } //递归二分查找 private static int recursion (int[] nums,int start,int end,int key){ if(start&amp;lt;=end){ int mid = start + (end-start)/2; if(nums[mid]&amp;gt;key) return recursion(nums,start,mid-1,key); else if (nums[mid]&amp;lt;key) return recursion(nums,mid+1,end,key); else return mid; } return start; } }   </description>
+    </item>
     
     <item>
       <title>选择排序</title>
