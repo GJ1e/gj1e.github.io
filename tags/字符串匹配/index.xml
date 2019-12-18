@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>字符串匹配 on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</link>
+    <description>Recent content in 字符串匹配 on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Wed, 18 Dec 2019 20:37:28 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>剑指Offer(Java实现)20题</title>
+      <link>https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/</link>
+      <pubDate>Wed, 18 Dec 2019 20:37:28 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/</guid>
+      <description>面试题20：表示数值的字符串  问题  请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串&amp;quot;+100&amp;quot;,&amp;quot;5e2&amp;quot;,&amp;quot;-123&amp;quot;,&amp;quot;3.1416&amp;quot;和&amp;quot;-1E-16&amp;quot;都表示数值。但是&amp;quot;12e&amp;quot;,&amp;quot;1a3.14&amp;quot;,&amp;quot;1.2.3&amp;quot;,&amp;quot;+-5&amp;quot;和&amp;quot;12e+4.3&amp;quot;都不是。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 19:28 * */ public class Solution20 { public boolean isNumeric(char[] str){ if (str==null || str.length&amp;lt;=0) return false; //长度为1，则必须是数字0-9 if (str.length==1){ return str[0]&amp;gt;=&#39;0&#39; &amp;amp;&amp;amp; str[0]&amp;lt;=&#39;9&#39;; } boolean hasSign = false;//+-符号标志 boolean hasDot = false; //&#39;.&#39;小数点标志 boolean hasE = false; //E或e标志 for (int i = 0; i &amp;lt; str.length; i++) { if (str[i]==&#39;+&#39; || str[i]==&#39;-&#39;){ //第一次出现且不在开头，则前一个字符必须是E或e if (!</description>
+    </item>
+    
+  </channel>
+</rss>

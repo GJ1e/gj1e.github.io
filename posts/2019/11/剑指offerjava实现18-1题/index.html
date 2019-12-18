@@ -7,7 +7,10 @@
 <meta name="author"
     content="GJ1e ">
 <meta name="description"
-    content=" 面试题18（二）：删除链表中重复的结点 " />
+    content="面试题18（二）：删除链表中重复的结点  问题
+ 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5 处理后为 1-&amp;gt;2-&amp;gt;5
+ 注意重复的结点不保留：并不是将重复结点删除到只剩一个，而是重复结点的全部会被删除。所以链表1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5不是1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5
+    思路  从头遍历整个链表，如果当前节点的值与下一个节点的值相同，就认为是重复节点，进行删除。为了使删除之后的链表不断开，则把当前节点的前一个节点与后面值比当前节点大的节点相连接。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 18:34 * */ public class Solution18_1 { private class ListNode{ int value; ListNode next = null; } public ListNode deleteDuplication(ListNode pHead){ if (pHead==null || pHead.next==null) return null; ListNode pNode = pHead; ListNode pPreNode = null; while (pNode!=null &amp;amp;&amp;amp; pNode.next!=null){ //当前节点和下一个节点的值相同，进入删除。 if (pNode.value == pNode." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B018-1%E9%A2%98/" />
@@ -37,12 +40,15 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
 <link rel="shortcut icon" href="/favicon.ico">
 <meta name="theme-color" content="#252627"><meta itemprop="name" content="剑指Offer(Java实现)18-1题">
-<meta itemprop="description" content=" 面试题18（二）：删除链表中重复的结点 ">
+<meta itemprop="description" content="面试题18（二）：删除链表中重复的结点  问题
+ 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5
+ 注意重复的结点不保留：并不是将重复结点删除到只剩一个，而是重复结点的全部会被删除。所以链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5不是1-&gt;2-&gt;3-&gt;4-&gt;5
+    思路  从头遍历整个链表，如果当前节点的值与下一个节点的值相同，就认为是重复节点，进行删除。为了使删除之后的链表不断开，则把当前节点的前一个节点与后面值比当前节点大的节点相连接。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 18:34 * */ public class Solution18_1 { private class ListNode{ int value; ListNode next = null; } public ListNode deleteDuplication(ListNode pHead){ if (pHead==null || pHead.next==null) return null; ListNode pNode = pHead; ListNode pPreNode = null; while (pNode!=null &amp;&amp; pNode.next!=null){ //当前节点和下一个节点的值相同，进入删除。 if (pNode.value == pNode.">
 
 
 <meta itemprop="datePublished" content="2019-11-21T23:22:09&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-21T23:22:09&#43;08:00" />
-<meta itemprop="wordCount" content="1">
+<meta itemprop="wordCount" content="102">
 
 
 
@@ -51,7 +57,10 @@
 <meta name="twitter:image" content="https://gj1e.github.io"/>
 
 <meta name="twitter:title" content="剑指Offer(Java实现)18-1题"/>
-<meta name="twitter:description" content=" 面试题18（二）：删除链表中重复的结点 "/>
+<meta name="twitter:description" content="面试题18（二）：删除链表中重复的结点  问题
+ 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5
+ 注意重复的结点不保留：并不是将重复结点删除到只剩一个，而是重复结点的全部会被删除。所以链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5不是1-&gt;2-&gt;3-&gt;4-&gt;5
+    思路  从头遍历整个链表，如果当前节点的值与下一个节点的值相同，就认为是重复节点，进行删除。为了使删除之后的链表不断开，则把当前节点的前一个节点与后面值比当前节点大的节点相连接。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 18:34 * */ public class Solution18_1 { private class ListNode{ int value; ListNode next = null; } public ListNode deleteDuplication(ListNode pHead){ if (pHead==null || pHead.next==null) return null; ListNode pNode = pHead; ListNode pPreNode = null; while (pNode!=null &amp;&amp; pNode.next!=null){ //当前节点和下一个节点的值相同，进入删除。 if (pNode.value == pNode."/>
 
 
 
@@ -129,6 +138,76 @@
 
 <h2 id="面试题18-二-删除链表中重复的结点">面试题18（二）：删除链表中重复的结点</h2>
 
+<ul>
+<li><p><strong>问题</strong></p>
+
+<ul>
+<li><p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5 处理后为 1-&gt;2-&gt;5</p></li>
+
+<li><p>注意重复的结点不保留：并不是将重复结点删除到只剩一个，而是重复结点的全部会被删除。所以链表1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5不是1-&gt;2-&gt;3-&gt;4-&gt;5</p></li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><strong>思路</strong>
+
+<ul>
+<li>从头遍历整个链表，如果当前节点的值与下一个节点的值相同，就认为是重复节点，进行删除。为了使删除之后的链表不断开，则把当前节点的前一个节点与后面值比当前节点大的节点相连接。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/12/18
+ * @Time 18:34
+ *
+ */
+public class Solution18_1 {
+    private class ListNode{
+        int value;
+        ListNode next = null;
+    }
+
+    public ListNode deleteDuplication(ListNode pHead){
+        if (pHead==null || pHead.next==null)
+            return null;
+
+        ListNode pNode = pHead;
+        ListNode pPreNode = null;
+
+        while (pNode!=null &amp;&amp; pNode.next!=null){
+            //当前节点和下一个节点的值相同，进入删除。
+            if (pNode.value == pNode.next.value){
+                int val = pNode.value;  //记录下当前重复节点的值
+
+                //把与当前节点值相同的节点全部跳过，出循环的第一个节点就是不重复的节点
+                while (pNode!=null &amp;&amp; (pNode.value==val)){
+                    pNode = pNode.next;
+                }
+                if (pPreNode==null){ //头节点就是重复节点，被删除要重新设置头节点。
+                    pHead = pNode;
+                }else {
+                    pPreNode.next = pNode;
+                }
+
+                //不同则向前推进
+            }else {
+                pPreNode = pNode;
+                pNode = pNode.next;
+            }
+        }
+        return pHead;
+    }
+}
+
+</code></pre>
+
+<hr />
+
             </div>
         </article>
 
@@ -140,7 +219,7 @@
                 </p>
 			
 			
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>One Word</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>102 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-21 23:22 &#43;0800</p>
         </div>

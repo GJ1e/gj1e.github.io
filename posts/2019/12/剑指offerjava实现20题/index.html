@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content="面试题20：表示数值的字符串  问题  请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串&amp;quot;&#43;100&amp;quot;,&amp;quot;5e2&amp;quot;,&amp;quot;-123&amp;quot;,&amp;quot;3.1416&amp;quot;和&amp;quot;-1E-16&amp;quot;都表示数值。但是&amp;quot;12e&amp;quot;,&amp;quot;1a3.14&amp;quot;,&amp;quot;1.2.3&amp;quot;,&amp;quot;&#43;-5&amp;quot;和&amp;quot;12e&#43;4.3&amp;quot;都不是。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 19:28 * */ public class Solution20 { public boolean isNumeric(char[] str){ if (str==null || str.length&amp;lt;=0) return false; //长度为1，则必须是数字0-9 if (str.length==1){ return str[0]&amp;gt;=&#39;0&#39; &amp;amp;&amp;amp; str[0]&amp;lt;=&#39;9&#39;; } boolean hasSign = false;//&#43;-符号标志 boolean hasDot = false; //&#39;.&#39;小数点标志 boolean hasE = false; //E或e标志 for (int i = 0; i &amp;lt; str.length; i&#43;&#43;) { if (str[i]==&#39;&#43;&#39; || str[i]==&#39;-&#39;){ //第一次出现且不在开头，则前一个字符必须是E或e if (!" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/" />
+
+
+<title>
+    
+    剑指Offer(Java实现)20题 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="剑指Offer(Java实现)20题">
+<meta itemprop="description" content="面试题20：表示数值的字符串  问题  请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串&quot;&#43;100&quot;,&quot;5e2&quot;,&quot;-123&quot;,&quot;3.1416&quot;和&quot;-1E-16&quot;都表示数值。但是&quot;12e&quot;,&quot;1a3.14&quot;,&quot;1.2.3&quot;,&quot;&#43;-5&quot;和&quot;12e&#43;4.3&quot;都不是。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 19:28 * */ public class Solution20 { public boolean isNumeric(char[] str){ if (str==null || str.length&lt;=0) return false; //长度为1，则必须是数字0-9 if (str.length==1){ return str[0]&gt;=&#39;0&#39; &amp;&amp; str[0]&lt;=&#39;9&#39;; } boolean hasSign = false;//&#43;-符号标志 boolean hasDot = false; //&#39;.&#39;小数点标志 boolean hasE = false; //E或e标志 for (int i = 0; i &lt; str.length; i&#43;&#43;) { if (str[i]==&#39;&#43;&#39; || str[i]==&#39;-&#39;){ //第一次出现且不在开头，则前一个字符必须是E或e if (!">
+
+
+<meta itemprop="datePublished" content="2019-12-18T20:37:28&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-18T20:37:28&#43;08:00" />
+<meta itemprop="wordCount" content="139">
+
+
+
+<meta itemprop="keywords" content="字符串匹配,常见算法题,剑指offer(Java实现)," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="剑指Offer(Java实现)20题"/>
+<meta name="twitter:description" content="面试题20：表示数值的字符串  问题  请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串&quot;&#43;100&quot;,&quot;5e2&quot;,&quot;-123&quot;,&quot;3.1416&quot;和&quot;-1E-16&quot;都表示数值。但是&quot;12e&quot;,&quot;1a3.14&quot;,&quot;1.2.3&quot;,&quot;&#43;-5&quot;和&quot;12e&#43;4.3&quot;都不是。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 19:28 * */ public class Solution20 { public boolean isNumeric(char[] str){ if (str==null || str.length&lt;=0) return false; //长度为1，则必须是数字0-9 if (str.length==1){ return str[0]&gt;=&#39;0&#39; &amp;&amp; str[0]&lt;=&#39;9&#39;; } boolean hasSign = false;//&#43;-符号标志 boolean hasDot = false; //&#39;.&#39;小数点标志 boolean hasE = false; //E或e标志 for (int i = 0; i &lt; str.length; i&#43;&#43;) { if (str[i]==&#39;&#43;&#39; || str[i]==&#39;-&#39;){ //第一次出现且不在开头，则前一个字符必须是E或e if (!"/>
+
+
+
+<meta property="article:section" content="剑指Offer(第二版)" />
+
+<meta property="article:published_time" content="2019-12-18 20:37:28 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/">剑指Offer(Java实现)20题</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="面试题20-表示数值的字符串">面试题20：表示数值的字符串</h2>
+
+<ul>
+<li><strong>问题</strong>
+
+<ul>
+<li>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串<code>&quot;+100&quot;,&quot;5e2&quot;,&quot;-123&quot;,&quot;3.1416&quot;和&quot;-1E-16&quot;</code>都表示数值。但是<code>&quot;12e&quot;,&quot;1a3.14&quot;,&quot;1.2.3&quot;,&quot;+-5&quot;和&quot;12e+4.3&quot;</code>都不是。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-java">/**
+ * @Author GJ1e
+ * @Create 2019/12/18
+ * @Time 19:28
+ *
+ */
+public class Solution20 {
+    public boolean isNumeric(char[] str){
+        if (str==null || str.length&lt;=0)
+            return false;
+        //长度为1，则必须是数字0-9
+        if (str.length==1){
+            return str[0]&gt;='0' &amp;&amp; str[0]&lt;='9';
+        }
+
+        boolean hasSign = false;//+-符号标志
+        boolean hasDot = false; //'.'小数点标志
+        boolean hasE = false;   //E或e标志
+        for (int i = 0; i &lt; str.length; i++) {
+            if (str[i]=='+' || str[i]=='-'){
+                //第一次出现且不在开头，则前一个字符必须是E或e
+                if (!hasSign &amp;&amp; i&gt;0 &amp;&amp; str[i-1]!='e' &amp;&amp; str[i-1]!= 'E')
+                    return false;
+                //第二次出现+-符号，则前一个字符必须是E或e
+                if (hasSign &amp;&amp; str[i-1]!='e' &amp;&amp; str[i-1]!= 'E')
+                    return false;
+                hasSign = true;
+
+            }else if (str[i] == '.'){
+                //只能出现一次小数点，且e或E之后不能出现
+                if (hasDot || hasE) return false;
+
+                hasDot = true;
+            }else if (str[i]=='e' || str[i]=='E'){
+                //E或e不能出现在最后一个
+                if (i == str.length-1)  return false;
+
+                //E或e只能出现一次
+                if (hasE)   return false;
+
+                hasE = true;
+
+            }else if (str[i]&lt;'0' || str[i]&gt;'9'){
+                //字符串中出现不是数字或者+-Ee这些符号的直接返回false;
+                return false;
+            }
+
+        }
+        return true;
+    }
+}
+
+
+</code></pre>
+
+<hr />
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D">字符串匹配</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98">常见算法题</a></span><span class="tag"><a href="https://gj1e.github.io/tags/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B0">剑指offer(Java实现)</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>139 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-18 20:37 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2019/12/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                                <span class="button__text">二分查找</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

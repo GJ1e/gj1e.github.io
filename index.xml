@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 17 Dec 2019 19:59:58 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 18 Dec 2019 20:37:28 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指Offer(Java实现)20题</title>
+      <link>https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/</link>
+      <pubDate>Wed, 18 Dec 2019 20:37:28 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B020%E9%A2%98/</guid>
+      <description>面试题20：表示数值的字符串  问题  请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如,字符串&amp;quot;+100&amp;quot;,&amp;quot;5e2&amp;quot;,&amp;quot;-123&amp;quot;,&amp;quot;3.1416&amp;quot;和&amp;quot;-1E-16&amp;quot;都表示数值。但是&amp;quot;12e&amp;quot;,&amp;quot;1a3.14&amp;quot;,&amp;quot;1.2.3&amp;quot;,&amp;quot;+-5&amp;quot;和&amp;quot;12e+4.3&amp;quot;都不是。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 19:28 * */ public class Solution20 { public boolean isNumeric(char[] str){ if (str==null || str.length&amp;lt;=0) return false; //长度为1，则必须是数字0-9 if (str.length==1){ return str[0]&amp;gt;=&#39;0&#39; &amp;amp;&amp;amp; str[0]&amp;lt;=&#39;9&#39;; } boolean hasSign = false;//+-符号标志 boolean hasDot = false; //&#39;.&#39;小数点标志 boolean hasE = false; //E或e标志 for (int i = 0; i &amp;lt; str.length; i++) { if (str[i]==&#39;+&#39; || str[i]==&#39;-&#39;){ //第一次出现且不在开头，则前一个字符必须是E或e if (!</description>
+    </item>
     
     <item>
       <title>二分查找</title>
@@ -210,7 +219,10 @@ AOF文件对于查询的操作不做记录。
       <pubDate>Thu, 21 Nov 2019 23:22:09 +0800</pubDate>
       
       <guid>https://gj1e.github.io/posts/2019/11/%E5%89%91%E6%8C%87offerjava%E5%AE%9E%E7%8E%B018-1%E9%A2%98/</guid>
-      <description> 面试题18（二）：删除链表中重复的结点 </description>
+      <description>面试题18（二）：删除链表中重复的结点  问题
+ 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5 处理后为 1-&amp;gt;2-&amp;gt;5
+ 注意重复的结点不保留：并不是将重复结点删除到只剩一个，而是重复结点的全部会被删除。所以链表1-&amp;gt;2-&amp;gt;3-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5不是1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5
+    思路  从头遍历整个链表，如果当前节点的值与下一个节点的值相同，就认为是重复节点，进行删除。为了使删除之后的链表不断开，则把当前节点的前一个节点与后面值比当前节点大的节点相连接。   /** * @Author GJ1e * @Create 2019/12/18 * @Time 18:34 * */ public class Solution18_1 { private class ListNode{ int value; ListNode next = null; } public ListNode deleteDuplication(ListNode pHead){ if (pHead==null || pHead.next==null) return null; ListNode pNode = pHead; ListNode pPreNode = null; while (pNode!=null &amp;amp;&amp;amp; pNode.next!=null){ //当前节点和下一个节点的值相同，进入删除。 if (pNode.value == pNode.</description>
     </item>
     
     <item>
