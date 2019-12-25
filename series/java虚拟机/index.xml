@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Wed, 30 Oct 2019 20:41:32 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Dec 2019 20:50:39 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/series/java%E8%99%9A%E6%8B%9F%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>JVM堆空间知识点</title>
+      <link>https://gj1e.github.io/posts/2019/12/jvm%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <pubDate>Wed, 25 Dec 2019 20:50:39 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2019/12/jvm%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <description> 堆空间的基本结构 Java堆是垃圾收集器管理的主要区域，因此也被称作GC堆。
+对象从新生代到老年代的过程 “eden区”，“From&amp;rdquo;区和&amp;rdquo;To&amp;rdquo;区都属于新生代，“old”区属于老年代。
+ 一般新生成的对象都出现在eden区。在一次新生代垃圾回收后，如果对象还存活，则会被复制到两个“survivor”区中的一个，假设是From区（From和To没有任何区别）。
+ 当From区被填满时，这个区域经过垃圾回收人存货的对象将会被复制进‘To’区，原From区被清空，并且从eden区过来的数据将直接进入To区域。
+ 当To区被填满时，之前从From区域过来的那部分数据如果仍在活动，则将会被放入老年代。
+   两个Servivor区域总有一个会是空的
+ </description>
+    </item>
     
     <item>
       <title>JVM垃圾收集器</title>
