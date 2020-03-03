@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hashmap on Gao J1e&#39;s Blog</title>
+    <link>https://gj1e.github.io/tags/hashmap/</link>
+    <description>Recent content in Hashmap on Gao J1e&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>郜杰</copyright>
+    <lastBuildDate>Tue, 03 Mar 2020 20:55:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://gj1e.github.io/tags/hashmap/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hashmap总结</title>
+      <link>https://gj1e.github.io/posts/2020/03/hashmap%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Tue, 03 Mar 2020 20:55:05 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/hashmap%E6%80%BB%E7%BB%93/</guid>
+      <description> Hashmap是线程安全的吗 不是。Hashmap中的方法是非同步的，并不能直接在多线程并发的环境下直接使用。假如线程A和线程B同时对同一个数组位置调用addEntry，那么这两个线程会同时获得现在的头节点，然后A写入新的头节点之后，B也写入新的头节点，那么B的写入操作会覆盖掉A的写入操作，造成A写入操作的丢失。
+Hashmap和Hashtable的区别  继承不同
+ Hashmap继承自abstractMap Hashtable继承自dictionary  Hashtable是线程安全的，Hashmap不是。
+ Hashtable中的key和value都不允许出现null值。Hashmap可以，Hashmap允许key可以为null，这样的键只能有一个。但是允许多个key所对应的value为null。
+ 数组的初始容量大小和容量增长方式不一样
+ Hashtable的数组初始大小为11，增长方式是old*2+1 Hashmap的数组初始大小为16，增长方式是翻倍  计算下标的方式不同
+ Hashtable是h%length Hashmap是h&amp;amp;(length-1)   哈希值的使用不同
+ Hashtable是直接使用对象的Hashcode Hashmap是重新计算哈希值   Hashmap的初始容量为什么设置为16  首先，length为2的整数次幂的话，h&amp;amp;(length-1)就相当于对length取模，提高了运算效率。 其次，是为了保证散列的均匀性，length为2的整数次幂的话，length-1为奇数，奇数的最后一位是1，h&amp;amp;(length-1)的结果就有可能为奇数，也有可能为偶数，也就是结果的最后一次有可能是0，也有可能是1。这样便保证了散列的均匀性。如果length为奇数，length-1就是偶数，最后一位是0。这样h&amp;amp;(length-1)的结果就只能为偶数，也就是最后一位只能是0，这样任何哈希值都只能被散列在偶数的下标位置上，浪费了近一半的空间。 所以length为2的整数次幂是为了是哈希值发生碰撞的概率更小，散列的更加均匀。  Hashmap之put()方法的执行过程  图片出处见水印
+ </description>
+    </item>
+    
+  </channel>
+</rss>
