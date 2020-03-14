@@ -7,10 +7,40 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Tue, 03 Mar 2020 20:55:05 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Mar 2020 21:44:08 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dubbo源码解析——服务暴露过程</title>
+      <link>https://gj1e.github.io/posts/2020/03/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Sat, 14 Mar 2020 21:44:08 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/</guid>
+      <description> 暴露过程解析  首先Dubbo的服务暴露有2种，一种是延迟暴漏，一种是正常的没有设置延迟的。
+ 不管是不是延迟暴露，Dubbo服务暴露都是通过serviceConfig的export（）方法来进行的。
+ 使用export初始化时，会将Bean对象转换为URL，将Bean所有属性转换为URL的参数。
+ export首先判断是否为延迟暴漏，（这里就按没有设置延迟暴露）然后执行doExport。
+ doExport方法执行一些列的检查，例如配置信息，填充各种属性等等，就是在开始之前把所有的东西都准备好。
+ 然后会调用doExportUrls方法。该方法首先会调用loadRegistries把所有注册中心的URL获取到，然后遍历调用doExportUrlsFor1Protocol方法。
+ doExportUrlsFor1Protocol根据不同的协议将服务以URL形式暴露。如果scope配置为none则不暴露，如果服务未配置成remote，则本地暴露exportLocal，如果未配置成local，则注册服务registryProcotol。
+ 不管是本地暴露，还是暴露为远程服务，都得先获取Invoker，然后导成Exporter。获取Invoker的方法是 Invoker&amp;lt;?&amp;gt; invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString())); 这个Invoker其实就是provider.xml中你配置的dubbo：service这个标签中引用的实现类的一个包装类，然后还带上了URL
+ 以暴露为远程服务为例，将Invoker导出为Exporter时，分两种：其它协议类型的Invoker和registry类型的Invoker。代码入口是Exporter&amp;lt;?&amp;gt; exporter = protocol.export(invoker);
+ registry类型的Invoker会进入到RegistryProtocol的export方法。RegistryProtocol负责注册服务到注册中心和向注册中心订阅服务。执行到final ExporterChangeableWrapper&amp;lt;T&amp;gt; exporter = doLocalExport(originInvoker);会调用dubboProtocol.export中的openServer(url)开启netty服务监听端口。
+ 然后返回，去向注册中心注册提供者。
+ 这个注册过程大概就是：
+ 根据Invoker获取具体的Registry实例并连接到注册中心。因为注册中心用的是ZK，所以会调用ZK的RegistryFactory中的getRegistry(url)。
+ getRegistry(url)这个方法在创建注册中心时是加了Lock锁的，保证了注册中心的单一实例。
+ 获取注册到注册中心的URL。
+ 然后调用registry.register(registedProviderUrl)注册到注册中心。
+ 提供者向注册中心订阅所有注册服务的覆盖配置，registry会去订阅覆盖配置的服务，当注册中心有此服务的覆盖配置注册进来时，推送消息给提供者，重新暴露服务，这由管理页面完成。
+  最后返回一个新的Exporter实例给上层的ServiceConfig进行缓存。
+  时序图  参考博文：
+详细的源码讲解——推荐
+简短的源码讲解——推荐
+ </description>
+    </item>
     
     <item>
       <title>Hashmap总结</title>

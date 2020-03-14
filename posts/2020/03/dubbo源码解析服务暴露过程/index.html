@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="GJ1e ">
+<meta name="description"
+    content=" 暴露过程解析  首先Dubbo的服务暴露有2种，一种是延迟暴漏，一种是正常的没有设置延迟的。
+ 不管是不是延迟暴露，Dubbo服务暴露都是通过serviceConfig的export（）方法来进行的。
+ 使用export初始化时，会将Bean对象转换为URL，将Bean所有属性转换为URL的参数。
+ export首先判断是否为延迟暴漏，（这里就按没有设置延迟暴露）然后执行doExport。
+ doExport方法执行一些列的检查，例如配置信息，填充各种属性等等，就是在开始之前把所有的东西都准备好。
+ 然后会调用doExportUrls方法。该方法首先会调用loadRegistries把所有注册中心的URL获取到，然后遍历调用doExportUrlsFor1Protocol方法。
+ doExportUrlsFor1Protocol根据不同的协议将服务以URL形式暴露。如果scope配置为none则不暴露，如果服务未配置成remote，则本地暴露exportLocal，如果未配置成local，则注册服务registryProcotol。
+ 不管是本地暴露，还是暴露为远程服务，都得先获取Invoker，然后导成Exporter。获取Invoker的方法是 Invoker&amp;lt;?&amp;gt; invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString())); 这个Invoker其实就是provider.xml中你配置的dubbo：service这个标签中引用的实现类的一个包装类，然后还带上了URL
+ 以暴露为远程服务为例，将Invoker导出为Exporter时，分两种：其它协议类型的Invoker和registry类型的Invoker。代码入口是Exporter&amp;lt;?&amp;gt; exporter = protocol.export(invoker);
+ registry类型的Invoker会进入到RegistryProtocol的export方法。RegistryProtocol负责注册服务到注册中心和向注册中心订阅服务。执行到final ExporterChangeableWrapper&amp;lt;T&amp;gt; exporter = doLocalExport(originInvoker);会调用dubboProtocol.export中的openServer(url)开启netty服务监听端口。
+ 然后返回，去向注册中心注册提供者。
+ 这个注册过程大概就是：
+ 根据Invoker获取具体的Registry实例并连接到注册中心。因为注册中心用的是ZK，所以会调用ZK的RegistryFactory中的getRegistry(url)。
+ getRegistry(url)这个方法在创建注册中心时是加了Lock锁的，保证了注册中心的单一实例。
+ 获取注册到注册中心的URL。
+ 然后调用registry.register(registedProviderUrl)注册到注册中心。
+ 提供者向注册中心订阅所有注册服务的覆盖配置，registry会去订阅覆盖配置的服务，当注册中心有此服务的覆盖配置注册进来时，推送消息给提供者，重新暴露服务，这由管理页面完成。
+  最后返回一个新的Exporter实例给上层的ServiceConfig进行缓存。
+  时序图  参考博文：
+详细的源码讲解——推荐
+简短的源码讲解——推荐
+ " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://gj1e.github.io/posts/2020/03/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/" />
+
+
+<title>
+    
+    Dubbo源码解析——服务暴露过程 :: Gao J1e&#39;s Blog  — Hello Friend
+    
+</title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="theme-color" content="#252627"><meta itemprop="name" content="Dubbo源码解析——服务暴露过程">
+<meta itemprop="description" content=" 暴露过程解析  首先Dubbo的服务暴露有2种，一种是延迟暴漏，一种是正常的没有设置延迟的。
+ 不管是不是延迟暴露，Dubbo服务暴露都是通过serviceConfig的export（）方法来进行的。
+ 使用export初始化时，会将Bean对象转换为URL，将Bean所有属性转换为URL的参数。
+ export首先判断是否为延迟暴漏，（这里就按没有设置延迟暴露）然后执行doExport。
+ doExport方法执行一些列的检查，例如配置信息，填充各种属性等等，就是在开始之前把所有的东西都准备好。
+ 然后会调用doExportUrls方法。该方法首先会调用loadRegistries把所有注册中心的URL获取到，然后遍历调用doExportUrlsFor1Protocol方法。
+ doExportUrlsFor1Protocol根据不同的协议将服务以URL形式暴露。如果scope配置为none则不暴露，如果服务未配置成remote，则本地暴露exportLocal，如果未配置成local，则注册服务registryProcotol。
+ 不管是本地暴露，还是暴露为远程服务，都得先获取Invoker，然后导成Exporter。获取Invoker的方法是 Invoker&lt;?&gt; invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString())); 这个Invoker其实就是provider.xml中你配置的dubbo：service这个标签中引用的实现类的一个包装类，然后还带上了URL
+ 以暴露为远程服务为例，将Invoker导出为Exporter时，分两种：其它协议类型的Invoker和registry类型的Invoker。代码入口是Exporter&lt;?&gt; exporter = protocol.export(invoker);
+ registry类型的Invoker会进入到RegistryProtocol的export方法。RegistryProtocol负责注册服务到注册中心和向注册中心订阅服务。执行到final ExporterChangeableWrapper&lt;T&gt; exporter = doLocalExport(originInvoker);会调用dubboProtocol.export中的openServer(url)开启netty服务监听端口。
+ 然后返回，去向注册中心注册提供者。
+ 这个注册过程大概就是：
+ 根据Invoker获取具体的Registry实例并连接到注册中心。因为注册中心用的是ZK，所以会调用ZK的RegistryFactory中的getRegistry(url)。
+ getRegistry(url)这个方法在创建注册中心时是加了Lock锁的，保证了注册中心的单一实例。
+ 获取注册到注册中心的URL。
+ 然后调用registry.register(registedProviderUrl)注册到注册中心。
+ 提供者向注册中心订阅所有注册服务的覆盖配置，registry会去订阅覆盖配置的服务，当注册中心有此服务的覆盖配置注册进来时，推送消息给提供者，重新暴露服务，这由管理页面完成。
+  最后返回一个新的Exporter实例给上层的ServiceConfig进行缓存。
+  时序图  参考博文：
+详细的源码讲解——推荐
+简短的源码讲解——推荐
+ ">
+
+
+<meta itemprop="datePublished" content="2020-03-14T21:44:08&#43;08:00" />
+<meta itemprop="dateModified" content="2020-03-14T21:44:08&#43;08:00" />
+<meta itemprop="wordCount" content="39">
+
+
+
+<meta itemprop="keywords" content="Dubbo源码解析,Dubbo," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://gj1e.github.io"/>
+
+<meta name="twitter:title" content="Dubbo源码解析——服务暴露过程"/>
+<meta name="twitter:description" content=" 暴露过程解析  首先Dubbo的服务暴露有2种，一种是延迟暴漏，一种是正常的没有设置延迟的。
+ 不管是不是延迟暴露，Dubbo服务暴露都是通过serviceConfig的export（）方法来进行的。
+ 使用export初始化时，会将Bean对象转换为URL，将Bean所有属性转换为URL的参数。
+ export首先判断是否为延迟暴漏，（这里就按没有设置延迟暴露）然后执行doExport。
+ doExport方法执行一些列的检查，例如配置信息，填充各种属性等等，就是在开始之前把所有的东西都准备好。
+ 然后会调用doExportUrls方法。该方法首先会调用loadRegistries把所有注册中心的URL获取到，然后遍历调用doExportUrlsFor1Protocol方法。
+ doExportUrlsFor1Protocol根据不同的协议将服务以URL形式暴露。如果scope配置为none则不暴露，如果服务未配置成remote，则本地暴露exportLocal，如果未配置成local，则注册服务registryProcotol。
+ 不管是本地暴露，还是暴露为远程服务，都得先获取Invoker，然后导成Exporter。获取Invoker的方法是 Invoker&lt;?&gt; invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString())); 这个Invoker其实就是provider.xml中你配置的dubbo：service这个标签中引用的实现类的一个包装类，然后还带上了URL
+ 以暴露为远程服务为例，将Invoker导出为Exporter时，分两种：其它协议类型的Invoker和registry类型的Invoker。代码入口是Exporter&lt;?&gt; exporter = protocol.export(invoker);
+ registry类型的Invoker会进入到RegistryProtocol的export方法。RegistryProtocol负责注册服务到注册中心和向注册中心订阅服务。执行到final ExporterChangeableWrapper&lt;T&gt; exporter = doLocalExport(originInvoker);会调用dubboProtocol.export中的openServer(url)开启netty服务监听端口。
+ 然后返回，去向注册中心注册提供者。
+ 这个注册过程大概就是：
+ 根据Invoker获取具体的Registry实例并连接到注册中心。因为注册中心用的是ZK，所以会调用ZK的RegistryFactory中的getRegistry(url)。
+ getRegistry(url)这个方法在创建注册中心时是加了Lock锁的，保证了注册中心的单一实例。
+ 获取注册到注册中心的URL。
+ 然后调用registry.register(registedProviderUrl)注册到注册中心。
+ 提供者向注册中心订阅所有注册服务的覆盖配置，registry会去订阅覆盖配置的服务，当注册中心有此服务的覆盖配置注册进来时，推送消息给提供者，重新暴露服务，这由管理页面完成。
+  最后返回一个新的Exporter实例给上层的ServiceConfig进行缓存。
+  时序图  参考博文：
+详细的源码讲解——推荐
+简短的源码讲解——推荐
+ "/>
+
+
+
+<meta property="article:section" content="Dubbo" />
+
+<meta property="article:published_time" content="2020-03-14 21:44:08 &#43;0800 CST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://gj1e.github.io/posts">Blog</a></li><li><a href="https://gj1e.github.io/categories">Categories</a></li><li><a href="https://gj1e.github.io/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
+			
+            
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="https://gj1e.github.io/posts/2020/03/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/">Dubbo源码解析——服务暴露过程</a></h1>
+
+            
+
+            <div class="post-content">
+                
+
+<h2 id="暴露过程解析">暴露过程解析</h2>
+
+<ol>
+<li><p>首先Dubbo的服务暴露有2种，一种是延迟暴漏，一种是正常的没有设置延迟的。</p></li>
+
+<li><p>不管是不是延迟暴露，Dubbo服务暴露都是通过serviceConfig的export（）方法来进行的。</p></li>
+
+<li><p>使用export初始化时，会将Bean对象转换为URL，将Bean所有属性转换为URL的参数。</p></li>
+
+<li><p>export首先判断是否为延迟暴漏，（这里就按没有设置延迟暴露）然后执行doExport。</p></li>
+
+<li><p>doExport方法执行一些列的检查，例如配置信息，填充各种属性等等，就是在开始之前把所有的东西都准备好。</p></li>
+
+<li><p>然后会调用doExportUrls方法。该方法首先会调用loadRegistries把所有注册中心的URL获取到，然后遍历调用doExportUrlsFor1Protocol方法。</p></li>
+
+<li><p>doExportUrlsFor1Protocol根据不同的协议将服务以URL形式暴露。如果scope配置为none则不暴露，如果服务未配置成remote，则本地暴露exportLocal，如果未配置成local，则注册服务registryProcotol。</p></li>
+
+<li><p>不管是本地暴露，还是暴露为远程服务，都得先获取Invoker，然后导成Exporter。获取Invoker的方法是
+<code>Invoker&lt;?&gt; invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString()));</code>
+这个Invoker其实就是provider.xml中你配置的dubbo：service这个标签中引用的实现类的一个包装类，然后还带上了URL</p></li>
+
+<li><p>以暴露为远程服务为例，将Invoker导出为Exporter时，分两种：其它协议类型的Invoker和registry类型的Invoker。代码入口是<code>Exporter&lt;?&gt; exporter = protocol.export(invoker);</code></p></li>
+
+<li><p>registry类型的Invoker会进入到RegistryProtocol的export方法。RegistryProtocol负责注册服务到注册中心和向注册中心订阅服务。执行到<code>final ExporterChangeableWrapper&lt;T&gt; exporter = doLocalExport(originInvoker);</code>会调用<code>dubboProtocol.export</code>中的<code>openServer(url)</code>开启netty服务监听端口。</p></li>
+
+<li><p>然后返回，去向注册中心注册提供者。</p></li>
+
+<li><p>这个注册过程大概就是：</p>
+
+<ol>
+<li><p>根据Invoker获取具体的Registry实例并连接到注册中心。因为注册中心用的是ZK，所以会调用ZK的RegistryFactory中的getRegistry(url)。</p></li>
+
+<li><p>getRegistry(url)这个方法在创建注册中心时是加了Lock锁的，保证了注册中心的单一实例。</p></li>
+
+<li><p>获取注册到注册中心的URL。</p></li>
+
+<li><p>然后调用registry.register(registedProviderUrl)注册到注册中心。</p></li>
+
+<li><p>提供者向注册中心订阅所有注册服务的覆盖配置，registry会去订阅覆盖配置的服务，当注册中心有此服务的覆盖配置注册进来时，推送消息给提供者，重新暴露服务，这由管理页面完成。</p></li>
+</ol></li>
+
+<li><p>最后返回一个新的Exporter实例给上层的ServiceConfig进行缓存。</p></li>
+</ol>
+
+<hr />
+
+<h2 id="时序图">时序图</h2>
+
+<p><img src="/images/Dubbo服务暴露调用时序图.png" alt="调用时序图" /></p>
+
+<hr />
+
+<blockquote>
+<p>参考博文：</p>
+
+<p><a href="http://cxis.me/2017/02/19/Dubbo%E4%B8%AD%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%87%E7%A8%8B%E8%A7%A3%E6%9E%90/" target="_blank">详细的源码讲解</a>——推荐</p>
+
+<p><a href="https://blog.csdn.net/csdn_kenneth/article/details/82619828" target="_blank">简短的源码讲解</a>——推荐</p>
+</blockquote>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://gj1e.github.io/tags/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">Dubbo源码解析</a></span><span class="tag"><a href="https://gj1e.github.io/tags/dubbo">Dubbo</a></span>
+                </p>
+			
+			
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>39 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-03-14 21:44 &#43;0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://gj1e.github.io/posts/2020/03/hashmap%E6%80%BB%E7%BB%93/">
+                                <span class="button__text">Hashmap总结</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://gj1e.github.io">GJ1e</a></span>
+            
+            <span>郜杰</span>
+            <span> <a href="https://gj1e.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.4c3fb12a087ceed4a52cb5d57068a9795c7069617a01ca70f788052ad66e1791779e6c72686e1dc0ca13dc03b0203204b6566bb0dd1ee80de2b7ff4d8fe53db2.js" integrity="sha512-TD&#43;xKgh87tSlLLXVcGipeVxwaWF6Acpw94gFKtZuF5F3nmxyaG4dwMoT3AOwIDIEtlZrsN0e6A3it/9Nj&#43;U9sg=="></script>
+
+
+
+    </body>
+</html>

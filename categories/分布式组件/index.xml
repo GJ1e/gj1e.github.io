@@ -31,33 +31,6 @@ ZXID有两部分组成：一部分为Leader的选举周期Epoch值；一部分�
     </item>
     
     <item>
-      <title>Dubbo</title>
-      <link>https://gj1e.github.io/posts/2019/10/dubbo/</link>
-      <pubDate>Mon, 07 Oct 2019 20:53:26 +0800</pubDate>
-      
-      <guid>https://gj1e.github.io/posts/2019/10/dubbo/</guid>
-      <description>Dubbo简介 Dubbo是一个分布式服务框架，以及SOA治理方案。其主要功能包括：
- 高性能NIO通讯以多协议集成 服务动态寻址与路由 软负载均衡与容错 依赖分析与降级  Dubbo的五个节点  Provider：暴露服务的服务提供方
- Consumer：调用远程服务的服务消费方
- Registry：服务注册与发现的中心
- Monitor ：统计服务的调用次数和调用时间的监控中心
- Container：服务运行容器
-  Dubbo节点的调用过程  服务容器负责启动、加载，运行服务提供者
- 服务提供者在启动时，向注册中心注册自己提供的服务
- 服务消费者在启动时，向注册中心订阅自己所需的服务
- 注册中心返回服务提供者地址列表给服务消费者。如果有变更，注册中心会基于长链接推送变更数据给服务消费者
- 服务消费者从服务提供者地址列表中，基于软负载均衡算法选一台服务提供者进行调用。如果调用失败，再另选一台
- 服务消费者和服务提供者，把在内存中累计调用次数和调用时间，定时每分钟向注册中心发送一次数据。
-  Dubbo的四个特性  连通性：
- 说明它们之间都存在着联系。例如Provider，Consumer和Registry三者之间都是长链接，而Provider，Consumer向Registry注册服务以及订阅服务的时间都得向Monitor汇报。  健壮性：
- 说明具有稳定性，例如注册中心中的对等集群中任意一台服务器宕掉后，将会自动切换到另一台。就算注册中心全部宕掉，服务者和消费者依然可以通过本地缓存进行通讯。  伸缩性：
- 可以通过增加机器部署实例进行添加新的注册中心和服务提供者。  升级性：
- 就是对未来架构的设想，比起目前框架，它的特点是可以实现自动部署服务的本地代理，以及可以通过访问压力来自动增减服务提供者。   Dubbo的RPC  RPC(Remote Procedure Call)远程过程调用，他是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。 RPC协议假定某些传输协议的存在，如TCP,UDP,为通信程序之间携带信息数据。RPC使得开发网络分布式程序变得更加容易。
- Dubbo RPC调用过程  Client服务消费方以本地调用的方式调用服务。
- Client Stub接收到调用后负责将方法、参数等组装成可以进行网络传输的消息体。</description>
-    </item>
-    
-    <item>
       <title>Zookeeper</title>
       <link>https://gj1e.github.io/posts/2019/10/zookeeper/</link>
       <pubDate>Mon, 07 Oct 2019 16:50:14 +0800</pubDate>

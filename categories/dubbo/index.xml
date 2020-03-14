@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dubbo on Gao J1e&#39;s Blog</title>
-    <link>https://gj1e.github.io/tags/dubbo/</link>
+    <link>https://gj1e.github.io/categories/dubbo/</link>
     <description>Recent content in Dubbo on Gao J1e&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
     <lastBuildDate>Sat, 14 Mar 2020 21:44:08 +0800</lastBuildDate>
     
-	<atom:link href="https://gj1e.github.io/tags/dubbo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gj1e.github.io/categories/dubbo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

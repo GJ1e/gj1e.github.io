@@ -4,13 +4,48 @@
   
   <url>
     <loc>https://gj1e.github.io/categories/</loc>
-    <lastmod>2020-03-03T20:55:05+08:00</lastmod>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://gj1e.github.io/categories/dubbo/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/dubbo/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/posts/2020/03/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gj1e.github.io/</loc>
-    <lastmod>2020-03-03T20:55:05+08:00</lastmod>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/posts/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gj1e.github.io/tags/</loc>
+    <lastmod>2020-03-14T21:44:08+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -33,18 +68,6 @@
   
   <url>
     <loc>https://gj1e.github.io/categories/java%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2020-03-03T20:55:05+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gj1e.github.io/posts/</loc>
-    <lastmod>2020-03-03T20:55:05+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gj1e.github.io/tags/</loc>
     <lastmod>2020-03-03T20:55:05+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -767,12 +790,6 @@
   
   <url>
     <loc>https://gj1e.github.io/series/dubbo/</loc>
-    <lastmod>2019-10-07T20:53:26+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gj1e.github.io/tags/dubbo/</loc>
     <lastmod>2019-10-07T20:53:26+08:00</lastmod>
     <priority>0</priority>
   </url>
