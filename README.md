@@ -18,6 +18,7 @@
 - [垃圾收集算法](https://gj1e.github.io/posts/2019/10/jvm%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/)
 - [Java对象的创建及类加载的过程](https://gj1e.github.io/posts/2019/10/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/)
 - [JVM内存区域探秘](https://gj1e.github.io/posts/2019/10/jvm%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/)
+- [JVM堆外内存回收](https://gj1e.github.io/posts/2020/03/jvm%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/)
 
 ### Java并发 ###
 
