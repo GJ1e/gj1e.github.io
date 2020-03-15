@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Sat, 14 Mar 2020 21:44:08 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 17:58:46 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>JVM堆外内存回收</title>
+      <link>https://gj1e.github.io/posts/2020/03/jvm%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/</link>
+      <pubDate>Sun, 15 Mar 2020 17:58:46 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/jvm%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6/</guid>
+      <description>堆外内存 JVM启动时分配的内存，称为堆内存，与之相对的，在代码中还可以使用堆外内存，比如Netty，广泛使用了堆外内存，但是这部分的内存并不归JVM管理，GC算法并不会对它们进行回收，所以在使用堆外内存时，要格外小心，防止内存一直得不到释放，造成线上故障。
+堆外内存的回收机制 用一个存储在堆内存中的DirectByteBuffer对象来对堆外内存进行操作。每个DirectByteBuffer对象在进行初始化时，都会创建一个Clearn对象，这个Clearn对象会在合适的时候执行unSafe.freeMemory（address），从而回收这块堆内存。
+ 当初始化一块堆外内存时，对象的引用关系如下：
+ first是cleaner类的静态变量，cleaner对象在初始化的时候会被添加到Cleaner链表中，和first形成引用关系。 ReferenceQueue是用来保存Clearner对象的。
+如果该DirectByteBuffer在一次GC中被回收了，那么就只有Cleaner对象唯一存有该堆外内存数据（开始地址，大小容量），在下一次FullGC时，会将该Cleaner对象放入到ReferenceQueue队列中，并触发clean方法。
+Cleaner对象的clean方法主要作用是：
+ 将自己从Cleaner链表中删除，从而在下次FullGC时可以被回收掉。 释放对外内存
+public void run() { if (address == 0) { // Paranoia return; } unsafe.freeMemory(address); address = 0; Bits.unreserveMemory(size, capacity); }   如果JVM一直不进行FullGC，那么无效的Cleaner对象会越来越多并且也没有办法放入到ReferenceQueue中，从而堆外内存也就无法进行释放？ 其实在初始化DirectByteBuffer对象时，如果当前堆外内存的条件比较苛刻时，就会主动调用system.gc()，强制执行FullGC。
+ 不过很多线上环境的JVM参数有-XX:+DisableExplicitGC，导致了System.gc()等于一个空函数，根本不会触发FGC，这一点在使用Netty框架时需要注意是否会出问题。
+ 参考博客</description>
+    </item>
     
     <item>
       <title>Dubbo源码解析——服务暴露过程</title>
