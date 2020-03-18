@@ -6,8 +6,201 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Sun, 15 Mar 2020 17:58:46 +0800</lastBuildDate>
+        <lastBuildDate>Wed, 18 Mar 2020 21:50:32 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>ThreadLocal探秘</title>
+            <link>https://gj1e.github.io/posts/2020/03/threadlocal%E6%8E%A2%E7%A7%98/</link>
+            <pubDate>Wed, 18 Mar 2020 21:50:32 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2020/03/threadlocal%E6%8E%A2%E7%A7%98/</guid>
+            <description>ThreadLocal被称作为线程本地变量，或者线程的本地存储。
+ThreadLocal可以让每个线程绑定自己的值。
+ThreadLocal将变量在每个线程中都创建了一个副本，这样每个线程就可以访问自己内部的副本变量，它们可以通过get（）和set（）方法来获取默认值，或者将变量设置为当前线程所要保存的副本的值，这样就能避免了线程安全的问题。
+ThreadLocal原理 ThreadLocal内部有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，它的键值为当前ThreadLocal的变量，value为变量副本。ThreadLocalMap是ThreadLocal的一个内部类。
+初始化时，在Thread里，threadLocals为空，通过ThreadLocal变量调用get或set方法就会对threadLocals进行初始化，并且以当前ThreadLocal变量为键值，value为当前ThreadLocal所要保存的值。
+然后在当前线程里，如果要使用哪个ThreadLocal变量的副本值，就通过这个ThreadLocal的变量调用get（）方法来获取副本值。
+ThreadLocal内存泄漏问题 ThreadLocalMap中使用的key为弱引用，而value为强引用，所以如果ThreadLocal没有被外部引用的情况下，在垃圾回收时，Key会被清理掉。这样，ThreadLocalMap中就会出现key为null的Entry。
+如果我们不采取任何措施的话，value永远也无法被GC回收，这样就会产生内存泄露。
+ThreadLocalMap实现中已经考虑了这种情况，所以在调用get（），set（），remove（）方法时会自动清理掉key为null的记录。</description>
+            <content type="html"><![CDATA[
+
+<p>ThreadLocal被称作为线程本地变量，或者线程的本地存储。</p>
+
+<p>ThreadLocal可以让每个线程绑定自己的值。</p>
+
+<p>ThreadLocal将变量在每个线程中都创建了一个副本，这样每个线程就可以访问自己内部的副本变量，它们可以通过get（）和set（）方法来获取默认值，或者将变量设置为当前线程所要保存的副本的值，这样就能避免了线程安全的问题。</p>
+
+<hr />
+
+<h2 id="threadlocal原理">ThreadLocal原理</h2>
+
+<p><code>ThreadLocal</code>内部有一个<code>ThreadLocal.ThreadLocalMap</code>类型的成员变量<code>threadLocals</code>，它的键值为当前<code>ThreadLocal</code>的变量，value为变量副本。<code>ThreadLocalMap</code>是<code>ThreadLocal</code>的一个内部类。</p>
+
+<p>初始化时，在<code>Thread</code>里，<code>threadLocals</code>为空，通过<code>ThreadLocal</code>变量调用get或set方法就会对<code>threadLocals</code>进行初始化，并且以当前<code>ThreadLocal</code>变量为键值，<code>value</code>为当前<code>ThreadLocal</code>所要保存的值。</p>
+
+<p>然后在当前线程里，如果要使用哪个<code>ThreadLocal</code>变量的副本值，就通过这个<code>ThreadLocal</code>的变量调用<code>get（）</code>方法来获取副本值。</p>
+
+<p><img src="/images/ThreadLocal结构图.png" alt="ThreadLocal结构图.png" /></p>
+
+<hr />
+
+<h2 id="threadlocal内存泄漏问题">ThreadLocal内存泄漏问题</h2>
+
+<p><code>ThreadLocalMap</code>中使用的<strong>key为弱引用</strong>，而<strong>value为强引用</strong>，所以如果<code>ThreadLocal</code>没有被外部引用的情况下，在垃圾回收时，<strong>Key会被清理掉</strong>。这样，<code>ThreadLocalMap</code>中就会出现key为null的Entry。</p>
+
+<p>如果我们不采取任何措施的话，value永远也无法被GC回收，这样就会产生内存泄露。</p>
+
+<p><code>ThreadLocalMap</code>实现中已经考虑了这种情况，所以在调用<code>get（），set（），remove（）</code>方法时会自动清理掉<strong>key为null</strong>的记录。</p>
+
+<hr />
+]]></content>
+        </item>
+        
+        <item>
+            <title>ConcurrentHashMap探秘</title>
+            <link>https://gj1e.github.io/posts/2020/03/concurrenthashmap%E6%8E%A2%E7%A7%98/</link>
+            <pubDate>Wed, 18 Mar 2020 21:08:55 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2020/03/concurrenthashmap%E6%8E%A2%E7%A7%98/</guid>
+            <description> 它是HashMap的多线程版本，是线程安全的。可以在并发环境下直接使用。为什么放着好好的HashTable不用又要从新实现一个ConcurrentHashMap呢？就是因为效率问题（虽然你安全，但是太慢了，没有爽感。）这个就不一样，即安全，效率还高，这酸爽你能顶的住？
+ConcurrentHashMap是将数据分成一段一段存储，然后给每个数据段配一把锁，当一个线程访问占用启用一个数据段的同时，其它数据段也能被其他线程访问。（这种思想就类比公共厕所里的一排蹲坑就行。）
+ 注意：ConcurrentHashMap读不加锁，下文会有解释。
+ ConcurrentHashMap之内部数据结构 JDK1.7： ConcurrentHashMap是由segment数组结构和HashEntry组成，segment实现了ReentrantLock，所以扮演了一个可重入锁的角色。HashEntry用于存储键值对数据。
+一个 ConcurrentHashMap 里包含一个 Segment 数组。Segment 的结构和HashMap类似，是一种数组和链表结构，一个 Segment 包含一个 HashEntry 数组，每个 HashEntry 是一个链表结构的元素，每个 Segment 守护着一个HashEntry数组里的元素，当对 HashEntry 数组的数据进行修改时，必须首先获得对应的 Segment的锁。
+ 注意：初始化时容器里面默认的锁的个数，也就是Segment数组长度为16；具体解释可以看《Java并发编程艺术》P279
+图片出处见参考
+ JDK1.8： ConcurrentHashMap取消了分段锁，采用的CAS+Synchronized来保证并发安全。
+数据结构和HashMap1.8的类似，数组+链表/红黑树。当链表长度大于8时，会将链表转为红黑树，来保证查询效率。 Synchronized只锁定当前链表的头节点，或红黑树的首节点。
+ 图片出处见参考
+ ConcurrentHashMap的get（）方法 Segment的get操作非常高效，先经过一次再散列，然后使用这个散列值通过散 列运算定位到Segment，再通过散列算法定位到元素。整个过程时不加锁的，除非读到的值是空才会加锁重读。这就是比HashTable效率高的其中一个点。
+为什么不（带）加（TT）锁，还能保证安全呢？
+就是因为它的get方法里将要使用的共享变量都定义成了volatile类型了，（这操作真骚，直接从根儿上做了绝育）例如用来统计segment大小的count字段，和用于存储HashEntry的值value。
+现在我们解释一下为啥定义成了volatile类型就可以保证安全了呢？
+首先，volatile类型的变量可以保证线程之间的修改可见性，能够被多线程同时读取，并且还保证你读的值不过期，这就很骚。
+但是有利有弊。缺点就是只能被单线程写，只有一种情况下可以被多线程写，呢就是要写入的值不依赖于原值。
+为什么可以保证读到的值不是过期值呢？
+因为happens-before原则嘛，任意对volatile类型变量的写，happens-before对这个变量的读。换成人话就是对volatile类型的变量的写操作优先于读操作。
+ConcurrentHashMap的put（）方法 put方法需要对共享变量进行写操作，所以需要对操作的共享变量加锁，（真刀真枪的时候，还是加锁放心）。put方法是首先定位到具体的Segment，然后在Segment里进行数据的写入操作。整个的写入操作分为两步
+第一步：首先判断是否需要扩容 插入元素之前，先判断Segment种的HashEntry数组是否达到阈值（threshlod），如果超过阈值则对数组进行扩容。（看到这里的时候想一想HashMap是先插入在判断，还是先判断再插入）在扩容时，首先会创建一个容量是原来2倍的数组，然后将原数组中的元素进行新一次散列，然后再插入到新数组中。
+ 注意：ConcurrentHashMap不会对整个容器进行扩容，而是只对某个Segment进行扩容。
+ 第二步：进行插入 将需要插入的元素通过散列定位，然后插入。（找准了，再插入）
+ConcurrentHashMap的size（）方法 size（）方法就是来统计整个ConcurrentHashMap里元素的大小，也就是统计出每个segment的大小，然后求和。看似简单，但是细想又不是很简单，虽然，count是个volatile类型的全局变量，但是顶不住有其它线程在统计的时候捣乱呀。比如，当把所有的segment的大小求出准备进行相加时，又有其它线程对count进行了修改，这样统计的结果就不准确了。可是如果在统计过程中将其它方法锁住，呢岂不是效率太低了嘛？酸爽的体验感就有瑕疵了。
+牛逼的大佬们给出的解决方案就是，先尝试2次不加锁进行统计，如果在统计过程中，count发生了变化，呢我再去加锁，再来进行统计。（有没有觉得很像自己，先裸爽，顶不住了在保护，既爽还持久，是不是很骚？）
+那么是如何来感知count发生变化的呢？
+使用了一个modCount变量，在put、remove和clean方法里操作元素前都会将变量modCount进行加1，那么在统计size 前后比较modCount是否发生变化，从而得知容器的大小是否发生变化。
+ 觉得有点CAS的味道。（个人感觉，感觉不对别喷我）
+ 参考  《Java并发编程的艺术》 大佬博客以及图片出处  </description>
+            <content type="html"><![CDATA[
+
+<p>它是<code>HashMap</code>的多线程版本，是线程安全的。可以在并发环境下直接使用。为什么放着好好的<code>HashTable</code>不用又要从新实现一个<code>ConcurrentHashMap</code>呢？就是因为<strong>效率问题</strong>（虽然你安全，但是太慢了，没有爽感。）这个就不一样，<strong>即安全，效率还高</strong>，这酸爽你能顶的住？</p>
+
+<p><code>ConcurrentHashMap</code>是将数据分成一段一段存储，然后给每个数据段配一把锁，当一个线程访问占用启用一个数据段的同时，其它数据段也能被其他线程访问。（这种思想就类比公共厕所里的一排蹲坑就行。）</p>
+
+<blockquote>
+<p>注意：<code>ConcurrentHashMap</code>读不加锁，下文会有解释。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="concurrenthashmap之内部数据结构">ConcurrentHashMap之内部数据结构</h2>
+
+<h3 id="jdk1-7">JDK1.7：</h3>
+
+<p><img src="/images/ConcurrentHashMap数据结构107.png" alt="ConcurrentHashMap数据结构107" /></p>
+
+<p><code>ConcurrentHashMap</code>是由<code>segment</code>数组结构和<code>HashEntry</code>组成，<code>segment</code>实现了<code>ReentrantLock</code>，所以扮演了一个可重入锁的角色。<code>HashEntry</code>用于存储键值对数据。</p>
+
+<p>一个 <code>ConcurrentHashMap</code> 里包含一个 <code>Segment</code> 数组。<code>Segment</code> 的结构和<code>HashMap</code>类似，是一种数组和链表结构，一个 <code>Segment</code> 包含一个 <code>HashEntry</code> 数组，每个 <code>HashEntry</code> 是一个链表结构的元素，每个 <code>Segment</code> 守护着一个<code>HashEntry</code>数组里的元素，当对 <code>HashEntry</code> 数组的数据进行修改时，必须首先获得对应的 <code>Segment</code>的锁。</p>
+
+<blockquote>
+<p>注意：初始化时容器里面默认的锁的个数，也就是<code>Segment</code>数组长度为16；具体解释可以看《Java并发编程艺术》P279</p>
+
+<p>图片出处见参考</p>
+</blockquote>
+
+<hr />
+
+<h3 id="jdk1-8">JDK1.8：</h3>
+
+<p><img src="/images/ConcurrentHashMap数据结构108.png" alt="ConcurrentHashMap数据结构108" /></p>
+
+<p><code>ConcurrentHashMap</code>取消了分段锁，采用的<code>CAS+Synchronized</code>来保证并发安全。</p>
+
+<p>数据结构和<code>HashMap1.8</code>的类似，数组+链表/红黑树。当链表长度大于8时，会将链表转为红黑树，来保证查询效率。
+<code>Synchronized</code>只锁定当前链表的头节点，或红黑树的首节点。</p>
+
+<blockquote>
+<p>图片出处见参考</p>
+</blockquote>
+
+<hr />
+
+<h2 id="concurrenthashmap的get-方法">ConcurrentHashMap的get（）方法</h2>
+
+<p>Segment的get操作非常高效，先经过一次再散列，然后使用这个散列值通过散 列运算定位到Segment，再通过散列算法定位到元素。<strong>整个过程时不加锁的，除非读到的值是空才会加锁重读</strong>。这就是比HashTable效率高的其中一个点。</p>
+
+<p><strong>为什么不（带）加（TT）锁，还能保证安全呢？</strong></p>
+
+<p>就是因为它的<code>get</code>方法里将要使用的共享变量都定义成了<code>volatile</code>类型了，（这操作真骚，直接从根儿上做了绝育）例如用来统计<code>segment</code>大小的<code>count</code>字段，和用于存储<code>HashEntry</code>的值<code>value</code>。</p>
+
+<p><strong>现在我们解释一下为啥定义成了volatile类型就可以保证安全了呢？</strong></p>
+
+<p>首先，<code>volatile</code>类型的变量可以保证线程之间的修改可见性，能够被多线程同时读取，并且还保证你读的值不过期，这就很骚。</p>
+
+<p>但是有利有弊。缺点就是只能被单线程写，<strong>只有一种情况下可以被多线程写，呢就是要写入的值不依赖于原值。</strong></p>
+
+<p><strong>为什么可以保证读到的值不是过期值呢？</strong></p>
+
+<p>因为<code>happens-before</code>原则嘛，任意对<code>volatile</code>类型变量的写，<code>happens-before</code>对这个变量的读。<strong>换成人话就是对<code>volatile</code>类型的变量的写操作优先于读操作。</strong></p>
+
+<hr />
+
+<h2 id="concurrenthashmap的put-方法">ConcurrentHashMap的put（）方法</h2>
+
+<p><strong>put方法需要对共享变量进行写操作，所以需要对操作的共享变量加锁</strong>，（真刀真枪的时候，还是加锁放心）。put方法是首先定位到具体的Segment，然后在Segment里进行数据的写入操作。整个的写入操作分为两步</p>
+
+<h3 id="第一步-首先判断是否需要扩容">第一步：首先判断是否需要扩容</h3>
+
+<p>插入元素之前，先判断<code>Segment</code>种的<code>HashEntry</code>数组是否达到阈值<code>（threshlod）</code>，如果超过阈值则对数组进行扩容。（看到这里的时候想一想HashMap是先插入在判断，还是先判断再插入）在扩容时，首先会创建一个容量是<strong>原来2倍的数组</strong>，然后将原数组中的元素进行新一次散列，然后再插入到新数组中。</p>
+
+<blockquote>
+<p>注意：ConcurrentHashMap不会对整个容器进行扩容，而是只对某个Segment进行扩容。</p>
+</blockquote>
+
+<h3 id="第二步-进行插入">第二步：进行插入</h3>
+
+<p>将需要插入的元素通过散列定位，然后插入。（找准了，再插入）</p>
+
+<hr />
+
+<h2 id="concurrenthashmap的size-方法">ConcurrentHashMap的size（）方法</h2>
+
+<p><code>size（）</code>方法就是来统计整个<code>ConcurrentHashMap</code>里元素的大小，也就是统计出每个<code>segment</code>的大小，然后求和。看似简单，但是细想又不是很简单，虽然，<code>count</code>是个<code>volatile</code>类型的全局变量，但是顶不住有其它线程在统计的时候捣乱呀。比如，当把所有的<code>segment</code>的大小求出准备进行相加时，又有其它线程对<code>count</code>进行了修改，这样统计的结果就不准确了。可是如果在统计过程中将其它方法锁住，呢岂不是效率太低了嘛？酸爽的体验感就有瑕疵了。</p>
+
+<p>牛逼的大佬们给出的解决方案就是，<strong>先尝试2次不加锁进行统计</strong>，如果在统计过程中，<strong>count</strong>发生了变化，呢我再去加锁，再来进行统计。（有没有觉得很像自己，先裸爽，顶不住了在保护，既爽还持久，是不是很骚？）</p>
+
+<p><strong>那么是如何来感知count发生变化的呢？</strong></p>
+
+<p>使用了一个<strong>modCount</strong>变量，在put、remove和clean方法里操作元素前都会将变量<strong>modCount</strong>进行加1，那么在统计size 前后比较<strong>modCount</strong>是否发生变化，从而得知容器的大小是否发生变化。</p>
+
+<blockquote>
+<p>觉得有点CAS的味道。（个人感觉，感觉不对别喷我）</p>
+</blockquote>
+
+<hr />
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li>《Java并发编程的艺术》</li>
+<li><a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/collection/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98.md#concurrenthashmap%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E5%BA%95%E5%B1%82%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0" target="_blank">大佬博客以及图片出处</a></li>
+</ul>
+
+<hr />
+]]></content>
+        </item>
         
         <item>
             <title>JVM堆外内存回收</title>
