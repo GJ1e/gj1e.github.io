@@ -23,9 +23,9 @@
 ### Java并发 ###
 
 - [Java并发基础知识](https://gj1e.github.io/posts/2019/11/java%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/)
-- ConcurrentHashMap（待上传）
+- **[ConcurrentHashMap之骚话连篇](https://gj1e.github.io/posts/2020/03/concurrenthashmap%E6%8E%A2%E7%A7%98/)**
 - CopyOnWriteArrayList（待上传）
-- ThreadLocal（未上传）
+- [ThreadLocal](https://gj1e.github.io/posts/2020/03/threadlocal%E6%8E%A2%E7%A7%98/)
 - [多线程之生产者与消费者](https://gj1e.github.io/posts/2019/12/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/)
 - [ReentrantLock](https://gj1e.github.io/posts/2019/11/reentrantlock/)
 - CAS（未上传）
