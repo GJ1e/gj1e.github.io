@@ -1,5 +1,7 @@
 # JavaBlog
 
+**本博客地址：**[gj1e.github.io](https://gj1e.github.io)
+
 此仓库是做为本人日常学习总结的博客，会定期更新与Java后端有关的知识和本人面试中遇到的问题总结，欢迎Star。
 
 如果博客文章内容中出现错误，欢迎在Issues中进行反馈或者加本人QQ825843207，我会在第一时间进行改正。
@@ -9,7 +11,9 @@
 
 ### Java基础知识 ###
 
+- [Java基础知识点](https://gj1e.github.io/posts/2020/03/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/)
 - [HashMap](https://gj1e.github.io/posts/2020/03/hashmap%E6%80%BB%E7%BB%93/)
+
 
 ### Java虚拟机 ###
 
