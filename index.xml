@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Wed, 18 Mar 2020 21:50:32 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2020 22:26:39 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java基础知识点</title>
+      <link>https://gj1e.github.io/posts/2020/03/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <pubDate>Sun, 22 Mar 2020 22:26:39 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <description>字符型常量和字符串常量的区别 形式上：
+ 字符型常量使用单引号引起的一个字符，字符串常量是双引号引起的若干的字符。  含义上：
+ 字符常量相当于一个（ASCII值）可以参加表达式运算；字符串常量表示的是一个地址值，表示该字符串在内存中的地址。  内存上：
+ char型为2个字节，字符串常量为若干个字节。   Constructor可以被重写吗 构造器不可以被重写，但是可以被重载。
+重载与重写的区别  重载就是发生在同一个类型。方法名相同，参数类型，个数不同，返回值和访问修饰符也可以不同。
+ 重写就是子类继承父类，子类重写父类允许子类所能访问的方法（言外之意就是父类中private修饰符修饰的方法，子类不能重写）
+ 重写规则：方法名和参数类型必须相同，返回值范围小于等于父类，抛出异常的范围也要小于等于父类，访问修饰符的范围的要大于等于父类。
+  String、StringBuffer和StringBuilder的区别，String为啥是不可变的 可变性：
+ String之所以不可变是因为String底层使用了final修饰符来修饰保存字符串的字符数组。private final char value[]
+ StringBuffer和StringBuilder可变是因为它俩都继承自AbstractStringBuilder类，而AbstractStringBuilder中底层用来保存字符串的数组没有用final关键字来修饰。
+  安全性：
+ String是不可变的，可以看作常量，所以是线程安全的。 StringBuffer对父类AbstractStringBuilder中提供的一些对字符串操作的方法增加了同步锁，或者对调用的方法增加了同步锁，所以StringBuffer是线程安全的。 StringBuilder没有对父类中提供的方法，或者在调用父类方法时没有加锁，所以SringBuilder不是线程安全的。   性能：
+ 每次对String类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String对象。
+ StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象的引用。
+ 同等情况下StringBuilder比StringBuffer的性能高10%左右，但是线程是不安全的。
+  接口与抽象类的区别 如果一个类含有抽象方法，则称这个类为抽象类。抽象类必须在类前用Abstract关键字来修饰，抽象方法就是没有具体实现的方法。
+ 抽象类中可以含有非抽象方法，但是接口不可以。 &amp;gt; 注意：JDK1.8开始接口可以定义静态方法，可以直接用接口名调用，但实现类和实现是不可以调用的。
+ 接口中的变量会被隐式的指定为public static final 变量，方法则会被隐式的指定为public abstract 方法。 抽象方法则可以使用public protected和default这些修饰符。
+ 一个类可以实现多个接口，但是只能继承一个类。</description>
+    </item>
     
     <item>
       <title>ThreadLocal探秘</title>

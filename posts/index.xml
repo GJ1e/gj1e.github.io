@@ -6,8 +6,225 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>郜杰</copyright>
-        <lastBuildDate>Wed, 18 Mar 2020 21:50:32 +0800</lastBuildDate>
+        <lastBuildDate>Sun, 22 Mar 2020 22:26:39 +0800</lastBuildDate>
         <atom:link href="https://gj1e.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Java基础知识点</title>
+            <link>https://gj1e.github.io/posts/2020/03/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+            <pubDate>Sun, 22 Mar 2020 22:26:39 +0800</pubDate>
+            
+            <guid>https://gj1e.github.io/posts/2020/03/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+            <description>字符型常量和字符串常量的区别 形式上：
+ 字符型常量使用单引号引起的一个字符，字符串常量是双引号引起的若干的字符。  含义上：
+ 字符常量相当于一个（ASCII值）可以参加表达式运算；字符串常量表示的是一个地址值，表示该字符串在内存中的地址。  内存上：
+ char型为2个字节，字符串常量为若干个字节。   Constructor可以被重写吗 构造器不可以被重写，但是可以被重载。
+重载与重写的区别  重载就是发生在同一个类型。方法名相同，参数类型，个数不同，返回值和访问修饰符也可以不同。
+ 重写就是子类继承父类，子类重写父类允许子类所能访问的方法（言外之意就是父类中private修饰符修饰的方法，子类不能重写）
+ 重写规则：方法名和参数类型必须相同，返回值范围小于等于父类，抛出异常的范围也要小于等于父类，访问修饰符的范围的要大于等于父类。
+  String、StringBuffer和StringBuilder的区别，String为啥是不可变的 可变性：
+ String之所以不可变是因为String底层使用了final修饰符来修饰保存字符串的字符数组。private final char value[]
+ StringBuffer和StringBuilder可变是因为它俩都继承自AbstractStringBuilder类，而AbstractStringBuilder中底层用来保存字符串的数组没有用final关键字来修饰。
+  安全性：
+ String是不可变的，可以看作常量，所以是线程安全的。 StringBuffer对父类AbstractStringBuilder中提供的一些对字符串操作的方法增加了同步锁，或者对调用的方法增加了同步锁，所以StringBuffer是线程安全的。 StringBuilder没有对父类中提供的方法，或者在调用父类方法时没有加锁，所以SringBuilder不是线程安全的。   性能：
+ 每次对String类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String对象。
+ StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象的引用。
+ 同等情况下StringBuilder比StringBuffer的性能高10%左右，但是线程是不安全的。
+  接口与抽象类的区别 如果一个类含有抽象方法，则称这个类为抽象类。抽象类必须在类前用Abstract关键字来修饰，抽象方法就是没有具体实现的方法。
+ 抽象类中可以含有非抽象方法，但是接口不可以。 &amp;gt; 注意：JDK1.8开始接口可以定义静态方法，可以直接用接口名调用，但实现类和实现是不可以调用的。
+ 接口中的变量会被隐式的指定为public static final 变量，方法则会被隐式的指定为public abstract 方法。 抽象方法则可以使用public protected和default这些修饰符。
+ 一个类可以实现多个接口，但是只能继承一个类。</description>
+            <content type="html"><![CDATA[
+
+<h2 id="字符型常量和字符串常量的区别">字符型常量和字符串常量的区别</h2>
+
+<p><strong>形式上：</strong></p>
+
+<ul>
+<li>字符型常量使用单引号引起的一个字符，字符串常量是双引号引起的若干的字符。</li>
+</ul>
+
+<p><strong>含义上：</strong></p>
+
+<ul>
+<li>字符常量相当于一个（ASCII值）可以参加表达式运算；字符串常量表示的是一个地址值，表示该字符串在内存中的地址。</li>
+</ul>
+
+<p><strong>内存上：</strong></p>
+
+<ul>
+<li>char型为2个字节，字符串常量为若干个字节。
+<br /></li>
+</ul>
+
+<hr />
+
+<h2 id="constructor可以被重写吗">Constructor可以被重写吗</h2>
+
+<p>构造器不可以被重写，但是可以被重载。</p>
+
+<hr />
+
+<h2 id="重载与重写的区别">重载与重写的区别</h2>
+
+<ul>
+<li><p>重载就是发生在同一个类型。方法名相同，参数类型，个数不同，返回值和访问修饰符也可以不同。</p></li>
+
+<li><p>重写就是子类继承父类，子类重写父类允许子类所能访问的方法（言外之意就是父类中private修饰符修饰的方法，子类不能重写）</p></li>
+
+<li><p><strong>重写规则：</strong>方法名和参数类型必须相同，返回值范围小于等于父类，抛出异常的范围也要小于等于父类，访问修饰符的范围的要大于等于父类。</p></li>
+</ul>
+
+<hr />
+
+<h2 id="string-stringbuffer和stringbuilder的区别-string为啥是不可变的">String、StringBuffer和StringBuilder的区别，String为啥是不可变的</h2>
+
+<p><strong>可变性：</strong></p>
+
+<ul>
+<li><p>String之所以不可变是因为String底层使用了final修饰符来修饰保存字符串的字符数组。private final char value[]</p></li>
+
+<li><p>StringBuffer和StringBuilder可变是因为它俩都继承自AbstractStringBuilder类，而AbstractStringBuilder中底层用来保存字符串的数组没有用final关键字来修饰。</p></li>
+</ul>
+
+<p><strong>安全性：</strong></p>
+
+<ul>
+<li>String是不可变的，可以看作常量，所以是线程安全的。</li>
+<li>StringBuffer对父类AbstractStringBuilder中提供的一些对字符串操作的方法增加了同步锁，或者对调用的方法增加了同步锁，所以StringBuffer是线程安全的。</li>
+<li>StringBuilder没有对父类中提供的方法，或者在调用父类方法时没有加锁，所以SringBuilder不是线程安全的。
+<br /></li>
+</ul>
+
+<p><strong>性能：</strong></p>
+
+<ul>
+<li><p>每次对String类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String对象。</p></li>
+
+<li><p>StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象的引用。</p></li>
+
+<li><p>同等情况下StringBuilder比StringBuffer的性能高10%左右，但是线程是不安全的。</p></li>
+</ul>
+
+<hr />
+
+<h2 id="接口与抽象类的区别">接口与抽象类的区别</h2>
+
+<p>如果一个类含有抽象方法，则称这个类为抽象类。抽象类必须在类前用Abstract关键字来修饰，抽象方法就是没有具体实现的方法。</p>
+
+<ul>
+<li><p>抽象类中可以含有非抽象方法，但是接口不可以。
+&gt; 注意：JDK1.8开始接口可以定义静态方法，可以直接用接口名调用，但实现类和实现是不可以调用的。</p></li>
+
+<li><p>接口中的变量会被隐式的指定为public static final 变量，方法则会被隐式的指定为public abstract 方法。
+抽象方法则可以使用public protected和default这些修饰符。</p></li>
+
+<li><p>一个类可以实现多个接口，但是只能继承一个类。</p></li>
+
+<li><p>抽象类是对类的抽象，是一种设计模板。接口则是对方法的抽象，是一种行为规范。</p></li>
+</ul>
+
+<hr />
+
+<h2 id="创建一个对象用什么运算符-对象实体与对象引用有什么不同">创建一个对象用什么运算符？对象实体与对象引用有什么不同？</h2>
+
+<p>new运算符</p>
+
+<p>new创建对象实例，这个对象实例在堆内存中。而对象引用指向对象实例，对象引用存放在栈中。</p>
+
+<p>一个对象引用可以指向0个或1个对象，但是1个对象也可以有n个对象引用指向它。</p>
+
+<hr />
+
+<h2 id="和equals-重要">==和equals（重要）</h2>
+
+<ul>
+<li><p>==它的作用是判断两个对象的地址是否相同。（基本数据类型==比较的是数值，引用数据类型==比较的是内存地址）</p></li>
+
+<li><p>equals的作用是判断两个对象是否相等，它一般有两种用法：</p>
+
+<ul>
+<li>没有重写的equals方法，比较两个对象时，等价于用==比较两个对象。</li>
+<li>重写之后的equals方法，比较两个对象时，则是比较两个对象的内容是否相等，相等则返回true。</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h2 id="hashcode和equals-重要">hashCode和equals（重要）</h2>
+
+<p>hashCode的作用是获取哈希码，也叫散列码。作用是确定对象在哈希表中的索引位置。hashCode定义在Object.java中，这意味着Java中的任何类都包含hashCode函数。</p>
+
+<h3 id="hashcode与equals的规定">hashCode与equals的规定</h3>
+
+<ol>
+<li><p>如果两个对象相等，则hashCode一定相同。反之则不成立。</p></li>
+
+<li><p>如果两个对象相等，则对像个对象分别调用equals方法，返回true。</p></li>
+
+<li><p>如果equals方法被重写，则hashCode也一定要重写</p></li>
+</ol>
+
+<hr />
+
+<h2 id="线程-进程和程序的基本概念-以及他们之间的关系">线程、进程和程序的基本概念，以及他们之间的关系</h2>
+
+<ul>
+<li><p>线程与进程相似，是比进程更小执行单位。一个进程在其执行过程中可以产生多个线程。同类的多个线程共享同一块内存区域和一组系统资源。</p></li>
+
+<li><p>程序是含有指令和数据的文件，被存储在磁盘或者其它存储设备中。</p></li>
+
+<li><p>进程是程序执行一次的过程，是系统运行程序的基本单位，因为进程是动态的。系统运行一个程序，就是一个进程从创建到消亡的过程。线程是进程划分的更小的运行单位，线程和进程最大的区别是进程是相互独立的，但是线程则不一定，因为同一个进程中的线程极有可能相互影响。</p></li>
+</ul>
+
+<hr />
+
+<h2 id="线程有哪些基本状态">线程有哪些基本状态</h2>
+
+<ol>
+<li><p>新建状态：新创建了一个线程对象</p></li>
+
+<li><p>就绪状态：线程对象创建之后，其它线程调用了该线程的start（）方法。此时线程处于就绪状态，并未运行，等待获取cpu的使用权。</p></li>
+
+<li><p>运行状态：处于就绪状态的线程获得了cpu的使用权，开始执行程序代码。</p></li>
+
+<li><p>阻塞状态：线程因为某种原因放弃了cpu的使用权暂停运行，处于阻塞状态，直到线程到达就绪状态，才有机会再到运行状态。</p>
+
+<ul>
+<li>同步阻塞：运行线程获取对象的同步锁时，若该同步锁被占用则JVM会把该线程放入到锁池中。</li>
+<li>等待阻塞：运行的线程执行wait（）方法，JVM会把该线程放入到等待池中。</li>
+<li>其他阻塞：运行的线程执行sleep（）方法或者join（）方法，或者发出来I/O请求时，JVM会把线程设置为阻塞状态。如果，线程sleep超时，或者join等待线程终止或超时，或者I/O处理完毕时，线程会重新转入就绪状态。</li>
+</ul></li>
+
+<li><p>死亡状态：线程执行完毕，或者因为异常退出了run（）方法。</p></li>
+</ol>
+
+<hr />
+
+<h2 id="java中的异常结构">Java中的异常结构</h2>
+
+<p>在Java中所有的异常都有一个共同的祖先java.lang.Throwable类。Throwable有两个重要的子类：Error和Exception。</p>
+
+<p><strong>Error（错误）</strong>：</p>
+
+<ul>
+<li>Error是程序无法处理的错误，比如OutOfMemoryError，StackOverFlowError等。这些异常发生时，JVM一般会选择线程终止。
+<br /></li>
+</ul>
+
+<p><strong>Exception（异常）：</strong></p>
+
+<p>Exception可以分为两大类，一个是运行时异常，一个是非运行时异常。</p>
+
+<ul>
+<li><p>运行时异常都是RuntimeException类及其子类异常，例如空指针，数组下标越界等等。这些异常一般是由逻辑错误引起的，这些异常是不检查异常，在程序中可以选择捕获处理，也可以不处理。</p></li>
+
+<li><p>非运行时异常是RuntimeException以外的异常，是受检查的异常，必须要被tyr{}catch{}捕获的异常，或者通过throws来声明。受检查的异常必须在编译时就被捕捉处理，否则程序编译不能通过。例如IO异常，SQL异常。</p></li>
+</ul>
+
+<hr />
+]]></content>
+        </item>
         
         <item>
             <title>ThreadLocal探秘</title>
