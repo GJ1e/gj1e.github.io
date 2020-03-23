@@ -7,10 +7,41 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>郜杰</copyright>
-    <lastBuildDate>Wed, 18 Mar 2020 21:50:32 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Mar 2020 21:24:26 +0800</lastBuildDate>
     
 	<atom:link href="https://gj1e.github.io/tags/java%E5%AE%B9%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>CopyOnWriteArrayList</title>
+      <link>https://gj1e.github.io/posts/2020/03/copyonwritearraylist/</link>
+      <pubDate>Mon, 23 Mar 2020 21:24:26 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/copyonwritearraylist/</guid>
+      <description> 使用场景 适用于读操作远远多于写操作的场景。也是线程安全的一个并发容器。 CopyOnWriteArrayList就是读操作不加锁，只有写操作加锁，而且写操作也不会阻塞读操作，只有写写才会阻塞。
+实现原理 CopyOnWriteArrayList的所有可变操作（add，set）并不是在原有的数组上进行修改，而是通过创建底层数组的副本，然后将新元素插入到副本中，然后在用副本将原来的数组替换掉。这样就可以保证写操作不会阻塞到读取操作了。
+CopyOnWriteArrayList读取操作 读取操作是不加锁的，原因就是底层数组不会发生修改，只会被另一个数组进行替换，所以可以保证数据安全。
+CopyOnWriteArrayList的写操作 写操作是加锁的，保证了同步，防止了多个线程同时Copy出来多个数组副本。
+ 源码解析参考
+ </description>
+    </item>
+    
+    <item>
+      <title>ArrayList与LinkedList</title>
+      <link>https://gj1e.github.io/posts/2020/03/arraylist%E4%B8%8Elinkedlist/</link>
+      <pubDate>Mon, 23 Mar 2020 21:22:11 +0800</pubDate>
+      
+      <guid>https://gj1e.github.io/posts/2020/03/arraylist%E4%B8%8Elinkedlist/</guid>
+      <description> ArrayList底层使用的是一个数组来存储元素，初始容量大小为10。扩容的方式为（旧容量*3）/2+1。也就是说每次扩容大概会增加50%，如果你有一个包含大量元素的ArrayList，那么最终将会有大量的空间浪费掉。
+ 小建议：在创建ArrayList时，要养成合理预估数据量大小，尽量在创建时就把预估容量大小初始化好。
+注意：以无参数构造方法创建 ArrayList 时，实际上初始化赋值的是一个空数组。当真正对数组进行添加元素操作时，才真正分配容量。即向数组中添加第一个元素时，数组容量扩为10。
+ LinkedList底层采用的是一个双向链表结构（JDK1.6之前为循环链表，JDK1.7之后取消了循环。）
+ArrayList与LinkedList的区别  ArrayList底层采用数组来保存元素，LinkedList底层采用双向链表来存储元素。
+ ArrayList支持快速随机访问，LinkedList不支持。
+ ArrayList的空间浪费体检在列表结尾留有一定的容量空间，LinkedList的空间浪费则体现在每个元素都需要消耗相当的空间用来存储指针和数据。
+ ArrayList和LinkedList在尾部添加或删除一个元素的开销时间都是固定的。如果在ArrayList中间或者头部插入或删除一个元素，就意味着列表中的剩余元素都会移动，而在LinkedList中间或头部插入或删除一个元素，所用的时间是固定的。
+  </description>
+    </item>
     
     <item>
       <title>ThreadLocal探秘</title>
